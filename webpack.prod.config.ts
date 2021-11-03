@@ -1,12 +1,12 @@
-import path from "path";
 import { Configuration, HotModuleReplacementPlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import "webpack-dev-server";
 
 const config: Configuration = {
-  mode: "development",
+  mode: "production",
   output: {
     publicPath: "/",
+    clean: true,
   },
   entry: "./src/index.tsx",
   module: {
@@ -49,7 +49,7 @@ const config: Configuration = {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: "file-loader"
+            loader: "file-loader",
           },
         ],
       },
@@ -64,14 +64,7 @@ const config: Configuration = {
     }),
     new HotModuleReplacementPlugin(),
   ],
-  devtool: "inline-source-map",
-  devServer: {
-    static: path.join(__dirname, "build"),
-    historyApiFallback: true,
-    port: 4000,
-    open: true,
-    hot: true,
-  },
+  devtool: false,
 };
 
 export default config;
