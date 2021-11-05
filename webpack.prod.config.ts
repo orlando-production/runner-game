@@ -1,70 +1,70 @@
-import { Configuration, HotModuleReplacementPlugin } from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import "webpack-dev-server";
+import { Configuration, HotModuleReplacementPlugin } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import 'webpack-dev-server';
 
 const config: Configuration = {
-  mode: "production",
+  mode: 'production',
   output: {
-    publicPath: "/",
-    clean: true,
+    publicPath: '/',
+    clean: true
   },
-  entry: "./src/index.tsx",
+  entry: './src/index.tsx',
   module: {
     rules: [
       {
         test: /\.(ts|js)x?$/i,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
-          },
-        },
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript'
+            ]
+          }
+        }
       },
       {
         test: /\.css$/i,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader'
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
-              modules: true,
-            },
+              modules: true
+            }
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
-              sourceMap: true,
-            },
-          },
-        ],
+              sourceMap: true
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: "file-loader",
-          },
-        ],
-      },
-    ],
+            loader: 'file-loader'
+          }
+        ]
+      }
+    ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "static/index.html",
+      template: 'static/index.html'
     }),
-    new HotModuleReplacementPlugin(),
+    new HotModuleReplacementPlugin()
   ],
-  devtool: false,
+  devtool: false
 };
 
 export default config;

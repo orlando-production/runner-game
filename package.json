@@ -7,7 +7,15 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.config.ts",
-    "build": "webpack build --config webpack.prod.config.ts"
+    "build": "webpack build --config webpack.prod.config.ts",
+    "test": "jest",
+    "linter": "eslint . --ext js,jsx,ts,tsx",
+    "linter:fix": "eslint . --ext js,jsx,ts,tsx --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all linter"
+    }
   },
   "repository": {
     "type": "git",
@@ -34,14 +42,26 @@
     "@types/react-dom": "17.0.10",
     "@types/webpack": "4.4.17",
     "@types/webpack-dev-server": "4.3.1",
+    "@typescript-eslint/eslint-plugin": "5.3.0",
+    "@typescript-eslint/parser": "5.3.0",
     "babel-loader": "8.2.3",
     "css-loader": "6.5.0",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-react": "7.26.1",
+    "eslint-plugin-jest": "25.2.3",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.0",
+    "husky": "7.0.2",
+    "jest": "27.3.1",
     "path": "0.12.7",
     "postcss-loader": "6.2.0",
     "postcss-preset-env": "6.7.0",
     "style-loader": "3.3.1",
+    "stylelint": "14.0.1",
+    "stylelint-config-standard": "23.0.0",
     "ts-loader": "9.2.6",
     "ts-node": "10.4.0",
     "typescript": "4.4.4",
