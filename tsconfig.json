@@ -8,6 +8,10 @@
       "sourceMap": true,
       "noImplicitAny": true,
       "noUnusedLocals": true,
-      "noUnusedParameters": true
-    }
+      "noUnusedParameters": true,
+      "esModuleInterop": true,
+      "jsx": "react"
+    },
+    "include": ["src"],
+    "files": ["src/index.d.ts"]
   }

@@ -1,5 +1,5 @@
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
 
 const config: Configuration = {

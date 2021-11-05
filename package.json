@@ -8,8 +8,14 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.config.ts",
     "build": "webpack build --config webpack.prod.config.ts",
+    "test": "jest",
     "linter": "node_modules/.bin/eslint . --ext js,jsx,ts,tsx",
     "linter:fix": "node_modules/.bin/eslint . --ext js,jsx,ts,tsx --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all linter"
+    }
   },
   "repository": {
     "type": "git",
@@ -45,8 +51,11 @@
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-react": "7.26.1",
+    "eslint-plugin-jest": "25.2.3",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.0",
+    "husky": "7.0.2",
+    "jest": "27.3.1",
     "path": "0.12.7",
     "postcss-loader": "6.2.0",
     "postcss-preset-env": "6.7.0",
