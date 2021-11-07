@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Icon } from '@iconify/react';
 import styles from './Footer.module.css';
 
@@ -12,13 +12,17 @@ const Footer = ({ shouldRender = true }: FooterProps) => {
     commercial: 'For commercial inquiries'
   };
 
+  const iconButtons = [
+    { name: 'akar-icons:twitter-fill' },
+    { name: 'akar-icons:vk-fill' },
+    { name: 'bx:bxl-telegram' }
+  ];
+
   return shouldRender
   && (
   <div className={styles.footer}>
     <div className={styles.icons}>
-      <Icon icon="akar-icons:twitter-fill" className={styles.icon} />
-      <Icon icon="akar-icons:vk-fill" className={styles.icon} />
-      <Icon icon="bx:bxl-telegram" className={styles.icon} />
+      {iconButtons.map(({ name }) => <Icon icon={name} className={styles.icon} key={name} />)}
     </div>
     <div>{resources.rights}</div>
     <div>{resources.commercial}</div>
@@ -26,4 +30,4 @@ const Footer = ({ shouldRender = true }: FooterProps) => {
   );
 };
 
-export default memo(Footer);
+export default Footer;

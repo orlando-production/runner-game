@@ -2,10 +2,10 @@
 import {
   Box, Button, Link, TextField, Typography
 } from '@mui/material';
-import { AxiosError } from 'axios';
-import React, { memo, useCallback, useState } from 'react';
+import React, { useState } from 'react';
+import type { AxiosError } from 'axios';
 import Footer from '../components/footer/Footer';
-import { requestService } from '../services/RequestService';
+import { requestPostData } from '../services/RequestData';
 import styles from './LoginPage.module.css';
 
 type LoginProps = {
@@ -25,15 +25,15 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     warning: 'Login or password is incorrect'
   };
 
-  const handleLogin = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
     setWarning(false);
-  }, []);
+  };
 
-  const handlePassword = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     setWarning(false);
-  }, []);
+  };
 
   const goToGame = () => {
     // TODO
@@ -48,12 +48,9 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   };
 
   const fetchData = () => {
-    requestService.requestPostData(
-      'auth/signin',
-      ({ login, password }),
-      goToGame,
-      showWarnings
-    );
+    requestPostData('auth/signin', ({ login, password }))
+      .then(goToGame)
+      .catch(showWarnings);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -117,4 +114,4 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   );
 };
 
-export default memo(LoginPage);
+export default LoginPage;
