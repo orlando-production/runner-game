@@ -1,7 +1,7 @@
 import React from 'react';
 import './reset.css';
 import './constants.css';
-import LoginPage from '../pages';
+import LoginPage from '../pages/LoginPage';
 
 // TODO
 // Add Main Page + Routing
