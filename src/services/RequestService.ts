@@ -1,18 +1,12 @@
 /* eslint-disable no-console */
-import { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios';
 import API from '../api/API';
 
 class RequestService {
-    requestPostData = (
+    requestPostData = <P, R>(
       url: string,
-      params: Record<string, unknown>,
-      cb?: (response?: AxiosResponse) => any,
-      errorCb: (reason: AxiosError) => void = (reason: AxiosError) => console.log(`Axios request failed: ${reason}`)
-    ) => {
-      API.post(url, params)
-        .then(cb)
-        .catch(errorCb);
-    }
+      params: Record<string, P>,
+    ) => API.post<R>(url, params);
 }
 
 export const requestService = new RequestService();
