@@ -19,6 +19,8 @@
       "prefer-promise-reject-errors": "off",
       "comma-dangle": ["error", "never"],
       "import/no-extraneous-dependencies": "off",
+      "react/prop-types": "off",
+      "react/require-default-props": "off",
       "import/extensions": [
         "error",
         "ignorePackages",
