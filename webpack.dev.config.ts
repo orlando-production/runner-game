@@ -34,7 +34,7 @@ const config: Configuration = {
           {
             loader: 'css-loader',
             options: {
-              modules: true
+              modules: { localIdentName: '[local]___[hash:base64:5]' }
             }
           },
           {
