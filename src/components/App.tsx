@@ -1,8 +1,7 @@
 import React from 'react';
 import './reset.css';
 import './constants.css';
-// import LoginPage from '../pages';
-import LeaderboardPage from '../pages/leaderboard';
+import LoginPage from '../pages/LoginPage';
 
 // TODO
 // Add Main Page + Routing
@@ -10,7 +9,7 @@ import LeaderboardPage from '../pages/leaderboard';
 export function App() {
   return (
     <div>
-      <LeaderboardPage />
+      <LoginPage />
     </div>
   );
 }
