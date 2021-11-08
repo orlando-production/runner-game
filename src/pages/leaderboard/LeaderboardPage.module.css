@@ -33,6 +33,12 @@
     grid-template-columns: 1fr 100px 100px;
     gap: 15px;
     min-height: 54px;
+    border-bottom: 1px solid rgba(0,0,0, 0.08);
+    color: rgba(0, 0, 0, 0.74);
+}
+
+.leaderboard-field:last-of-type {
+    border: 0;
 }
 
 .leaderboard-name {
