@@ -4,8 +4,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
-import Footer from '../components/footer/Footer';
-import { requestPostData } from '../services/RequestData';
+import Footer from '../../components/footer/Footer';
+import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
 
 type LoginProps = {
