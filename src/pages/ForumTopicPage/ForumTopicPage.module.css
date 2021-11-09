@@ -1,0 +1,29 @@
+.forum-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.forum-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: var(--login-container-bg);
+    padding: 2.5vw 5vw;
+}
+
+.forum-content {
+    width: 100%;
+    height: 400px;
+    overflow-y: auto;
+    padding: 16px;
+    background-color: var(--white-color);
+    box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
+    border-radius: 4px;
+}
+
+.forum-title {
+    margin-bottom: 45px;
+    text-shadow: 0 4px 4px rgba(var(--black-color), 0.25);
+}
