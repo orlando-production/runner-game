@@ -1,0 +1,15 @@
+.new-topic {
+    position: absolute;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white-color);
+    border: 1px solid var(--box-shadow-color);
+    border-radius: 4px;
+    width: 60vw;
+    height: 80vh;
+    left: calc(50% - 30vw);
+    top: 50px;
+}

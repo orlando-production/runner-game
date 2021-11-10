@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import {
-  Box, Button, Link, TextField, Typography
+  Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
+import { useHistory } from 'react-router-dom';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
@@ -16,6 +17,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isError, setWarning] = useState<boolean>(false);
+
+  const history = useHistory();
 
   const resources = {
     login: 'Login',
@@ -56,6 +59,10 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     fetchData();
+  };
+
+  const onLinkClick = () => {
+    history.push('/sign-up');
   };
 
   return (
@@ -103,9 +110,9 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             >
               {resources.signIn}
             </Button>
-            <Link href="/sign-up" variant="body2" className={styles['login-sign-up-link']}>
+            <Button type="button" variant="text" className={styles['login-sign-up-link']} onClick={onLinkClick}>
               {resources.signUp}
-            </Link>
+            </Button>
           </Box>
         </Box>
       </div>
