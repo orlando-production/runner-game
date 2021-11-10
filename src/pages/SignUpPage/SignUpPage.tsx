@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import {
-  Box, Button, Link, TextField, Typography
+  Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
+import { useHistory } from 'react-router-dom';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './SignUpPage.module.css';
@@ -22,6 +23,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   const [password, setPassword] = useState<string>('');
   const [isError, setWarning] = useState<boolean>(false);
   const [warningText, setWarningText] = useState<string>('');
+
+  const history = useHistory();
 
   const resources = {
     firstName: 'First Name',
@@ -97,6 +100,10 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
       setWarning(true);
       setWarningText(warning);
     }
+  };
+
+  const onLinkClick = () => {
+    history.push('/sign-in');
   };
 
   return (
@@ -189,9 +196,9 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
             >
               {resources.signIn}
             </Button>
-            <Link href="/sign-in" variant="body2" className={styles['login-link']}>
+            <Button type="button" variant="text" className={styles['login-link']} onClick={onLinkClick}>
               {resources.signUp}
-            </Link>
+            </Button>
           </Box>
         </Box>
       </div>
