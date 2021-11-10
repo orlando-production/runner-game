@@ -42,18 +42,18 @@ const ProfilePage = () => {
     updateFormData(resources);
   }, []);
 
+  const handleReaderLoaded = (readerEvt: any) => {
+    const binaryString = readerEvt.target.result;
+    setBase64(btoa(binaryString));
+    /* Todo где то тут отправляем на сервер картинку */
+  };
   const handleChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = _handleReaderLoaded;
+      reader.onload = handleReaderLoaded;
       reader.readAsBinaryString(file);
     }
-  };
-  const _handleReaderLoaded = (readerEvt: any) => {
-    const binaryString = readerEvt.target.result;
-    setBase64(btoa(binaryString));
-    /* Todo где то тут отправляем на сервер картинку */
   };
 
   const handleChange = (e) => {
@@ -70,7 +70,9 @@ const ProfilePage = () => {
     }
   };
 
-  const fetchData = ({firstName, lastName, email, phone, login, password}) => {
+  const fetchData = ({
+    firstName, lastName, email, phone, login, password
+  }) => {
     requestPostData('auth/signup', ({
       first_name: firstName, second_name: lastName, email, phone, login, password
     }))
@@ -82,6 +84,7 @@ const ProfilePage = () => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
+    /* eslint-disable-next-line */
     for (const [key, value] of data.entries()) {
       updateFormData({
         ...formData,
@@ -107,15 +110,16 @@ const ProfilePage = () => {
             <Avatar sx={{ width: 156, height: 156 }} src={`data:image/png;base64, ${base64}`} />
           </div>
           <div className={styles['profile-upload']}>
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="fileupload"
-              multiple
-              type="file"
-              onChange={handleChangeUpload}
-            />
-            <label htmlFor="fileupload">
+
+            <label htmlFor="raised-button-file">
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="raised-button-file"
+                multiple
+                type="file"
+                onChange={handleChangeUpload}
+              />
               <Button
                 fullWidth
                 component="span"
