@@ -34,16 +34,70 @@
     border-radius: 4px;
 }
 
-.profile-avatar {
+.profile-box_avatar {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 260px;
+
     grid-area: avatar;
-    max-height: 360px;
 }
 
-.profile-settings {
+.profile-box_settings {
     grid-area: settings;
+    text-align: center;
 }
 
-.profile-scores {
+.profile-box_scores {
+    display: flex;
+    align-items: center;
     grid-area: scores;
     max-height: 90px;
+}
+
+.profile-avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.profile-upload {
+    width: 100%;
+}
+
+.profile-scores_right {
+    margin-left: 16px;
+}
+
+.profile-scores_count {
+    line-height: 1;
+}
+
+.profile-scores_left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: #F1DEFF;
+    border-radius: 12px;
+}
+
+.warning-message {
+    opacity: 1;
+    color: var(--warning-color);
+    font-size: 1em;
+    min-height: 54px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.invisible-message {
+    font-size: 1em;
+    min-height: 54px;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    margin: 10px 0;
 }

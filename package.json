@@ -14,7 +14,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all linter"
+      "pre-commit": "npm-run-all linter",
+      "check:ts": "tsc --noEmit"
     }
   },
   "repository": {
