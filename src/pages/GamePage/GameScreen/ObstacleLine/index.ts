@@ -1,1 +1,1 @@
-export { default } from "./ObstacleLine";
+export { default } from './ObstacleLine';

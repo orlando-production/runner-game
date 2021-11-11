@@ -1,12 +1,15 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState
-} from 'react';
+import React, { Ref, useEffect, useImperativeHandle, useState } from 'react';
+
+export interface ITimer {
+  startTimer: () => void;
+}
+
+/**
+ * Компонент таймера. Отображает прошедшее время.
+ */
 
 const second = 1000;
-const Timer = forwardRef((_, ref) => {
+const Timer = (_: { children?: React.ReactNode }, ref: Ref<ITimer>) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentInterval, setCurrentInterval] = useState(null);
   const start = () => {
@@ -18,7 +21,7 @@ const Timer = forwardRef((_, ref) => {
   useImperativeHandle(ref, () => ({
     startTimer() {
       start();
-    }
+    },
   }));
   const formatTime = (seconds: number): string => {
     const secs = Math.floor(seconds % 60);
@@ -28,12 +31,13 @@ const Timer = forwardRef((_, ref) => {
     }`;
   };
   useEffect(
-    () => function () {
-      clearInterval(currentInterval);
-    },
+    () =>
+      function () {
+        clearTimeout(currentInterval);
+      },
     []
   );
 
   return <div>{formatTime(currentTime)}</div>;
-});
+};
 export default Timer;

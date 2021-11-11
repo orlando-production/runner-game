@@ -5,10 +5,14 @@ import { GameStates } from '../GamePage';
 interface IStartScreenProps {
   setGameState: (state: GameStates) => void;
 }
+
+/**
+ * Экран начала игры.
+ */
 const StartScreen = ({ setGameState }: IStartScreenProps) => (
   <Button
     onClick={() => {
-      setGameState(1);
+      setGameState(GameStates.Proccessed);
     }}
     variant="contained"
     color="success"

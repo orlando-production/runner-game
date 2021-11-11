@@ -1,1 +1,1 @@
-export { default } from "./FinishScreen";
+export { default } from './FinishScreen';

@@ -2,6 +2,7 @@ import React from 'react';
 import './reset.css';
 import './constants.css';
 import LoginPage from '../pages/LoginPage';
+import GamePage from '../pages/GamePage';
 
 // TODO
 // Add Main Page + Routing
@@ -9,7 +10,7 @@ import LoginPage from '../pages/LoginPage';
 export function App() {
   return (
     <div>
-      <LoginPage />
+      <GamePage />
     </div>
   );
 }

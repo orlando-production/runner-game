@@ -1,1 +1,1 @@
-export {default} from './GameController';
+export { default } from './GameController';
