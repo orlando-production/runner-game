@@ -5,6 +5,7 @@ import {
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
@@ -19,6 +20,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [isError, setWarning] = useState<boolean>(false);
 
   const history = useHistory();
+
+  const handleError = useErrorHandler();
 
   const resources = {
     login: 'Login',
@@ -45,8 +48,11 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   };
 
   const showWarnings = (reason: AxiosError) => {
-    if (reason?.response?.status === 401) {
+    const { status } = reason?.response || {};
+    if (status === 400 || status === 401) {
       setWarning(true);
+    } else {
+      handleError(reason);
     }
   };
 
