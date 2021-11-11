@@ -1,6 +1,7 @@
 import React from 'react';
 import './reset.css';
 import './constants.css';
+import './common.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,6 +14,7 @@ import ForumPage from '../pages/ForumPage';
 import LeaderboardPage from '../pages/leaderboard';
 import ForumTopicPage from '../pages/ForumTopicPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import MainPage from "../pages/MainPage";
 
 // TODO
 // Add Main Page + Routing
@@ -23,7 +25,7 @@ export function App() {
       <Router>
         <Switch>
           <Route path="/" exact>
-            <LoginPage />
+            <MainPage />
           </Route>
           <Route path="/sign-in">
             <LoginPage />
