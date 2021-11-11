@@ -1,20 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import { GameStates } from '../GamePage';
 import WithRefForwardTimer from './Timer';
-import { ITimer } from './Timer/Timer';
+import { Timer } from './Timer/Timer';
 import GameController from './GameController';
 
-interface IGameScreenProps {
+type GameScreenProps = {
   setGameState: (state: GameStates) => void;
 }
 /**
  * Отображает игровой экран.
  */
-const GameScreen = ({ setGameState }: IGameScreenProps) => {
+const GameScreen = ({ setGameState }: GameScreenProps) => {
   const timerEl = useRef();
   useEffect(() => {
     if (timerEl.current) {
-      (timerEl.current as ITimer).startTimer();
+      (timerEl.current as Timer).startTimer();
     }
   }, []);
 

@@ -1,9 +1,9 @@
-interface IObstacleLineOptions {
+type ObstacleLineOptions = {
   ctx: CanvasRenderingContext2D;
   speed: number;
 }
 
-interface IObstacle {
+type Obstacle = {
   width: number;
   height: number;
   x: number;
@@ -18,7 +18,7 @@ class ObstacleLine {
   _ctx: CanvasRenderingContext2D;
 
   // Массив с параметрами препятствия.
-  _obstacleArray: IObstacle[];
+  _obstacleArray: Obstacle[];
 
   // Скорость движения препятствий.
   _speed: number;
@@ -26,7 +26,7 @@ class ObstacleLine {
   // Случайный интервал, на котором создаются препятствия.
   _interval: ReturnType<typeof setInterval>;
 
-  constructor({ ctx, speed }: IObstacleLineOptions) {
+  constructor({ ctx, speed }: ObstacleLineOptions) {
     this._ctx = ctx;
     this._obstacleArray = [];
     this._speed = speed;
@@ -93,7 +93,7 @@ class ObstacleLine {
     this._speed = value;
   }
 
-  public get obstacles(): IObstacle[] {
+  public get obstacles(): Obstacle[] {
     return this._obstacleArray;
   }
 }

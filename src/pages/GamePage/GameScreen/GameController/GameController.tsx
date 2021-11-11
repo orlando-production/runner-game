@@ -4,7 +4,7 @@ import Player from '../Player';
 import image from '../../../../assets/player.png';
 import { GameStates } from '../../GamePage';
 
-interface IGameControllerOptions {
+type GameControllerOptions = {
   setGameState: (state: GameStates) => void;
 }
 const PLAYER_SPRITE_WIDTH = 120;
@@ -21,7 +21,7 @@ const SPEED_CHANGE_TIME = 2000;
  * Игровой контроллер.
  * Помогает взаимодействовать сущностям на игровой сцене(игрок, препятствия и т.д.)
  */
-const GameController = ({ setGameState }: IGameControllerOptions) => {
+const GameController = ({ setGameState }: GameControllerOptions) => {
   const canvas = useRef();
   const speedRef = useRef(null);
   const obstacleLineInstRef = useRef(null);

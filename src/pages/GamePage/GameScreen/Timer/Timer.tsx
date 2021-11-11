@@ -2,7 +2,7 @@ import React, {
   Ref, useEffect, useImperativeHandle, useState
 } from 'react';
 
-export interface ITimer {
+export type Timer = {
   startTimer: () => void;
 }
 
@@ -11,7 +11,7 @@ export interface ITimer {
  */
 
 const second = 1000;
-const Timer = (_: { children?: React.ReactNode }, ref: Ref<ITimer>) => {
+const Timer = (_: { children?: React.ReactNode }, ref: Ref<Timer>) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentInterval, setCurrentInterval] = useState(null);
   const start = () => {

@@ -1,4 +1,4 @@
-interface IPlayerOptions {
+type PlayerOptions = {
   ticksPerFrame: number;
   numberOfFrames: number;
   width: number;
@@ -7,7 +7,7 @@ interface IPlayerOptions {
   ctx: CanvasRenderingContext2D;
 }
 
-interface IPosition {
+type Position = {
   x: number;
   y: number;
   width: number;
@@ -34,16 +34,16 @@ class Player {
   _tickCount: number;
 
   // Количество итераций для кадра(чем больше число, тем медленнее перерисовывается спрайт).
-  _ticksPerFrame: any;
+  _ticksPerFrame: number;
 
   // Количество кадров для анимации.
-  _numberOfFrames: any;
+  _numberOfFrames: number;
 
   // Общая длина спрайта.
-  _width: any;
+  _width: number;
 
   // Высота спрайта.
-  _height: any;
+  _height: number;
 
   // Стартовая позиция игрока по оси X.
   _startPositionX: number;
@@ -79,7 +79,7 @@ class Player {
     height,
     image,
     ctx
-  }: IPlayerOptions) {
+  }: PlayerOptions) {
     this._ctx = ctx;
     this._image = image;
     this._frameIndex = 0;
@@ -172,7 +172,7 @@ class Player {
     }
   }
 
-  public get position(): IPosition {
+  public get position(): Position {
     return {
       x: this._curPositionX,
       y: this._curPositionY,

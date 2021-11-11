@@ -2,14 +2,14 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { GameStates } from '../GamePage';
 
-interface IStartScreenProps {
+type StartScreenProps = {
   setGameState: (state: GameStates) => void;
 }
 
 /**
  * Экран начала игры.
  */
-const StartScreen = ({ setGameState }: IStartScreenProps) => (
+const StartScreen = ({ setGameState }: StartScreenProps) => (
   <Button
     onClick={() => {
       setGameState(GameStates.Proccessed);

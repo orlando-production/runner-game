@@ -2,14 +2,14 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { GameStates } from '../GamePage';
 
-interface IFinishScreenProps {
+type FinishScreenProps = {
   setGameState: (state: GameStates) => void;
 }
 
 /**
  * Экран окончания игры.
  */
-const FinishScreen = ({ setGameState }: IFinishScreenProps) => (
+const FinishScreen = ({ setGameState }: FinishScreenProps) => (
   <Button
     onClick={() => {
       setGameState(GameStates.Proccessed);
