@@ -1,4 +1,6 @@
-import React, { Ref, useEffect, useImperativeHandle, useState } from 'react';
+import React, {
+  Ref, useEffect, useImperativeHandle, useState
+} from 'react';
 
 export interface ITimer {
   startTimer: () => void;
@@ -21,7 +23,7 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<ITimer>) => {
   useImperativeHandle(ref, () => ({
     startTimer() {
       start();
-    },
+    }
   }));
   const formatTime = (seconds: number): string => {
     const secs = Math.floor(seconds % 60);
@@ -31,10 +33,9 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<ITimer>) => {
     }`;
   };
   useEffect(
-    () =>
-      function () {
-        clearTimeout(currentInterval);
-      },
+    () => function clear() {
+      clearTimeout(currentInterval);
+    },
     []
   );
 

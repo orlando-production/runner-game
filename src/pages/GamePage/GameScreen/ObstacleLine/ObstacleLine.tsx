@@ -40,7 +40,7 @@ class ObstacleLine {
       x: this._ctx.canvas.width,
       y: this._ctx.canvas.height - height,
       width: Math.floor(Math.random() * 100),
-      height,
+      height
     });
   }
 

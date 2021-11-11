@@ -78,7 +78,7 @@ class Player {
     width,
     height,
     image,
-    ctx,
+    ctx
   }: IPlayerOptions) {
     this._ctx = ctx;
     this._image = image;
@@ -119,8 +119,7 @@ class Player {
         }
       }
     } else {
-      const curY =
-        this._jumpSpeed * this._jumpTime - (g * this._jumpTime ** 2) / 2;
+      const curY = this._jumpSpeed * this._jumpTime - (g * this._jumpTime ** 2) / 2;
       if (curY < 0) {
         this._isJumped = false;
         this._jumpTime = 0;
@@ -178,7 +177,7 @@ class Player {
       x: this._curPositionX,
       y: this._curPositionY,
       width: this._width,
-      height: this._height,
+      height: this._height
     };
   }
 

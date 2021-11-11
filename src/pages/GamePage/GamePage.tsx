@@ -3,6 +3,7 @@ import FinishScreen from './FinishScreen';
 import GameScreen from './GameScreen';
 import StartScreen from './StartScreen';
 
+// eslint-disable-next-line no-shadow
 export enum GameStates {
   NotStarted = 0,
   Proccessed = 1,

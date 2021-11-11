@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  Box, Button, TextField, Typography
+} from '@mui/material';
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -32,7 +34,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
     login: 'Login',
     password: 'Password',
     signIn: title,
-    signUp: 'Already have an account? Sign in',
+    signUp: 'Already have an account? Sign in'
   };
 
   const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +84,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
       email,
       phone,
       login,
-      password,
+      password
     })
       .then(goToGame)
       .catch(showWarnings);
@@ -97,7 +99,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
       email,
       phone,
       login,
-      password,
+      password
     });
 
     if (isValid) {
@@ -120,7 +122,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
           <Typography component="h1" variant="h5" mt={3}>

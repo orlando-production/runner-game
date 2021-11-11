@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  Box, Button, TextField, Typography
+} from '@mui/material';
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -23,7 +25,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     password: 'Password',
     signIn: title,
     signUp: "Don't have an account? Sign Up",
-    warning: 'Login or password is incorrect',
+    warning: 'Login or password is incorrect'
   };
 
   const handleLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +71,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
           <Typography component="h1" variant="h5" mt={5}>

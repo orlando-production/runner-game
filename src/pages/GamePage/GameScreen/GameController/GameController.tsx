@@ -45,13 +45,13 @@ const GameController = ({ setGameState }: IGameControllerOptions) => {
         width: PLAYER_SPRITE_WIDTH,
         height: PLAYER_SPRITE_HEIGHT,
         numberOfFrames: NUMBER_OF_FRAMES,
-        ticksPerFrame: TICKS_PER_FRAME,
+        ticksPerFrame: TICKS_PER_FRAME
       });
       setPlayerInst(player);
 
       const obstacleLine = new ObstacleLine({
         ctx: (canvas.current as HTMLCanvasElement).getContext('2d'),
-        speed,
+        speed
       });
       setObstacleLineInst(obstacleLine);
       const start = () => {
@@ -61,21 +61,21 @@ const GameController = ({ setGameState }: IGameControllerOptions) => {
           player.update();
           player.render();
           if (
-            player.isShot &&
-            obstacleLine.obstacles[0] &&
-            obstacleLine.obstacles[0].x <=
-              player.position.x +
-                player.position.width / NUMBER_OF_FRAMES +
-                player.shotLength
+            player.isShot
+            && obstacleLine.obstacles[0]
+            && obstacleLine.obstacles[0].x
+              <= player.position.x
+                + player.position.width / NUMBER_OF_FRAMES
+                + player.shotLength
           ) {
             obstacleLine.obstacleShift();
           }
           if (
-            obstacleLine.obstacles[0] &&
-            obstacleLine.obstacles[0].x <=
-              player.position.x + player.position.width / NUMBER_OF_FRAMES &&
-            obstacleLine.obstacles[0].y - obstacleLine.obstacles[0].height <=
-              player.position.y
+            obstacleLine.obstacles[0]
+            && obstacleLine.obstacles[0].x
+              <= player.position.x + player.position.width / NUMBER_OF_FRAMES
+            && obstacleLine.obstacles[0].y - obstacleLine.obstacles[0].height
+              <= player.position.y
           ) {
             setGameState(GameStates.Finished);
             obstacleLine.clear();
@@ -89,10 +89,13 @@ const GameController = ({ setGameState }: IGameControllerOptions) => {
     }
     speedTimeout = setTimeout(function increaseSpeed() {
       if (obstacleLineInstRef.current && speedRef.current < MAX_SPEED) {
-        setSpeed((prevSpeed: number) => (prevSpeed += SPEED_UP_COEF));
+        setSpeed((prevSpeed: number) => {
+          const newSpeed = prevSpeed + SPEED_UP_COEF;
+          return newSpeed;
+        });
         obstacleLineInstRef.current.speed = speed;
-        playerInstRef.current.ticksPerFrame =
-          playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
+        // eslint-disable-next-line operator-assignment
+        playerInstRef.current.ticksPerFrame = playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
         speedTimeout = setTimeout(increaseSpeed, 5000);
       }
     }, SPEED_CHANGE_TIME);
