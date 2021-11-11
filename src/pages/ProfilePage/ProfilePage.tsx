@@ -21,7 +21,7 @@ const initialFormData = {
 };
 
 const ProfilePage = () => {
-  const [base64, setBase64] = useState<string>();
+  const [avatarBase64, setBase64] = useState<string>();
 
   const [isError, setWarning] = useState<boolean>(false);
   const [warningText, setWarningText] = useState<string>('');
@@ -42,9 +42,9 @@ const ProfilePage = () => {
     updateFormData(resources);
   }, []);
 
-  const handleReaderLoaded = (readerEvt: any) => {
+  const handleReaderLoaded = (readerEvt: Event) => {
     const binaryString = readerEvt.target.result;
-    setBase64(btoa(binaryString));
+    setBase64(`data:image/png;base64,${btoa(binaryString)}`);
     /* Todo где то тут отправляем на сервер картинку */
   };
   const handleChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,10 +56,10 @@ const ProfilePage = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (event: React.FormEvent<HTMLFormElement>) => {
     updateFormData({
       ...formData,
-      [e.target.name]: e.target.value.trim()
+      [event.target.name]: event.target.value.trim()
     });
     setWarning(false);
   };
@@ -107,7 +107,7 @@ const ProfilePage = () => {
       <div className={styles['profile-container']}>
         <Box className={classNames(styles['profile-box'], styles['profile-box_avatar'])}>
           <div className={styles['profile-avatar']}>
-            <Avatar sx={{ width: 156, height: 156 }} src={`data:image/png;base64, ${base64}`} />
+            <Avatar sx={{ width: 156, height: 156 }} src={avatarBase64} />
           </div>
           <div className={styles['profile-upload']}>
 
