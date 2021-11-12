@@ -14,6 +14,7 @@ import LeaderboardPage from '../pages/LeaderboardPage';
 import ForumTopicPage from '../pages/ForumTopicPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProfilePage from '../pages/ProfilePage';
+import GamePage from '../pages/GamePage';
 
 // TODO
 // Add Main Page + Routing
@@ -28,6 +29,9 @@ export function App() {
           </Route>
           <Route path="/sign-in">
             <LoginPage />
+          </Route>
+          <Route path="/game">
+            <GamePage />
           </Route>
           <Route path="/sign-up">
             <SignUpPage />
