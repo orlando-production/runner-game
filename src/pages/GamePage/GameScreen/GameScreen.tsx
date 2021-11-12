@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { GameStates } from '../GamePage';
 import WithRefForwardTimer from './Timer';
-import { Timer } from './Timer/Timer';
+import { TimerType } from './Timer/Timer';
 import GameController from './GameController';
 
 type GameScreenProps = {
@@ -14,7 +14,7 @@ const GameScreen = ({ setGameState }: GameScreenProps) => {
   const timerEl = useRef();
   useEffect(() => {
     if (timerEl.current) {
-      (timerEl.current as Timer).startTimer();
+      (timerEl.current as TimerType).startTimer();
     }
   }, []);
 
