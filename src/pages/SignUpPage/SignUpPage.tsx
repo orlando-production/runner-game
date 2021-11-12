@@ -12,7 +12,7 @@ import { isAllFieldsValid } from './checkValidation';
 
 type SignUpProps = {
   title?: string;
-}
+};
 
 const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   const [firstName, setFirstName] = useState<string>('');
@@ -68,9 +68,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   };
 
   const goToGame = () => {
-    // TODO
-    // Add routing
-    console.log('goToGame');
+    history.push('/game');
   };
 
   const showWarnings = (reason: AxiosError) => {
@@ -80,9 +78,14 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   };
 
   const fetchData = () => {
-    requestPostData('auth/signup', ({
-      first_name: firstName, second_name: lastName, email, phone, login, password
-    }))
+    requestPostData('auth/signup', {
+      first_name: firstName,
+      second_name: lastName,
+      email,
+      phone,
+      login,
+      password
+    })
       .then(goToGame)
       .catch(showWarnings);
   };
@@ -91,7 +94,12 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
     event.preventDefault();
 
     const { isValid, warning = '' } = isAllFieldsValid({
-      firstName, lastName, email, phone, login, password
+      firstName,
+      lastName,
+      email,
+      phone,
+      login,
+      password
     });
 
     if (isValid) {
@@ -117,8 +125,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
             alignItems: 'center'
           }}
         >
-          <Typography component="h1" variant="h5" mt={3}>{resources.signIn}</Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className={styles['signup-form']}>
+          <Typography component="h1" variant="h5" mt={3}>
+            {resources.signIn}
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+            className={styles['signup-form']}
+          >
             <div className={styles['names-ribbon']}>
               <TextField
                 onChange={handleFirstName}
@@ -186,7 +202,15 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
               id="password"
               autoComplete="current-password"
             />
-            <div className={isError ? styles['warning-message'] : styles['invisible-message']}>{warningText}</div>
+            <div
+              className={
+                isError
+                  ? styles['warning-message']
+                  : styles['invisible-message']
+              }
+            >
+              {warningText}
+            </div>
             <Button
               type="submit"
               fullWidth
@@ -196,7 +220,12 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
             >
               {resources.signIn}
             </Button>
-            <Button type="button" variant="text" className={styles['login-link']} onClick={onLinkClick}>
+            <Button
+              type="button"
+              variant="text"
+              className={styles['login-link']}
+              onClick={onLinkClick}
+            >
               {resources.signUp}
             </Button>
           </Box>

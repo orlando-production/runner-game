@@ -14,6 +14,7 @@ import ForumPage from '../pages/ForumPage';
 import LeaderboardPage from '../pages/leaderboard';
 import ForumTopicPage from '../pages/ForumTopicPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import GamePage from '../pages/GamePage';
 import MainPage from "../pages/MainPage";
 
 // TODO
@@ -29,6 +30,9 @@ export function App() {
           </Route>
           <Route path="/sign-in">
             <LoginPage />
+          </Route>
+          <Route path="/game">
+            <GamePage />
           </Route>
           <Route path="/sign-up">
             <SignUpPage />
