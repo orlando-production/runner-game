@@ -12,7 +12,7 @@ import styles from './LoginPage.module.css';
 
 type LoginProps = {
   title?: string;
-}
+};
 
 const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
@@ -42,9 +42,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   };
 
   const goToGame = () => {
-    // TODO
-    // Add routing
-    console.log('goToGame');
+    history.push('/game');
   };
 
   const showWarnings = (reason: AxiosError) => {
@@ -57,7 +55,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   };
 
   const fetchData = () => {
-    requestPostData('auth/signin', ({ login, password }))
+    requestPostData('auth/signin', { login, password })
       .then(goToGame)
       .catch(showWarnings);
   };
@@ -82,8 +80,16 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             alignItems: 'center'
           }}
         >
-          <Typography component="h1" variant="h5" mt={5}>{resources.signIn}</Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} className={styles['login-form']}>
+          <Typography component="h1" variant="h5" mt={5}>
+            {resources.signIn}
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+            className={styles['login-form']}
+          >
             <TextField
               onChange={handleLogin}
               margin="normal"
@@ -106,7 +112,15 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
               id="password"
               autoComplete="current-password"
             />
-            <div className={isError ? styles['warning-message'] : styles['invisible-message']}>{resources.warning}</div>
+            <div
+              className={
+                isError
+                  ? styles['warning-message']
+                  : styles['invisible-message']
+              }
+            >
+              {resources.warning}
+            </div>
             <Button
               type="submit"
               fullWidth
@@ -116,7 +130,12 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             >
               {resources.signIn}
             </Button>
-            <Button type="button" variant="text" className={styles['login-sign-up-link']} onClick={onLinkClick}>
+            <Button
+              type="button"
+              variant="text"
+              className={styles['login-sign-up-link']}
+              onClick={onLinkClick}
+            >
               {resources.signUp}
             </Button>
           </Box>
