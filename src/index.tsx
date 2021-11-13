@@ -5,14 +5,14 @@ import type { AxiosError } from 'axios';
 import { App } from './components/App';
 import InternalErrorPage from './pages/InternalErrorPage';
 
-function ErrorFallback({ error }: { error: Error }) {
+const ErrorFallback = ({ error }: { error: Error }) => {
   const { message } = error || {};
   const { reason } = (error as AxiosError)?.response?.data || {};
 
   return (
     <InternalErrorPage message={message} reason={reason} />
   );
-}
+};
 
 ReactDOM.render(
   <React.StrictMode>
