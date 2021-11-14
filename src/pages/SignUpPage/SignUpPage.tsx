@@ -5,6 +5,7 @@ import {
 import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
+import { useErrorHandler } from 'react-error-boundary';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './SignUpPage.module.css';
@@ -25,6 +26,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   const [warningText, setWarningText] = useState<string>('');
 
   const history = useHistory();
+
+  const handleError = useErrorHandler();
 
   const resources = {
     firstName: 'First Name',
@@ -72,9 +75,12 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   };
 
   const showWarnings = (reason: AxiosError) => {
-    console.log(reason?.response);
-
-    setWarning(true);
+    const { status } = reason?.response || {};
+    if (status === 400 || status === 401) {
+      setWarning(true);
+    } else {
+      handleError(reason);
+    }
   };
 
   const fetchData = () => {
