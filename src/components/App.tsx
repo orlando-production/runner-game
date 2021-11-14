@@ -1,7 +1,6 @@
 import React from 'react';
 import './reset.css';
 import './constants.css';
-import './common.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,19 +15,15 @@ import ForumTopicPage from '../pages/ForumTopicPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProfilePage from '../pages/ProfilePage';
 import GamePage from '../pages/GamePage';
-import MainPage from "../pages/MainPage";
-
-// TODO
-// Add Main Page + Routing
+import MainPage from '../pages/MainPage';
+import PrivateRoute from './privateRoute';
 
 export function App() {
   return (
     <div>
       <Router>
         <Switch>
-          <Route path="/" exact>
-            <MainPage />
-          </Route>
+          <PrivateRoute path="/" component={MainPage} exact />
           <Route path="/sign-in">
             <LoginPage />
           </Route>

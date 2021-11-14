@@ -3,8 +3,10 @@ import {
   Box, Typography
 } from '@mui/material';
 import React from 'react';
+import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import styles from './NotFoundPage.module.css';
+import commonStyles from '../../components/common.css';
 
 const NotFoundPage = () => {
   const resources = {
@@ -12,8 +14,8 @@ const NotFoundPage = () => {
   };
 
   return (
-    <div className={styles['notfound-page']}>
-      <div className={styles['notfound-container']}>
+    <div className={classNames(commonStyles.page)}>
+      <div className={classNames(styles['notfound-container'], commonStyles.content)}>
         <Box
           className={styles['notfound-content']}
         >

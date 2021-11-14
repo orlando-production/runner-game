@@ -10,6 +10,7 @@ import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 import { requestGetData, requestPutData } from '../../services/RequestData';
+import commonStyles from '../../components/common.css';
 
 const initialFormData = {
   id: '',
@@ -34,7 +35,6 @@ const ProfilePage = () => {
     if (file) {
       requestPutData('/user/profile/avatar', fileData)
         .then((res) => {
-          console.log(res.data.avatar);
           setAvatar(res.data.avatar);
         });
     }
@@ -99,9 +99,9 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <div className={styles['profile-page']}>
+    <div className={commonStyles.page}>
       <div className={styles['profile-container']}>
-        <Box className={classNames(styles['profile-box'], styles['profile-box_avatar'])}>
+        <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_avatar'])}>
           <div className={styles['profile-avatar']}>
             <Avatar
               sx={{ width: 156, height: 156 }}
@@ -129,7 +129,7 @@ const ProfilePage = () => {
             </label>
           </div>
         </Box>
-        <Box className={classNames(styles['profile-box'], styles['profile-box_settings'])}>
+        <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_settings'])}>
           <Typography
             component="h1"
             variant="h5"
@@ -205,7 +205,7 @@ const ProfilePage = () => {
             />
 
             <div
-              className={isError ? styles['warning-message'] : styles['invisible-message']}
+              className={isError ? classNames['warning-message'] : classNames['invisible-message']}
             >
               {warningText}
             </div>
@@ -220,7 +220,7 @@ const ProfilePage = () => {
             </Button>
           </Box>
         </Box>
-        <Box className={classNames(styles['profile-box'], styles['profile-box_scores'])}>
+        <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
           <div className={styles['profile-scores_left']}>
             <Icon icon="mdi:account-cowboy-hat" height={24} color="#A86CE4" />
           </div>

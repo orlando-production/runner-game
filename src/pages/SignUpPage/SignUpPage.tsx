@@ -6,10 +6,12 @@ import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
+import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './SignUpPage.module.css';
 import { isAllFieldsValid } from './checkValidation';
+import commonStyles from '../../components/common.css';
 
 type SignUpProps = {
   title?: string;
@@ -121,10 +123,10 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   };
 
   return (
-    <div className={styles['signup-page']}>
-      <div className={styles['signup-container']}>
+    <div className={classNames(commonStyles.page)}>
+      <div className={classNames(commonStyles.container)}>
         <Box
-          className={styles['signup-content']}
+          className={classNames(commonStyles.box, styles['signup-content'])}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -211,8 +213,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
             <div
               className={
                 isError
-                  ? styles['warning-message']
-                  : styles['invisible-message']
+                  ? commonStyles['warning-message']
+                  : commonStyles['invisible-message']
               }
             >
               {warningText}
