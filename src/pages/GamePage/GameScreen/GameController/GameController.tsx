@@ -45,13 +45,13 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
         width: PLAYER_SPRITE_WIDTH,
         height: PLAYER_SPRITE_HEIGHT,
         numberOfFrames: NUMBER_OF_FRAMES,
-        ticksPerFrame: TICKS_PER_FRAME,
+        ticksPerFrame: TICKS_PER_FRAME
       });
       setPlayerInst(player);
 
       const obstacleLine = new ObstacleLine({
         ctx: (canvas.current as HTMLCanvasElement).getContext('2d'),
-        speed,
+        speed
       });
       setObstacleLineInst(obstacleLine);
       const start = () => {
@@ -62,21 +62,21 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
           player.render();
           const [firstObstacle] = obstacleLine.obstacles;
           if (
-            player.isShot &&
-            firstObstacle &&
-            firstObstacle.x <=
-              player.position.x +
-                player.position.width / NUMBER_OF_FRAMES +
-                player.shotLength
+            player.isShot
+            && firstObstacle
+            && firstObstacle.x
+              <= player.position.x
+                + player.position.width / NUMBER_OF_FRAMES
+                + player.shotLength
           ) {
             obstacleLine.obstacleShift();
           }
           if (
-            firstObstacle &&
-            firstObstacle.x <=
-              player.position.x + player.position.width / NUMBER_OF_FRAMES &&
-            firstObstacle.y - firstObstacle.height <=
-              player.position.y
+            firstObstacle
+            && firstObstacle.x
+              <= player.position.x + player.position.width / NUMBER_OF_FRAMES
+            && firstObstacle.y - firstObstacle.height
+              <= player.position.y
           ) {
             setGameState(GameStates.Finished);
             obstacleLine.clear();
@@ -96,8 +96,7 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
         });
         obstacleLineInstRef.current.speed = speed;
         // eslint-disable-next-line operator-assignment
-        playerInstRef.current.ticksPerFrame =
-          playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
+        playerInstRef.current.ticksPerFrame = playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
         speedTimeout = setTimeout(increaseSpeed, 5000);
       }
     }, SPEED_CHANGE_TIME);
