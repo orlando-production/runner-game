@@ -3,6 +3,6 @@ import axios from 'axios';
 export default axios.create({
   baseURL: 'https://ya-praktikum.tech/api/v2',
   headers: {
-§§    'Content-Type': 'application/json'
+    'Content-Type': 'application/json'
   }
 });

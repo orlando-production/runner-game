@@ -21,6 +21,7 @@
       "import/no-extraneous-dependencies": "off",
       "react/prop-types": "off",
       "react/require-default-props": "off",
+      "camelcase": "off",
       "import/extensions": [
         "error",
         "ignorePackages",
@@ -39,4 +40,4 @@
         }
       }
     }
-} 
+}
