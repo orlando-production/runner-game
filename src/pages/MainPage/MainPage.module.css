@@ -7,10 +7,47 @@
 
 .main-container {
     display: flex;
-    flex-direction: column;
+    gap: 24px;
+    flex-flow: row wrap;
     justify-content: center;
     align-items: center;
     width: 100%;
     flex-grow: 1;
     background-color: var(--login-container-bg);
+}
+
+.icons {
+    grid-area: links;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 24px;
+    background-color: var(--white-color);
+    box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
+    border-radius: 4px;
+}
+
+.block-img {
+    width: 200px;
+    height: 200px;
+    background-color: var(--white-color);
+    background-size: cover;
+    box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
+    border-radius: 4px;
+}
+
+.icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgb(var(--icon-wrap-color));
+    cursor: pointer;
+    border-radius: 12px;
 }
