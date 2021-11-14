@@ -10,9 +10,10 @@ import {
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ForumPage from '../pages/ForumPage';
-import LeaderboardPage from '../pages/leaderboard';
+import LeaderboardPage from '../pages/LeaderboardPage';
 import ForumTopicPage from '../pages/ForumTopicPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import ProfilePage from '../pages/ProfilePage';
 import GamePage from '../pages/GamePage';
 
 // TODO
@@ -43,6 +44,9 @@ export function App() {
           </Route>
           <Route path="/forum/:topicId">
             <ForumTopicPage />
+          </Route>
+          <Route path="/profile">
+            <ProfilePage />
           </Route>
           <Route path="/404">
             <NotFoundPage />
