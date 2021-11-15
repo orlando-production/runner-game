@@ -1,11 +1,13 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute: React.FC<{
-    component: React.FC;
+interface PrivateRouteProps {
+    component: React.FunctionComponent;
     path: string;
     exact: boolean;
-}> = ({ path, exact, component }) => {
+}
+
+const PrivateRoute = ({ path, exact, component }: PrivateRouteProps) => {
   /* todo пока заглушку оставил */
   const isAuth = true;
   return isAuth ? (<Route path={path} exact={exact} component={component} />)

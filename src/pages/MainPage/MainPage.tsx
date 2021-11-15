@@ -29,7 +29,7 @@ const MainPage = () => {
 
   return (
     <Box className={classNames(commonStyles.page, styles['main-page'])}>
-      <Box className={classNames(styles['main-container'])}>
+      <Box className={styles['main-container']}>
         <Box className={classNames(commonStyles.box, styles['main-icons'])}>
           <div className={styles['main-icon-wrap']}>
             <Icon

@@ -14,7 +14,7 @@ const NotFoundPage = () => {
   };
 
   return (
-    <div className={classNames(commonStyles.page)}>
+    <div className={commonStyles.page}>
       <div className={classNames(styles['notfound-container'], commonStyles.content)}>
         <Box
           className={styles['notfound-content']}

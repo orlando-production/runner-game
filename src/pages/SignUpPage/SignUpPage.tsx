@@ -123,8 +123,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   };
 
   return (
-    <div className={classNames(commonStyles.page)}>
-      <div className={classNames(commonStyles.container)}>
+    <div className={commonStyles.page}>
+      <div className={commonStyles.container}>
         <Box
           className={classNames(commonStyles.box, styles['signup-content'])}
           sx={{

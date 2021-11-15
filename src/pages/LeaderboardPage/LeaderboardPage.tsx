@@ -27,7 +27,7 @@ const LeaderboardPage = () => {
   }, []);
 
   return (
-    <div className={classNames(commonStyles.page)}>
+    <div className={commonStyles.page}>
       <div className={classNames(commonStyles.content, styles['leaderboard-container'])}>
         <Typography
           component="h1"

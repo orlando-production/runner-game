@@ -41,7 +41,7 @@ const ForumPage = () => {
   };
 
   return (
-    <div className={classNames(commonStyles.page)}>
+    <div className={commonStyles.page}>
       <div className={classNames(commonStyles.content, styles['forum-container'])}>
         <Typography
           component="h1"
