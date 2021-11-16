@@ -2,7 +2,9 @@ import {
   Box, Avatar, Typography
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import Footer from '../../components/footer';
+import commonStyles from '../../components/common.css';
 import styles from './LeaderboardPage.module.css';
 
 const LeaderboardPage = () => {
@@ -25,8 +27,8 @@ const LeaderboardPage = () => {
   }, []);
 
   return (
-    <div className={styles['leaderboard-page']}>
-      <div className={styles['leaderboard-container']}>
+    <div className={commonStyles.page}>
+      <div className={classNames(commonStyles.content, styles['leaderboard-container'])}>
         <Typography
           component="h1"
           variant="h5"
@@ -35,7 +37,7 @@ const LeaderboardPage = () => {
         >
           Leaderbord
         </Typography>
-        <Box className={styles['leaderboard-content']}>
+        <Box className={classNames(commonStyles.box, styles['leaderboard-content'])}>
           <div className={styles['leaderboard-field']}>
             <Typography color="text.secondary" variant="subtitle1">
               Name

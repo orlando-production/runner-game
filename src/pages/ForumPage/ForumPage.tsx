@@ -4,11 +4,13 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
 import type { TopicProps } from '../../components/Topic/Topic';
 import Widget from '../../components/widget';
 import styles from './ForumPage.module.css';
+import commonStyles from '../../components/common.css';
 
 const ForumPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -39,8 +41,8 @@ const ForumPage = () => {
   };
 
   return (
-    <div className={styles['forum-page']}>
-      <div className={styles['forum-container']}>
+    <div className={commonStyles.page}>
+      <div className={classNames(commonStyles.content, styles['forum-container'])}>
         <Typography
           component="h1"
           variant="h5"
@@ -52,7 +54,7 @@ const ForumPage = () => {
         </Typography>
         {isModalOpen && <NewTopic onClose={onModalClose} />}
         <Box
-          className={styles['forum-content']}
+          className={classNames(commonStyles.box, styles['forum-content'])}
         >
           <div className={styles.topics}>
             {topics.map((el: TopicProps) => <Widget title={el.title} key={el.title} onClick={() => onWidgetClick(el)} />)}

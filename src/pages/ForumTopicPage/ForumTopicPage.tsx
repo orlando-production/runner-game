@@ -4,9 +4,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import Topic from '../../components/topic/Topic';
 import styles from './ForumTopicPage.module.css';
+import commonStyles from '../../components/common.css';
 
 type RouteParams = {
   [key: string] : string
@@ -23,8 +25,8 @@ const ForumTopicPage = () => {
   const { topicId }: RouteParams = useParams();
 
   return (
-    <div className={styles['forum-page']}>
-      <div className={styles['forum-container']}>
+    <div className={commonStyles.page}>
+      <div className={classNames(commonStyles.content, styles['forum-container'])}>
         <Typography
           component="h1"
           variant="h5"
@@ -35,7 +37,7 @@ const ForumTopicPage = () => {
 
         </Typography>
         <Box
-          className={styles['forum-content']}
+          className={classNames(commonStyles.box, styles['forum-content'])}
           sx={{
             display: 'flex',
             flexDirection: 'column',

@@ -15,18 +15,15 @@ import ForumTopicPage from '../pages/ForumTopicPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProfilePage from '../pages/ProfilePage';
 import GamePage from '../pages/GamePage';
-
-// TODO
-// Add Main Page + Routing
+import MainPage from '../pages/MainPage';
+import PrivateRoute from './privateRoute';
 
 export function App() {
   return (
     <div>
       <Router>
         <Switch>
-          <Route path="/" exact>
-            <LoginPage />
-          </Route>
+          <PrivateRoute path="/" component={MainPage} exact />
           <Route path="/sign-in">
             <LoginPage />
           </Route>

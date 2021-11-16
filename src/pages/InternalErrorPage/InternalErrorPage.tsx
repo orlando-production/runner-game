@@ -3,8 +3,10 @@ import {
   Box, Button, Typography
 } from '@mui/material';
 import React from 'react';
+import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import styles from './InternalErrorPage.module.css';
+import commonStyles from '../../components/common.css';
 
 type InternalErrorProps = {
   message?: string;
@@ -17,10 +19,10 @@ const InternalErrorPage = ({ message = 'Internal error', reason = 'Something wen
   };
 
   return (
-    <div className={styles['error-page']}>
-      <div className={styles['error-container']}>
+    <div className={commonStyles.page}>
+      <div className={classNames(styles.content, styles['error-container'])}>
         <Box
-          className={styles['error-content']}
+          className={classNames(styles.box, styles['error-content'])}
         >
           <Typography
             component="h1"

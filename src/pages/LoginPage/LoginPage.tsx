@@ -6,9 +6,11 @@ import React, { useState } from 'react';
 import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
+import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
+import commonStyles from '../../components/common.css';
 
 type LoginProps = {
   title?: string;
@@ -70,10 +72,10 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   };
 
   return (
-    <div className={styles['login-page']}>
-      <div className={styles['login-container']}>
+    <div className={commonStyles.page}>
+      <div className={commonStyles.container}>
         <Box
-          className={styles['login-content']}
+          className={classNames(commonStyles.box, styles['login-content'])}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -115,8 +117,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             <div
               className={
                 isError
-                  ? styles['warning-message']
-                  : styles['invisible-message']
+                  ? commonStyles['warning-message']
+                  : commonStyles['invisible-message']
               }
             >
               {resources.warning}
