@@ -10,7 +10,7 @@ import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 import { requestGetData, requestPutData } from '../../services/RequestData';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 const initialFormData = {
   id: '',

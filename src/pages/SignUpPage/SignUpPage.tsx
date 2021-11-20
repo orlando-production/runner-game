@@ -11,7 +11,7 @@ import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './SignUpPage.module.css';
 import { isAllFieldsValid } from './checkValidation';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 type SignUpProps = {
   title?: string;

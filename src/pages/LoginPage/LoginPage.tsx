@@ -7,10 +7,14 @@ import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
 import classNames from 'classnames';
+import { Dispatch } from 'redux';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
+import { useAppDispatch } from '../../hooks';
+import { authenticationSlice } from './loginSlice';
+import { setDataToLocalStorage } from '../../services/LocalStorage';
 
 type LoginProps = {
   title?: string;
@@ -20,6 +24,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isError, setWarning] = useState<boolean>(false);
+
+  const appDispatch = useAppDispatch();
 
   const history = useHistory();
 
@@ -56,15 +62,24 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     }
   };
 
-  const fetchData = () => {
-    requestPostData('auth/signin', { login, password })
-      .then(goToGame)
-      .catch(showWarnings);
+  const { success, error } = authenticationSlice?.actions;
+
+  const authenticateUser = (authData: Record<string, string>) => async (dispatch: Dispatch) => {
+    requestPostData('auth/signin', authData)
+      .then(() => {
+        setDataToLocalStorage('authData', authData);
+        dispatch(success(authData));
+        goToGame();
+      })
+      .catch((reason) => {
+        dispatch(error(reason?.response?.status));
+        showWarnings(reason);
+      });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetchData();
+    appDispatch(authenticateUser({ login, password }));
   };
 
   const onLinkClick = () => {
