@@ -5,7 +5,11 @@ import type { AxiosError } from 'axios';
 import { Provider } from 'react-redux';
 import { App } from './components/App';
 import InternalErrorPage from './pages/InternalErrorPage';
-import { store } from './store';
+import { createApp } from './store';
+
+const initialState = (window as any).__INITIAL_STATE__ || {};
+
+const { store } = createApp(initialState);
 
 const ErrorFallback = ({ error }: { error: Error }) => {
   const { message } = error || {};
