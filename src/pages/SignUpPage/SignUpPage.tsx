@@ -7,11 +7,11 @@ import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
 import classNames from 'classnames';
-import Footer from '../../components/footer/Footer';
-import { requestPostData } from '../../services/RequestData';
+import Footer from 'components/footer/Footer';
+import commonStyles from 'components/common.module.css';
+import { requestPostData, ENDPOINTS } from 'api';
 import styles from './SignUpPage.module.css';
 import { isAllFieldsValid } from './checkValidation';
-import commonStyles from '../../components/common.module.css';
 
 type SignUpProps = {
   title?: string;
@@ -86,7 +86,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   };
 
   const fetchData = () => {
-    requestPostData('auth/signup', {
+    requestPostData(ENDPOINTS.SIGNUP, {
       first_name: firstName,
       second_name: lastName,
       email,

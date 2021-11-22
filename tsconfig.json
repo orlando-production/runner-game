@@ -10,8 +10,13 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "esModuleInterop": true,
-      "jsx": "react"
+      "jsx": "react",
+      "baseUrl": "./",
+      "paths": {
+        "*": ["src/*"],
+      }
     },
     "include": ["src"],
+    "exclude": ["node_modules"],
     "files": ["src/index.d.ts"]
-  }
+}

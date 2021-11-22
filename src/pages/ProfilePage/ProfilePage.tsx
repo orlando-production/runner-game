@@ -6,11 +6,11 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import type { AxiosError } from 'axios';
 import { Icon } from '@iconify/react';
-import Footer from '../../components/footer/Footer';
-import styles from './ProfilePage.module.css';
+import Footer from 'components/footer/Footer';
+import { requestGetData, requestPutData, ENDPOINTS } from 'api';
+import commonStyles from 'components/common.module.css';
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
-import { requestGetData, requestPutData } from '../../services/RequestData';
-import commonStyles from '../../components/common.module.css';
+import styles from './ProfilePage.module.css';
 
 const initialFormData = {
   id: '',
@@ -33,9 +33,9 @@ const ProfilePage = () => {
     fileData.append('avatar', file);
 
     if (file) {
-      requestPutData('/user/profile/avatar', fileData)
-        .then((res) => {
-          setAvatar(res.data.avatar);
+      requestPutData(ENDPOINTS.AVATAR, fileData)
+        .then((data) => {
+          setAvatar(data.avatar);
         });
     }
   };
@@ -55,10 +55,10 @@ const ProfilePage = () => {
   };
 
   const fetchGetDataUser = () => {
-    requestGetData('auth/user')
-      .then((res) => {
-        updateFormData(res.data);
-        setAvatar(res.data.avatar);
+    requestGetData(ENDPOINTS.USER)
+      .then((data) => {
+        updateFormData(data);
+        setAvatar(data.avatar);
       })
       .catch(showWarnings);
   };
@@ -66,7 +66,7 @@ const ProfilePage = () => {
   const fetchDataSave = ({
     first_name, second_name, email, phone, login
   }) => {
-    requestPutData('user/profile', ({
+    requestPutData(ENDPOINTS.PROFILE, ({
       first_name, second_name, email, phone, display_name: login, login
     }))
       .catch(showWarnings);
@@ -205,7 +205,7 @@ const ProfilePage = () => {
             />
 
             <div
-              className={isError ? classNames['warning-message'] : classNames['invisible-message']}
+              className={isError ? commonStyles['warning-message'] : commonStyles['invisible-message']}
             >
               {warningText}
             </div>

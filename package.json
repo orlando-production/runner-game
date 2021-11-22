@@ -11,12 +11,12 @@
     "test": "jest",
     "prepare": "husky install",
     "linter": "eslint . --ext js,jsx,ts,tsx",
-    "linter:fix": "eslint . --ext js,jsx,ts,tsx --fix"
+    "linter:fix": "eslint . --ext js,jsx,ts,tsx --fix",
+    "check:ts": "tsc --noEmit"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all linter",
-      "check:ts": "tsc --noEmit"
+      "pre-commit": "npm-run-all --parallel linter check:ts"
     }
   },
   "repository": {
@@ -45,7 +45,6 @@
     "@iconify/react": "3.0.1",
     "@mui/material": "5.0.6",
     "@mui/types": "7.0.0",
-    "@reduxjs/toolkit": "1.6.2",
     "@types/react": "17.0.33",
     "@types/react-dom": "17.0.10",
     "@types/react-redux": "7.1.20",
@@ -94,6 +93,10 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "7.2.6",
-    "redux": "4.1.2"
+    "redux": "4.1.2",
+    "redux-immer": "1.0.5",
+    "immer": "9.0.6",
+    "reselect": "4.1.4",
+    "redux-thunk": "2.4.0"
   }
 }
