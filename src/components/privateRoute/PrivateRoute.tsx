@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-interface PrivateRouteProps {
+type PrivateRouteProps = {
     component: React.FunctionComponent;
     path: string;
     exact: boolean;
