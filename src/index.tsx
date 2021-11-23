@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import type { AxiosError } from 'axios';
 import { Provider } from 'react-redux';
+import { CookiesProvider } from 'react-cookie';
 import { App } from './components/App';
 import InternalErrorPage from './pages/InternalErrorPage';
 import { store } from './store';
@@ -22,7 +23,9 @@ ReactDOM.render(
       FallbackComponent={ErrorFallback}
     >
       <Provider store={store}>
-        <App />
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
       </Provider>
     </ErrorBoundary>
   </React.StrictMode>,

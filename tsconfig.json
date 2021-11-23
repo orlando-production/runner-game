@@ -1,17 +1,22 @@
 {
-    "compilerOptions": {
-      "outDir": "dist",
-      "target": "es2019",
-      "declaration": false,
-      "module": "commonjs",
-      "strictNullChecks": false,
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "esModuleInterop": true,
-      "jsx": "react"
-    },
-    "include": ["src"],
-    "files": ["src/index.d.ts"]
-  }
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es2019",
+    "declaration": false,
+    "module": "commonjs",
+    "strictNullChecks": false,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"],
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"],
+  "files": ["src/index.d.ts"]
+}

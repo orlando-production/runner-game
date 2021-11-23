@@ -1,34 +1,34 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import { createSlice } from '@reduxjs/toolkit';
+import { FETCH_SIGNIN_PENDING, FETCH_SIGNIN_FILFILLED, FETCH_SIGNIN_REJECTED } from '../../actions/authentication';
+import { ErrorType } from '../../api';
 
-export interface IAuthentication {
-  isProcessingRequest: boolean;
-}
+export type Authentication = {
+    authStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error?: ErrorType,
+  };
 
-const initialState: IAuthentication = {
-  isProcessingRequest: false
+const initialState: Authentication = {
+  authStatus: 'idle'
 };
 
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
-  reducers: {
-    start: (state) => ({
-      ...state,
-      isProcessingRequest: true
-    }),
-    success: (state, action: PayloadAction<any>) => ({
-      ...state,
-      isProcessingRequest: false
-    }),
-    error: (state, action: PayloadAction<string>) => ({
-      ...state,
-      isProcessingRequest: false
-    })
+  reducers: {},
+  extraReducers: {
+    [FETCH_SIGNIN_PENDING]: (state) => {
+      state.authStatus = 'loading';
+    },
+    [FETCH_SIGNIN_FILFILLED]: (state) => {
+      state.authStatus = 'succeeded';
+    },
+    [FETCH_SIGNIN_REJECTED]: (state, action) => {
+      state.authStatus = 'failed';
+      state.error = action.payload;
+    }
   }
 });
 
-export const selectAuthentication = (state: RootState) => state.authentication;
 export const authenticationReducer = authenticationSlice.reducer;
