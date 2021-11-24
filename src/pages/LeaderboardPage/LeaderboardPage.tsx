@@ -4,7 +4,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import Footer from '../../components/footer';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 import styles from './LeaderboardPage.module.css';
 
 const LeaderboardPage = () => {

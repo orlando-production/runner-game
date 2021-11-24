@@ -8,7 +8,7 @@ import { Icon } from '@iconify/react';
 import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import styles from './MainPage.module.css';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 import img from '../../assets/bg.jpeg';
 

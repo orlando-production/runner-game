@@ -4,7 +4,7 @@ export type ValidationProps = {
     email: string,
     phone: string,
     login: string,
-    password: string
+    password?: string
 };
 
 export type ValidationData = {

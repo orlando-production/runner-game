@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import styles from './NotFoundPage.module.css';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 const NotFoundPage = () => {
   const resources = {
