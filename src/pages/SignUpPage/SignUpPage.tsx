@@ -3,15 +3,16 @@ import {
   Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
-import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
-import { useErrorHandler } from 'react-error-boundary';
 import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
 import commonStyles from '../../components/common.module.css';
 import Footer from '../../components/footer/Footer';
-import { requestPostData, ENDPOINTS } from '../../api';
+import { ErrorType } from '../../api';
 import styles from './SignUpPage.module.css';
 import { isAllFieldsValid } from './checkValidation';
+import { fetchSignUp } from '../../thunks/registration';
+import { getRegistrationError } from '../../selectors/registration';
 
 type SignUpProps = {
   title?: string;
@@ -24,12 +25,12 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   const [phone, setPhone] = useState<string>('');
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isError, setWarning] = useState<boolean>(false);
+  const [validationError, setWarning] = useState<boolean>(false);
   const [warningText, setWarningText] = useState<string>('');
 
   const history = useHistory();
-
-  const handleError = useErrorHandler();
+  const dispatch = useDispatch();
+  const requestError = useSelector<ErrorType>(getRegistrationError);
 
   const resources = {
     firstName: 'First Name',
@@ -44,58 +45,30 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
 
   const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(event.target.value);
-    setWarning(false);
   };
 
   const handleLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(event.target.value);
-    setWarning(false);
   };
 
   const handleLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
-    setWarning(false);
   };
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    setWarning(false);
   };
 
   const handlePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
-    setWarning(false);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-    setWarning(false);
   };
 
   const goToGame = () => {
     history.push('/game');
-  };
-
-  const showWarnings = (reason: AxiosError) => {
-    const { status } = reason?.response || {};
-    if (status === 400 || status === 401) {
-      setWarning(true);
-    } else {
-      handleError(reason);
-    }
-  };
-
-  const fetchData = () => {
-    requestPostData(ENDPOINTS.SIGNUP, {
-      first_name: firstName,
-      second_name: lastName,
-      email,
-      phone,
-      login,
-      password
-    })
-      .then(goToGame)
-      .catch(showWarnings);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -111,7 +84,15 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
     });
 
     if (isValid) {
-      fetchData();
+      dispatch(fetchSignUp({
+        first_name: firstName,
+        second_name: lastName,
+        email,
+        phone,
+        login,
+        password,
+        navigate: goToGame
+      }));
     } else {
       setWarning(true);
       setWarningText(warning);
@@ -212,7 +193,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
             />
             <div
               className={
-                isError
+                requestError || validationError
                   ? commonStyles['warning-message']
                   : commonStyles['invisible-message']
               }
