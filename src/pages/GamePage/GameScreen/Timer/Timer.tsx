@@ -1,10 +1,12 @@
 import React, {
   Ref, useEffect, useImperativeHandle, useState
 } from 'react';
+import garland from '../../../../assets/garland.png';
+import classes from './Timer.module.css';
 
 export type TimerType = {
   startTimer: () => void;
-}
+};
 
 /**
  * Компонент таймера. Отображает прошедшее время.
@@ -39,6 +41,15 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
     []
   );
 
-  return <div>{formatTime(currentTime)}</div>;
+  return (
+    <div className={classes.timer}>
+      <img
+        src={garland}
+        alt="coldWater"
+        className={classes['timer__cold-water-img']}
+      />
+      <span className={classes['timer__time-text']}>{formatTime(currentTime)}</span>
+    </div>
+  );
 };
 export default Timer;

@@ -1,19 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ObstacleLine from '../ObstacleLine';
 import Player from '../Player';
-import image from '../../../../assets/player.png';
+import image from '../../../../assets/santa.png';
+import bg from '../../../../assets/forest.png';
 import { GameStates } from '../../GamePage';
+import classes from './GameController.module.css';
+import { ObstacleTypes } from '../ObstacleLine/ObstacleLine';
+import Background from '../Background';
 
 type GameControllerOptions = {
   setGameState: (state: GameStates) => void;
+  onPointsChange: (pointsNumber: number) => void;
+  setFooterVisible: (visible: boolean) => void;
 };
-const PLAYER_SPRITE_WIDTH = 120;
+const PLAYER_SPRITE_WIDTH = 963;
 const PLAYER_SPRITE_HEIGHT = 60;
-const NUMBER_OF_FRAMES = 3;
-const TICKS_PER_FRAME = 30;
+const NUMBER_OF_FRAMES = 11;
+const TICKS_PER_FRAME = 10;
 const START_SPEED = 1;
 const SPEED_UP_COEF = 1;
-const TICK_PER_FRAME_COEF = 5;
+const TICK_PER_FRAME_COEF = 1;
 const MAX_SPEED = 5;
 const SPEED_CHANGE_TIME = 2000;
 
@@ -21,7 +27,11 @@ const SPEED_CHANGE_TIME = 2000;
  * Игровой контроллер.
  * Помогает взаимодействовать сущностям на игровой сцене(игрок, препятствия и т.д.)
  */
-const GameController = ({ setGameState }: GameControllerOptions) => {
+const GameController = ({
+  setGameState,
+  onPointsChange,
+  setFooterVisible
+}: GameControllerOptions) => {
   const canvas = useRef();
   const speedRef = useRef(null);
   const obstacleLineInstRef = useRef(null);
@@ -31,31 +41,75 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
   const [playerInst, setPlayerInst] = useState(null);
   let speedTimeout: ReturnType<typeof setTimeout> = null;
 
+  const toggleFullScreen = () => {
+    const currentCanvas = canvas.current as HTMLCanvasElement;
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      currentCanvas.width = window.innerWidth - 50;
+      currentCanvas.height = window.innerHeight - 50;
+      setFooterVisible(false);
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+      currentCanvas.width = 800;
+      currentCanvas.height = 300;
+      setFooterVisible(true);
+    }
+  };
+
   useEffect(() => {
     let animationId: number;
     if (canvas && canvas.current) {
-      (canvas.current as HTMLCanvasElement).width = 800;
-      (canvas.current as HTMLCanvasElement).height = 300;
+      const currentCanvas = canvas.current as HTMLCanvasElement;
+      const canvas2d = currentCanvas.getContext('2d');
+      currentCanvas.width = 800;
+      currentCanvas.height = 300;
       const playerImage = new Image();
       playerImage.src = image;
-
+      const backgroundImage = new Image();
+      backgroundImage.src = bg;
+      document.addEventListener(
+        'keydown',
+        (e) => {
+          if (e.key === 'Enter') {
+            toggleFullScreen();
+          }
+        },
+        false
+      );
       const player = new Player({
-        ctx: (canvas.current as HTMLCanvasElement).getContext('2d'),
+        ctx: canvas2d,
         image: playerImage,
         width: PLAYER_SPRITE_WIDTH,
         height: PLAYER_SPRITE_HEIGHT,
         numberOfFrames: NUMBER_OF_FRAMES,
-        ticksPerFrame: TICKS_PER_FRAME
+        ticksPerFrame: TICKS_PER_FRAME,
+        startPositionX: 0,
+        startPositionY: 10
       });
       setPlayerInst(player);
 
       const obstacleLine = new ObstacleLine({
-        ctx: (canvas.current as HTMLCanvasElement).getContext('2d'),
+        ctx: canvas2d,
         speed
+      });
+
+      // eslint-disable-next-line no-new
+      const background = new Background({
+        ctx: canvas2d
       });
       setObstacleLineInst(obstacleLine);
       const start = () => {
         const loop = () => {
+          canvas2d.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
+          canvas2d.drawImage(
+            backgroundImage,
+            0,
+            0,
+            currentCanvas.width,
+            currentCanvas.height
+          );
+          background.update();
+          background.render();
           obstacleLine.update();
           obstacleLine.render();
           player.update();
@@ -64,22 +118,30 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
           if (
             player.isShot
             && firstObstacle
-            && firstObstacle.x
-              <= player.position.x
-                + player.position.width / NUMBER_OF_FRAMES
-                + player.shotLength
+            && firstObstacle.canvX >= player.shotPositionX
+            && firstObstacle.canvX <= player.shotPositionX + player.shotLength
+            && firstObstacle.canvY + firstObstacle.height > player.shotPositionY
+            && firstObstacle.canvY < player.shotPositionY + player.shotHeight
           ) {
             obstacleLine.obstacleShift();
           }
           if (
             firstObstacle
-            && firstObstacle.x
-              <= player.position.x + player.position.width / NUMBER_OF_FRAMES
-            && firstObstacle.y - firstObstacle.height
-              <= player.position.y
+            && firstObstacle.canvX
+              <= player.position.x
+                + player.position.width / NUMBER_OF_FRAMES
+                - 40
+            && firstObstacle.canvX >= player.position.x
+            && player.position.y + player.position.height > firstObstacle.canvY
+            && player.position.y < firstObstacle.canvY + firstObstacle.height
           ) {
-            setGameState(GameStates.Finished);
-            obstacleLine.clear();
+            if (firstObstacle.type === ObstacleTypes.ENEMY) {
+              setGameState(GameStates.Finished);
+              obstacleLine.clear();
+            } else if (firstObstacle.type === ObstacleTypes.FRIEND) {
+              onPointsChange(firstObstacle.point);
+              obstacleLine.obstacleShift();
+            }
           }
 
           animationId = window.requestAnimationFrame(loop);
@@ -105,6 +167,7 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
       clearTimeout(speedTimeout);
     };
   }, []);
+
   useEffect(() => {
     speedRef.current = speed;
   }, [speed]);
@@ -117,7 +180,13 @@ const GameController = ({ setGameState }: GameControllerOptions) => {
     playerInstRef.current = playerInst;
   }, [playerInst]);
 
-  return <canvas ref={canvas} id="canvas" />;
+  return (
+    <canvas
+      className={classes['game-controller__canvas']}
+      ref={canvas}
+      id="canvas"
+    />
+  );
 };
 
 export default GameController;

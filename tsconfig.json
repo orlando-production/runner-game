@@ -12,6 +12,6 @@
       "esModuleInterop": true,
       "jsx": "react"
     },
-    "include": ["src"],
+    "include": ["src", "sw.js", "sw.js"],
     "files": ["src/index.d.ts"]
   }

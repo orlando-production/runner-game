@@ -10,7 +10,7 @@ import NewTopic from '../../components/newTopic';
 import type { TopicProps } from '../../components/Topic/Topic';
 import Widget from '../../components/widget';
 import styles from './ForumPage.module.css';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 const ForumPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);

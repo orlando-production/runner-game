@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 type LoginProps = {
   title?: string;
