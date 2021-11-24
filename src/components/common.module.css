@@ -36,16 +36,26 @@ body {
     border-radius: 4px;
 }
 
+.success-message {
+    opacity: 1;
+    color: var(--success-color);
+    font-size: 1.2em;
+    margin: 10px 0;
+    height: auto;
+}
+
 .warning-message {
     opacity: 1;
     color: var(--warning-color);
     font-size: 1.2em;
     margin: 10px 0;
+    height: auto;
 }
 
 .invisible-message {
     font-size: 1.2em;
     opacity: 0;
+    height: 0;
     overflow: hidden;
     pointer-events: none;
     margin: 10px 0;

@@ -22,6 +22,8 @@ type InitialFormData = {
   avatar?: string
 };
 
+type Status = 'invisible' | 'error' | 'success';
+
 const initialFormData = {
   id: '',
   first_name: '',
@@ -35,8 +37,8 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState<string>();
   const [oldPassword, setOldPassword] = useState<string>();
   const [newPassword, setNewPassword] = useState<string>();
-  const [status, setStatus] = useState<string>('invisible');
-  const [statusPassword, setStatusPassword] = useState<string>('invisible');
+  const [status, setStatus] = useState<Status>('invisible');
+  const [statusPassword, setStatusPassword] = useState<Status>('invisible');
   const [warningText, setWarningText] = useState<string>('');
   const [warningTextPassword, setWarningTextPassword] = useState<string>('');
   const [formData, updateFormData] = useState<InitialFormData>(initialFormData);
