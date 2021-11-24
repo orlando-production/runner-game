@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import Topic from '../../components/topic/Topic';
 import styles from './ForumTopicPage.module.css';
-import commonStyles from '../../components/common.css';
+import commonStyles from '../../components/common.module.css';
 
 type RouteParams = {
   [key: string] : string

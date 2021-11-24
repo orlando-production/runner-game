@@ -4,13 +4,13 @@ import {
 } from '@mui/material';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import type { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError } from 'axios';
 import { Icon } from '@iconify/react';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
-import { requestGetData, requestPutData } from '../../services/RequestData';
-import commonStyles from '../../components/common.css';
+import { requestGetData, requestPutData } from '../../api';
+import commonStyles from '../../components/common.module.css';
 
 type InitialFormData = {
   id: string,
@@ -18,7 +18,8 @@ type InitialFormData = {
   second_name: string,
   email: string,
   phone: string,
-  login: string
+  login: string,
+  avatar?: string
 };
 
 type Status = 'invisible' | 'error' | 'success';
@@ -48,9 +49,9 @@ const ProfilePage = () => {
     fileData.append('avatar', file);
 
     if (file) {
-      requestPutData('/user/profile/avatar', fileData)
-        .then((payload: AxiosResponse) => {
-          setAvatar(payload.data.avatar);
+      requestPutData('user/profile/avatar', fileData)
+        .then((payload: InitialFormData) => {
+          setAvatar(payload.avatar);
         });
     }
   };
@@ -71,9 +72,9 @@ const ProfilePage = () => {
 
   const fetchGetDataUser = () => {
     requestGetData('auth/user')
-      .then((payload: AxiosResponse) => {
-        updateFormData(payload.data);
-        setAvatar(payload.data.avatar);
+      .then((payload: InitialFormData) => {
+        updateFormData(payload);
+        setAvatar(payload.avatar);
       })
       .catch(showWarnings);
   };
@@ -104,7 +105,7 @@ const ProfilePage = () => {
   const handleSubmitPasswords = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    requestPutData('/user/password', { oldPassword, newPassword })
+    requestPutData('user/password', { oldPassword, newPassword })
       .then(() => {
         setStatusPassword('success');
         setWarningTextPassword('Пароль сохранен');
