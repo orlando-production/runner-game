@@ -3,14 +3,15 @@ import {
   Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
-import type { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
-import { useErrorHandler } from 'react-error-boundary';
 import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSignIn } from '../../thunks/authentication';
 import Footer from '../../components/footer/Footer';
-import { requestPostData } from '../../services/RequestData';
 import styles from './LoginPage.module.css';
 import commonStyles from '../../components/common.module.css';
+import { ErrorType } from '../../api';
+import { getAuthError } from '../../selectors/authentication';
 
 type LoginProps = {
   title?: string;
@@ -19,11 +20,10 @@ type LoginProps = {
 const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isError, setWarning] = useState<boolean>(false);
 
   const history = useHistory();
-
-  const handleError = useErrorHandler();
+  const dispatch = useDispatch();
+  const error = useSelector<ErrorType>(getAuthError);
 
   const resources = {
     login: 'Login',
@@ -35,36 +35,19 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
 
   const handleLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
-    setWarning(false);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-    setWarning(false);
   };
 
   const goToGame = () => {
     history.push('/game');
   };
 
-  const showWarnings = (reason: AxiosError) => {
-    const { status } = reason?.response || {};
-    if (status === 400 || status === 401) {
-      setWarning(true);
-    } else {
-      handleError(reason);
-    }
-  };
-
-  const fetchData = () => {
-    requestPostData('auth/signin', { login, password })
-      .then(goToGame)
-      .catch(showWarnings);
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetchData();
+    dispatch(fetchSignIn({ login, password, navigate: goToGame }));
   };
 
   const onLinkClick = () => {
@@ -116,7 +99,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             />
             <div
               className={
-                isError
+                error
                   ? commonStyles['warning-message']
                   : commonStyles['invisible-message']
               }

@@ -9,8 +9,20 @@ import { Icon } from '@iconify/react';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
-import { requestGetData, requestPutData } from '../../services/RequestData';
+import { requestGetData, requestPutData } from '../../api';
 import commonStyles from '../../components/common.module.css';
+
+type InitialFormData = {
+  id: string,
+  first_name: string,
+  second_name: string,
+  email: string,
+  phone: string,
+  login: string,
+  avatar?: string
+};
+
+type Status = 'invisible' | 'error' | 'success';
 
 const initialFormData = {
   id: '',
@@ -23,53 +35,86 @@ const initialFormData = {
 
 const ProfilePage = () => {
   const [avatar, setAvatar] = useState<string>();
-  const [isError, setWarning] = useState<boolean>(false);
+  const [oldPassword, setOldPassword] = useState<string>();
+  const [newPassword, setNewPassword] = useState<string>();
+  const [status, setStatus] = useState<Status>('invisible');
+  const [statusPassword, setStatusPassword] = useState<Status>('invisible');
   const [warningText, setWarningText] = useState<string>('');
-  const [formData, updateFormData] = useState<object>(initialFormData);
+  const [warningTextPassword, setWarningTextPassword] = useState<string>('');
+  const [formData, updateFormData] = useState<InitialFormData>(initialFormData);
 
   const handleChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileData = new FormData();
+    const fileData = new FormData() as Record<string, any>;
     const file = event.target.files[0];
     fileData.append('avatar', file);
 
     if (file) {
-      requestPutData('/user/profile/avatar', fileData)
-        .then((res) => {
-          setAvatar(res.data.avatar);
+      requestPutData('user/profile/avatar', fileData)
+        .then((payload: InitialFormData) => {
+          setAvatar(payload.avatar);
         });
     }
   };
 
-  const handleChange = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateFormData({
       ...formData,
       [event.target.name]: event.target.value.trim()
     });
-    setWarning(false);
+    setStatus('invisible');
   };
 
   const showWarnings = (reason: AxiosError) => {
     if (reason?.response?.status === 401) {
-      setWarning(true);
+      setStatus('error');
     }
   };
 
   const fetchGetDataUser = () => {
     requestGetData('auth/user')
-      .then((res) => {
-        updateFormData(res.data);
-        setAvatar(res.data.avatar);
+      .then((payload: InitialFormData) => {
+        updateFormData(payload);
+        setAvatar(payload.avatar);
       })
       .catch(showWarnings);
   };
 
   const fetchDataSave = ({
     first_name, second_name, email, phone, login
-  }) => {
+  }: InitialFormData) => {
     requestPutData('user/profile', ({
       first_name, second_name, email, phone, display_name: login, login
     }))
+      .then(() => {
+        setStatus('success');
+        setWarningText('Данные сохранены');
+      })
       .catch(showWarnings);
+  };
+
+  const handleOldPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOldPassword(event.target.value);
+    setStatusPassword('invisible');
+  };
+
+  const handleNewPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPassword(event.target.value);
+    setStatusPassword('invisible');
+  };
+
+  const handleSubmitPasswords = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    requestPutData('user/password', { oldPassword, newPassword })
+      .then(() => {
+        setStatusPassword('success');
+        setWarningTextPassword('Пароль сохранен');
+      })
+      .catch((err) => {
+        const { reason } = err?.response?.data || {};
+        setStatusPassword('error');
+        setWarningTextPassword(reason);
+      });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -77,19 +122,25 @@ const ProfilePage = () => {
 
     const data = new FormData(event.currentTarget);
     /* eslint-disable-next-line */
-        for (const [key, value] of data.entries()) {
+    for (const [key, value] of data.entries()) {
       updateFormData({
         ...formData,
         [key]: value
       });
     }
 
-    const { isValid, warning = '' } = isAllFieldsValid(formData);
+    const { isValid, warning = '' } = isAllFieldsValid({
+      firstName: formData.first_name,
+      lastName: formData.second_name,
+      email: formData.email,
+      phone: formData.phone,
+      login: formData.login
+    });
 
     if (isValid) {
       fetchDataSave(formData);
     } else {
-      setWarning(true);
+      setStatus('error');
       setWarningText(warning);
     }
   };
@@ -205,7 +256,13 @@ const ProfilePage = () => {
             />
 
             <div
-              className={isError ? classNames['warning-message'] : classNames['invisible-message']}
+              className={classNames(
+                {
+                  [commonStyles['success-message']]: status === 'success',
+                  [commonStyles['invisible-message']]: status === 'invisible',
+                  [commonStyles['warning-message']]: status === 'error'
+                }
+              )}
             >
               {warningText}
             </div>
@@ -217,6 +274,52 @@ const ProfilePage = () => {
               sx={{ mt: 1, mb: 2 }}
             >
               Save
+            </Button>
+          </Box>
+          <Box
+            component="form"
+            onSubmit={handleSubmitPasswords}
+            noValidate
+            sx={{ mt: 1 }}
+            className={styles['password-form']}
+          >
+            <TextField
+              onChange={handleOldPassword}
+              margin="normal"
+              name="oldPassword"
+              type="password"
+              fullWidth
+              id="oldPassword"
+              label="Old password"
+            />
+            <TextField
+              onChange={handleNewPassword}
+              margin="normal"
+              name="newPassword"
+              type="password"
+              fullWidth
+              id="newPassword"
+              label="New password"
+            />
+            <div
+              className={classNames(
+                {
+                  [commonStyles['success-message']]: statusPassword === 'success',
+                  [commonStyles['invisible-message']]: statusPassword === 'invisible',
+                  [commonStyles['warning-message']]: statusPassword === 'error'
+                }
+              )}
+            >
+              {warningTextPassword}
+            </div>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              Save Password
             </Button>
           </Box>
         </Box>
