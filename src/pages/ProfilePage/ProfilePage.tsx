@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import {
   Box, Button, Avatar, TextField, Typography
@@ -6,11 +8,15 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import type { AxiosError } from 'axios';
 import { Icon } from '@iconify/react';
+import { useHistory } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useDispatch } from 'react-redux';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 import { requestGetData, requestPutData } from '../../api';
 import commonStyles from '../../components/common.module.css';
+import { fetchLogout } from '../../thunks/logout';
 
 type InitialFormData = {
   id: string,
@@ -42,6 +48,10 @@ const ProfilePage = () => {
   const [warningText, setWarningText] = useState<string>('');
   const [warningTextPassword, setWarningTextPassword] = useState<string>('');
   const [formData, updateFormData] = useState<InitialFormData>(initialFormData);
+  const [cookies, setCookie, removeCookie] = useCookies(['auth']);
+  const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const handleChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileData = new FormData() as Record<string, any>;
@@ -143,6 +153,16 @@ const ProfilePage = () => {
       setStatus('error');
       setWarningText(warning);
     }
+  };
+
+  const gotToSignIn = () => {
+    history.push('/sign-in');
+  };
+
+  const onLogoutClick = () => {
+    dispatch(fetchLogout({
+      removeCookie, navigate: gotToSignIn
+    }));
   };
 
   useEffect(() => {
@@ -322,6 +342,16 @@ const ProfilePage = () => {
               Save Password
             </Button>
           </Box>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={onLogoutClick}
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Logout
+          </Button>
         </Box>
         <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
           <div className={styles['profile-scores_left']}>

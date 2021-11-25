@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import {
   Box, Button, TextField, Typography
@@ -6,6 +8,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 import commonStyles from '../../components/common.module.css';
 import Footer from '../../components/footer/Footer';
 import { ErrorType } from '../../api';
@@ -27,6 +30,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   const [password, setPassword] = useState<string>('');
   const [validationError, setWarning] = useState<boolean>(false);
   const [warningText, setWarningText] = useState<string>('');
+
+  const [cookies, setCookie] = useCookies(['auth']);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -91,6 +96,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
         phone,
         login,
         password,
+        setCookie,
         navigate: goToGame
       }));
     } else {

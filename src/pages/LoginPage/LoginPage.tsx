@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import {
   Box, Button, TextField, Typography
@@ -6,6 +8,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 import { fetchSignIn } from '../../thunks/authentication';
 import Footer from '../../components/footer/Footer';
 import styles from './LoginPage.module.css';
@@ -20,6 +23,8 @@ type LoginProps = {
 const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+
+  const [cookies, setCookie] = useCookies(['auth']);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -47,7 +52,9 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(fetchSignIn({ login, password, navigate: goToGame }));
+    dispatch(fetchSignIn({
+      login, password, setCookie, navigate: goToGame
+    }));
   };
 
   const onLinkClick = () => {

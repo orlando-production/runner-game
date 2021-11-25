@@ -4,7 +4,7 @@ import { FETCH_SIGNUP } from '../../actions/registration';
 import { ErrorType } from '../../api';
 import { registerUser, SignUpParams } from '../../services/Registration';
 
-export type FetchSignUpParams = SignUpParams & {navigate: () => void};
+export type FetchSignUpParams = SignUpParams & {setCookie: (name?: string, value?: string) => void, navigate: () => void};
 
 export const fetchSignUp = createAsyncThunk(
   FETCH_SIGNUP,
@@ -15,6 +15,7 @@ export const fetchSignUp = createAsyncThunk(
     phone,
     login,
     password,
+    setCookie,
     navigate
   }: FetchSignUpParams, { rejectWithValue }) => registerUser({
     first_name,
@@ -25,6 +26,7 @@ export const fetchSignUp = createAsyncThunk(
     password
   })
     .then(() => {
+      setCookie('auth', login);
       navigate();
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))

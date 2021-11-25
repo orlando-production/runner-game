@@ -23,31 +23,15 @@ export function App() {
     <div>
       <Router>
         <Switch>
-          <PrivateRoute path="/" component={MainPage} exact />
-          <Route path="/sign-in">
-            <LoginPage />
-          </Route>
-          <Route path="/game">
-            <GamePage />
-          </Route>
-          <Route path="/sign-up">
-            <SignUpPage />
-          </Route>
-          <Route path="/leaderboard">
-            <LeaderboardPage />
-          </Route>
-          <Route path="/forum" exact>
-            <ForumPage />
-          </Route>
-          <Route path="/forum/:topicId">
-            <ForumTopicPage />
-          </Route>
-          <Route path="/profile">
-            <ProfilePage />
-          </Route>
-          <Route path="/404">
-            <NotFoundPage />
-          </Route>
+          <PrivateRoute path="/" component={MainPage} exact type="private" />
+          <PrivateRoute path="/sign-in" component={LoginPage} type="public" />
+          <PrivateRoute path="/sign-up" component={SignUpPage} type="public" />
+          <PrivateRoute path="/game" component={GamePage} type="private" />
+          <PrivateRoute path="/leaderboard" component={LeaderboardPage} type="private" />
+          <PrivateRoute path="/forum" component={ForumPage} exact type="private" />
+          <PrivateRoute path="/forum/:topicId" component={ForumTopicPage} type="private" />
+          <PrivateRoute path="/profile" component={ProfilePage} type="private" />
+          <Route path="/404" component={NotFoundPage} />
           <Redirect to="/404" />
         </Switch>
       </Router>
