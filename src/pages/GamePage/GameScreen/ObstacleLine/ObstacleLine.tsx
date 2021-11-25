@@ -38,6 +38,8 @@ redPresentImg.src = redPresentImage;
 const bluePresentImg = new Image();
 bluePresentImg.src = bluePresentImage;
 
+const ROAD_HEIGHT = 18;
+
 const obstacles: Obstacle[] = [
   {
     width: 30,
@@ -120,20 +122,15 @@ class ObstacleLine {
   generateObstacle() {
     const rand = Math.round(0 - 0.5 + Math.random() * obstacles.length);
     this._obstacleArray.push({ ...obstacles[rand] });
-    if (
-      this._obstacleArray[this._obstacleArray.length - 1].type
-      === ObstacleTypes.FRIEND
-    ) {
+    const lastObstacle = this._obstacleArray[this._obstacleArray.length - 1];
+    if (lastObstacle.type === ObstacleTypes.FRIEND) {
       const randomHeight = Math.round(0 - 0.5 + Math.random() * (9 - 0 + 1));
-      this._obstacleArray[this._obstacleArray.length - 1].y = randomHeight * 10;
-    } else if (
-      this._obstacleArray[this._obstacleArray.length - 1].type
-      === ObstacleTypes.ENEMY
-    ) {
-      this._obstacleArray[this._obstacleArray.length - 1].y = 0;
+      lastObstacle.y = randomHeight * 10;
+    } else if (lastObstacle.type === ObstacleTypes.ENEMY) {
+      lastObstacle.y = 0;
     }
-    this._obstacleArray[this._obstacleArray.length - 1].x = this._ctx.canvas.width;
-    this._obstacleArray[this._obstacleArray.length - 1].canvX = this._obstacleArray[this._obstacleArray.length - 1].x;
+    lastObstacle.x = this._ctx.canvas.width;
+    lastObstacle.canvX = lastObstacle.x;
     const randTimeout = Math.round(
       1000 - 0.5 + Math.random() * (3000 - 1000 + 1)
     );
@@ -155,7 +152,7 @@ class ObstacleLine {
         this._obstacleArray[i].canvX -= this._speed;
         this._obstacleArray[i].canvY = this._ctx.canvas.height
           - this._obstacleArray[i].y
-          - 18
+          - ROAD_HEIGHT
           - this._obstacleArray[i].height;
       }
     }

@@ -3,6 +3,8 @@ import fireBall from '../../../../assets/fireball.png';
 const fireBallImg = new Image();
 const NUMBER_FIREBALL_COLUMN_FRAMES = 10;
 const NUMBER_FIREBALL_ROW_FRAMES = 4;
+const FIREBALL_IMAGE_WIDTH = 2048;
+const FIREBALL_IMAGE_HEIGHT = 3840;
 fireBallImg.src = fireBall;
 type PlayerOptions = {
   ticksPerFrame: number;
@@ -201,10 +203,12 @@ class Player {
       this._shotPositionY = this._curPositionY - 5;
       this._ctx.drawImage(
         fireBallImg,
-        (this._fireballIndexRow * 2048) / NUMBER_FIREBALL_ROW_FRAMES,
-        this._fireballIndexColumn * 384,
-        2048 / NUMBER_FIREBALL_ROW_FRAMES,
-        3840 / NUMBER_FIREBALL_COLUMN_FRAMES,
+        (this._fireballIndexRow * FIREBALL_IMAGE_WIDTH)
+          / NUMBER_FIREBALL_ROW_FRAMES,
+        this._fireballIndexColumn
+          * (FIREBALL_IMAGE_HEIGHT / NUMBER_FIREBALL_COLUMN_FRAMES),
+        FIREBALL_IMAGE_WIDTH / NUMBER_FIREBALL_ROW_FRAMES,
+        FIREBALL_IMAGE_HEIGHT / NUMBER_FIREBALL_COLUMN_FRAMES,
         this._shotPositionX,
         this._shotPositionY,
         this._shotLength,

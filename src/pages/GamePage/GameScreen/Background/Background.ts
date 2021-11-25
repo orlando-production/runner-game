@@ -9,8 +9,10 @@ type BackgroundOptions = {
   ctx: CanvasRenderingContext2D;
 };
 
+// Максимальное количество снежинок.
 const MAX_PARTICLES = 15;
 
+// Скорость движения.
 const MAX_SPEED = 5;
 
 class Background {
@@ -40,11 +42,11 @@ class Background {
   render() {
     this._ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     this._ctx.beginPath();
-    for (let i = 0; i < MAX_PARTICLES; i += 1) {
-      const p = this._particles[i];
+    this._particles.forEach((p) => {
       this._ctx.moveTo(p.x, p.y);
       this._ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-    }
+    });
+
     this._ctx.fill();
     this.update();
   }
@@ -55,8 +57,8 @@ class Background {
     }
     if (!this._speed) {
       this._angle += 0.01;
-      for (let i = 0; i < MAX_PARTICLES; i += 1) {
-        const p = this._particles[i];
+      this._particles.forEach((particle, i) => {
+        const p = particle;
         p.y += Math.cos(this._angle + p.d) + 1 + p.r / 2;
         p.x += Math.sin(this._angle) * 2;
         if (
@@ -87,7 +89,8 @@ class Background {
             };
           }
         }
-      }
+      });
+
       this._speed += 1;
     } else {
       this._speed += 1;

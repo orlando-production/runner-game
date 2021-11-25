@@ -56,6 +56,12 @@ const GameController = ({
     }
   };
 
+  const keyDownHandler = (e) => {
+    if (e.key === 'Enter') {
+      toggleFullScreen();
+    }
+  };
+
   useEffect(() => {
     let animationId: number;
     if (canvas && canvas.current) {
@@ -67,15 +73,7 @@ const GameController = ({
       playerImage.src = image;
       const backgroundImage = new Image();
       backgroundImage.src = bg;
-      document.addEventListener(
-        'keydown',
-        (e) => {
-          if (e.key === 'Enter') {
-            toggleFullScreen();
-          }
-        },
-        false
-      );
+      document.addEventListener('keydown', keyDownHandler, false);
       const player = new Player({
         ctx: canvas2d,
         image: playerImage,
@@ -165,6 +163,7 @@ const GameController = ({
     return () => {
       window.cancelAnimationFrame(animationId);
       clearTimeout(speedTimeout);
+      document.removeEventListener('keyDown', keyDownHandler);
     };
   }, []);
 

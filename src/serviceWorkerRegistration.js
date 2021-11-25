@@ -4,6 +4,7 @@ export default function registerServiceWorker() {
   if (process.env.NODE_ENV !== 'production') {
     return;
   }
+
   // Check if the serviceWorker Object exists in the navigator object ( means if browser supports SW )
   if ('serviceWorker' in navigator) {
     const wb = new Workbox('sw.js');
