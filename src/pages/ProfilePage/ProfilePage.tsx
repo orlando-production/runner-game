@@ -2,119 +2,77 @@
 import {
   Box, Button, Avatar, TextField, Typography
 } from '@mui/material';
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import type { AxiosError } from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from '@iconify/react';
-import Footer from '../../components/footer/Footer';
+import classNames from 'classnames';
+import { UserResult } from 'services/Profile';
 import styles from './ProfilePage.module.css';
-import { isAllFieldsValid } from '../SignUpPage/checkValidation';
-import { requestGetData, requestPutData } from '../../api';
 import commonStyles from '../../components/common.module.css';
+import Footer from '../../components/footer/Footer';
 
-type InitialFormData = {
-  id: string,
-  first_name: string,
-  second_name: string,
-  email: string,
-  phone: string,
-  login: string,
-  avatar?: string
-};
+import {
+  fetchAvatar, fetchPassword, fetchProfile, fetchUser
+} from '../../thunks/profile';
+import {
+  getAvatarSrc, getUserData, getStatusProfile, getMessagePassword, getStatusPassword
+} from '../../selectors/profile';
+
+import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 
 type Status = 'invisible' | 'error' | 'success';
 
-const initialFormData = {
-  id: '',
-  first_name: '',
-  second_name: '',
-  email: '',
-  phone: '',
-  login: ''
-};
-
 const ProfilePage = () => {
+  const user = useSelector(getUserData);
+  const avatarSrc = useSelector(getAvatarSrc);
+  const statusProfile = useSelector(getStatusProfile);
+  const messagePassword = useSelector(getMessagePassword);
+  const statusPassword = useSelector(getStatusPassword);
+
   const [avatar, setAvatar] = useState<string>();
+
   const [oldPassword, setOldPassword] = useState<string>();
   const [newPassword, setNewPassword] = useState<string>();
-  const [status, setStatus] = useState<Status>('invisible');
-  const [statusPassword, setStatusPassword] = useState<Status>('invisible');
-  const [warningText, setWarningText] = useState<string>('');
-  const [warningTextPassword, setWarningTextPassword] = useState<string>('');
-  const [formData, updateFormData] = useState<InitialFormData>(initialFormData);
+
+  const [statusProfilePage, setStatusProfilePage] = useState<Status>('invisible');
+  const [messageProfilePage, setMessageProfile] = useState<string>('');
+
+  const [statusPasswordPage, setStatusPasswordPage] = useState<Status>('invisible');
+  const [messagePasswordPage, setMessagePasswordPage] = useState<string>('');
+
+  const [formData, setFormData] = useState<UserResult>(user);
+
+  const dispatch = useDispatch();
 
   const handleChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileData = new FormData() as Record<string, any>;
+    // Todo тут хз как сделать без any
+    const fileData = new FormData() as any;
     const file = event.target.files[0];
     fileData.append('avatar', file);
 
     if (file) {
-      requestPutData('user/profile/avatar', fileData)
-        .then((payload: InitialFormData) => {
-          setAvatar(payload.avatar);
-        });
+      dispatch(fetchAvatar(fileData));
     }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormData({
+    setFormData({
       ...formData,
       [event.target.name]: event.target.value.trim()
     });
-    setStatus('invisible');
-  };
-
-  const showWarnings = (reason: AxiosError) => {
-    if (reason?.response?.status === 401) {
-      setStatus('error');
-    }
-  };
-
-  const fetchGetDataUser = () => {
-    requestGetData('auth/user')
-      .then((payload: InitialFormData) => {
-        updateFormData(payload);
-        setAvatar(payload.avatar);
-      })
-      .catch(showWarnings);
-  };
-
-  const fetchDataSave = ({
-    first_name, second_name, email, phone, login
-  }: InitialFormData) => {
-    requestPutData('user/profile', ({
-      first_name, second_name, email, phone, display_name: login, login
-    }))
-      .then(() => {
-        setStatus('success');
-        setWarningText('Данные сохранены');
-      })
-      .catch(showWarnings);
   };
 
   const handleOldPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOldPassword(event.target.value);
-    setStatusPassword('invisible');
   };
 
   const handleNewPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(event.target.value);
-    setStatusPassword('invisible');
   };
 
   const handleSubmitPasswords = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    requestPutData('user/password', { oldPassword, newPassword })
-      .then(() => {
-        setStatusPassword('success');
-        setWarningTextPassword('Пароль сохранен');
-      })
-      .catch((err) => {
-        const { reason } = err?.response?.data || {};
-        setStatusPassword('error');
-        setWarningTextPassword(reason);
-      });
+    dispatch(fetchPassword({ oldPassword, newPassword }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -123,7 +81,7 @@ const ProfilePage = () => {
     const data = new FormData(event.currentTarget);
     /* eslint-disable-next-line */
     for (const [key, value] of data.entries()) {
-      updateFormData({
+      setFormData({
         ...formData,
         [key]: value
       });
@@ -138,16 +96,25 @@ const ProfilePage = () => {
     });
 
     if (isValid) {
-      fetchDataSave(formData);
+      dispatch(fetchProfile(formData));
     } else {
-      setStatus('error');
-      setWarningText(warning);
+      setStatusProfilePage('error');
+      setMessageProfile(warning);
     }
   };
 
   useEffect(() => {
-    fetchGetDataUser();
-  }, []);
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  // Todo неуверен, что это правильно
+  useEffect(() => {
+    setFormData(user);
+    setAvatar(avatarSrc);
+    setStatusProfilePage(statusProfile);
+    setStatusPasswordPage(statusPassword);
+    setMessagePasswordPage(messagePassword);
+  }, [user, avatarSrc, statusProfile, statusPassword, messagePassword]);
 
   return (
     <div className={commonStyles.page}>
@@ -156,7 +123,7 @@ const ProfilePage = () => {
           <div className={styles['profile-avatar']}>
             <Avatar
               sx={{ width: 156, height: 156 }}
-              src={`http://ya-praktikum.tech/api/v2/resources${avatar}`}
+              src={avatar && `http://ya-praktikum.tech/api/v2/resources${avatar}`}
             />
           </div>
           <div className={styles['profile-upload']}>
@@ -258,13 +225,12 @@ const ProfilePage = () => {
             <div
               className={classNames(
                 {
-                  [commonStyles['success-message']]: status === 'success',
-                  [commonStyles['invisible-message']]: status === 'invisible',
-                  [commonStyles['warning-message']]: status === 'error'
+                  [commonStyles['invisible-message']]: statusProfilePage === 'invisible',
+                  [commonStyles['warning-message']]: statusProfilePage === 'error'
                 }
               )}
             >
-              {warningText}
+              {messageProfilePage}
             </div>
             <Button
               type="submit"
@@ -304,13 +270,12 @@ const ProfilePage = () => {
             <div
               className={classNames(
                 {
-                  [commonStyles['success-message']]: statusPassword === 'success',
-                  [commonStyles['invisible-message']]: statusPassword === 'invisible',
-                  [commonStyles['warning-message']]: statusPassword === 'error'
+                  [commonStyles['invisible-message']]: statusPasswordPage === 'invisible',
+                  [commonStyles['warning-message']]: statusPasswordPage === 'error'
                 }
               )}
             >
-              {warningTextPassword}
+              {messagePasswordPage}
             </div>
             <Button
               type="submit"
