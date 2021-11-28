@@ -2,6 +2,8 @@ import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
 
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 const config: Configuration = {
   mode: 'production',
   output: {
@@ -59,6 +61,10 @@ const config: Configuration = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new WorkboxPlugin.InjectManifest({
+      swSrc: './src/src-sw.js',
+      swDest: 'sw.js'
+    }),
     new HtmlWebpackPlugin({
       template: 'static/index.html'
     }),

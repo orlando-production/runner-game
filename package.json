@@ -10,6 +10,8 @@
     "build": "webpack build --config webpack.prod.config.ts",
     "test": "jest",
     "prepare": "husky install",
+    "prod": "NODE_ENV=production webpack --mode=production --config webpack.prod.config.ts",
+    "serve": "npm run prod && serve -s dist",
     "linter": "eslint . --ext js,jsx,ts,tsx",
     "linter:fix": "eslint . --ext js,jsx,ts,tsx --fix",
     "check:ts": "tsc --noEmit"
@@ -90,6 +92,8 @@
     "classnames": "2.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "serviceworker-webpack-plugin": "1.0.1",
+    "workbox-webpack-plugin": "6.4.1",
     "react-redux": "7.2.6",
     "redux": "4.1.2",
     "react-error-boundary": "3.1.4",
