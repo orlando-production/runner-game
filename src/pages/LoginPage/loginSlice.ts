@@ -6,30 +6,23 @@ import { ErrorType } from '../../api';
 
 export type Authentication = {
     authStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
-    isAuthenticated?: boolean;
     error?: ErrorType,
   };
 
 const initialState: Authentication = {
-  authStatus: 'idle',
-  isAuthenticated: false
+  authStatus: 'idle'
 };
 
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
-  reducers: {
-    setAuthentication: (state) => {
-      state.isAuthenticated = true;
-    }
-  },
+  reducers: {},
   extraReducers: {
     [FETCH_SIGNIN_PENDING]: (state) => {
       state.authStatus = 'loading';
     },
     [FETCH_SIGNIN_FILFILLED]: (state) => {
       state.authStatus = 'succeeded';
-      state.isAuthenticated = true;
     },
     [FETCH_SIGNIN_REJECTED]: (state, action) => {
       state.authStatus = 'failed';
@@ -37,7 +30,5 @@ export const authenticationSlice = createSlice({
     }
   }
 });
-
-export const { setAuthentication } = authenticationSlice.actions;
 
 export const authenticationReducer = authenticationSlice.reducer;
