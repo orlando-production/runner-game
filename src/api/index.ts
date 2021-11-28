@@ -15,23 +15,16 @@ export const ENDPOINTS = {
   AVATAR: 'user/profile/avatar',
   USER: 'auth/user',
   PROFILE: 'user/profile',
-  PASSWORD: 'user/password'
+  PASSWORD: 'user/password',
+  LEADERBOARD: 'leaderboard'
 } as const;
 
 type Endpoint = typeof ENDPOINTS[keyof typeof ENDPOINTS];
 
 export type ErrorType = AxiosError;
 
-export const requestPostData = <P, R>(
-  url: Endpoint,
-  params: P
-) => API.post<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);
+export const requestPostData = <P, R>(url: Endpoint, params: P) => API.post<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);
 
-export const requestGetData = <R>(
-  url: Endpoint
-) => API.get<R>(url).then(({ data }) => data);
+export const requestGetData = <R>(url: Endpoint) => API.get<R>(url).then(({ data }) => data);
 
-export const requestPutData = <P, R>(
-  url: Endpoint,
-  params: P
-) => API.put<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);
+export const requestPutData = <P, R>(url: Endpoint, params: P) => API.put<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);

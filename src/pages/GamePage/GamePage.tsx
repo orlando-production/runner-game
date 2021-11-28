@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 import Footer from '../../components/footer';
 import FinishScreen from './FinishScreen';
 import GameScreen from './GameScreen';
@@ -50,9 +51,12 @@ const GamePage = () => {
   };
 
   return (
-    <div className={commonStyles.page}>
+    <div className={classNames(commonStyles.page, classes['game-page'])}>
       <div
-        className={commonStyles.container}
+        className={classNames(
+          commonStyles.container,
+          classes['game-page__background']
+        )}
         style={{ backgroundImage: `url(${background})` }}
       >
         <>{renderMainContent(gameState)}</>

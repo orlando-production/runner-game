@@ -11,7 +11,11 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
+import {
+  StaleWhileRevalidate,
+  CacheFirst,
+  NetworkFirst
+} from 'workbox-strategies';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 
 clientsClaim();
@@ -29,6 +33,22 @@ self.skipWaiting();
  * even if you decide not to use precaching. See https://cra.link/PWA
  */
 precacheAndRoute(self.__WB_MANIFEST);
+
+// Кэшируем страницы (`HTML`) с помощью стратегии `Network First` (сначала сеть)
+registerRoute(
+  // проверяем, что запрос - это переход на новую страницу
+  ({ request }) => request.mode === 'navigate',
+  new NetworkFirst({
+    // помещаем все файлы в кэш с названием 'pages'
+    cacheName: 'pages',
+    plugins: [
+      // кэшируем только результаты со статусом 200
+      new CacheableResponsePlugin({
+        statuses: [200]
+      })
+    ]
+  })
+);
 
 // Cache the Google Fonts stylesheets with a stale-while-revalidate strategy.
 // @see https://developers.google.com/web/tools/workbox/guides/common-recipes#google_fonts

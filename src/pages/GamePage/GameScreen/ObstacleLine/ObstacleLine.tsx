@@ -111,30 +111,44 @@ class ObstacleLine {
   // Случайный интервал, на котором создаются препятствия.
   _timeout: ReturnType<typeof setTimeout>;
 
+  _isPause: boolean;
+
   constructor({ ctx, speed }: ObstacleLineOptions) {
     this._ctx = ctx;
     this._obstacleArray = [];
+    this._isPause = false;
     this._speed = speed;
     this._timeout = setTimeout(this.generateObstacle.bind(this), 3000);
   }
 
   // Добавление случайного препятствия.
   generateObstacle() {
-    const rand = Math.round(0 - 0.5 + Math.random() * obstacles.length);
-    this._obstacleArray.push({ ...obstacles[rand] });
-    const lastObstacle = this._obstacleArray[this._obstacleArray.length - 1];
-    if (lastObstacle.type === ObstacleTypes.FRIEND) {
-      const randomHeight = Math.round(0 - 0.5 + Math.random() * (9 - 0 + 1));
-      lastObstacle.y = randomHeight * 10;
-    } else if (lastObstacle.type === ObstacleTypes.ENEMY) {
-      lastObstacle.y = 0;
+    if (!this._isPause) {
+      const rand = Math.round(0 - 0.5 + Math.random() * obstacles.length);
+      this._obstacleArray.push({ ...obstacles[rand] });
+      const lastObstacle = this._obstacleArray[this._obstacleArray.length - 1];
+      if (lastObstacle.type === ObstacleTypes.FRIEND) {
+        const randomHeight = Math.round(0 - 0.5 + Math.random() * (9 - 0 + 1));
+        lastObstacle.y = randomHeight * 10;
+      } else if (lastObstacle.type === ObstacleTypes.ENEMY) {
+        lastObstacle.y = 0;
+      }
+      lastObstacle.x = this._ctx.canvas.width;
+      lastObstacle.canvX = lastObstacle.x;
+      const randTimeout = Math.round(
+        1000 - 0.5 + Math.random() * (3000 - 1000 + 1)
+      );
+      this._timeout = setTimeout(this.generateObstacle.bind(this), randTimeout);
     }
-    lastObstacle.x = this._ctx.canvas.width;
-    lastObstacle.canvX = lastObstacle.x;
-    const randTimeout = Math.round(
-      1000 - 0.5 + Math.random() * (3000 - 1000 + 1)
-    );
-    this._timeout = setTimeout(this.generateObstacle.bind(this), randTimeout);
+  }
+
+  public set isPause(value: boolean) {
+    if (value) {
+      this._isPause = true;
+    } else {
+      this._isPause = false;
+      this.generateObstacle();
+    }
   }
 
   // Удаление первого препятствия.

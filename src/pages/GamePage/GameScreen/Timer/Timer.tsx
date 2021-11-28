@@ -6,6 +6,7 @@ import classes from './Timer.module.css';
 
 export type TimerType = {
   startTimer: () => void;
+  stopTimer: () => void;
 };
 
 /**
@@ -25,6 +26,9 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
   useImperativeHandle(ref, () => ({
     startTimer() {
       start();
+    },
+    stopTimer() {
+      clearInterval(currentInterval);
     }
   }));
   const formatTime = (seconds: number): string => {
@@ -34,12 +38,7 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
       secs < 10 ? `0${secs}` : secs
     }`;
   };
-  useEffect(
-    () => function clear() {
-      clearTimeout(currentInterval);
-    },
-    []
-  );
+  useEffect(() => clearTimeout(currentInterval), []);
 
   return (
     <div className={classes.timer}>
@@ -48,7 +47,9 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
         alt="coldWater"
         className={classes['timer__cold-water-img']}
       />
-      <span className={classes['timer__time-text']}>{formatTime(currentTime)}</span>
+      <span className={classes['timer__time-text']}>
+        {formatTime(currentTime)}
+      </span>
     </div>
   );
 };
