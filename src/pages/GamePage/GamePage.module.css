@@ -1,0 +1,28 @@
+.game-page__tree-image {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  right: 0;
+  bottom: 100px;
+}
+
+.game-page__snow-drift-image {
+  position: absolute;
+  bottom: 80px;
+  height: 60px;
+  width: 100%;
+}
+
+.game-page__snow-man-image {
+  position: absolute;
+  left: 20px;
+  bottom: 80px;
+  height: 200px;
+}
+
+.game-page__sign-image {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  cursor: pointer;
+}
