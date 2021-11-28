@@ -8,23 +8,28 @@ import {
 
 export const fetchAvatar = createAsyncThunk(
   FETCH_AVATAR,
-  (FormData: AvatarParams, { rejectWithValue }) => setAvatar(FormData)
+  (
+    FormData: AvatarParams,
+    { rejectWithValue }
+  ) => setAvatar(FormData)
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
 
 export const fetchProfile = createAsyncThunk(
   FETCH_USER,
-  ({
-    first_name, second_name, email, phone, display_name, login
-  }: UserResult, { rejectWithValue }) => setUserData({
-    first_name, second_name, email, phone, display_name, login
-  })
+  (
+    userResult: UserResult,
+    { rejectWithValue }
+  ) => setUserData(userResult)
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
 
 export const fetchPassword = createAsyncThunk(
   FETCH_PASSWORD,
-  ({ newPassword, oldPassword }: PasswordParams, { rejectWithValue }) => setPassword({ newPassword, oldPassword })
+  (
+    passwordParams: PasswordParams,
+    { rejectWithValue }
+  ) => setPassword(passwordParams)
     .catch((err: ErrorType) => rejectWithValue(err?.response?.data?.reason))
 );
 

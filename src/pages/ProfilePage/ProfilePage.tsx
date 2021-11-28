@@ -45,7 +45,6 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
 
   const handleChangeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Todo тут хз как сделать без any
     const fileData = new FormData() as any;
     const file = event.target.files[0];
     fileData.append('avatar', file);
@@ -107,7 +106,6 @@ const ProfilePage = () => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  // Todo неуверен, что это правильно
   useEffect(() => {
     setFormData(user);
     setAvatar(avatarSrc);
