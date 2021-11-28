@@ -1,9 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { authenticationReducer } from './pages/LoginPage/loginSlice';
+import { userReducer } from './pages/ProfilePage/userSlice';
 
 export const store = configureStore({
   reducer: {
-    authentication: authenticationReducer
+    authentication: authenticationReducer,
+    user: userReducer,
+    statusProfile: userReducer,
+    statusPassword: userReducer,
+    messagePassword: userReducer
   }
 });
 
