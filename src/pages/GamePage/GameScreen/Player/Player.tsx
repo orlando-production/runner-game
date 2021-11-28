@@ -1,3 +1,11 @@
+import fireBall from '../../../../assets/fireball.png';
+
+const fireBallImg = new Image();
+const NUMBER_FIREBALL_COLUMN_FRAMES = 10;
+const NUMBER_FIREBALL_ROW_FRAMES = 4;
+const FIREBALL_IMAGE_WIDTH = 2048;
+const FIREBALL_IMAGE_HEIGHT = 3840;
+fireBallImg.src = fireBall;
 type PlayerOptions = {
   ticksPerFrame: number;
   numberOfFrames: number;
@@ -5,14 +13,16 @@ type PlayerOptions = {
   height: number;
   image: HTMLImageElement;
   ctx: CanvasRenderingContext2D;
-}
+  startPositionX: number;
+  startPositionY: number;
+};
 
 type Position = {
   x: number;
   y: number;
   width: number;
   height: number;
-}
+};
 
 // Коэффициент свободного падения.
 const g = 9.8;
@@ -72,29 +82,44 @@ class Player {
   // Сила прыжка.
   _jumpSpeed: number;
 
+  _fireballIndexRow: number;
+
+  _fireballIndexColumn: number;
+
+  _shotHeight: number;
+
+  _shotPositionX: number;
+
+  _shotPositionY: number;
+
   constructor({
     ticksPerFrame,
     numberOfFrames,
     width,
     height,
     image,
-    ctx
+    ctx,
+    startPositionX,
+    startPositionY
   }: PlayerOptions) {
     this._ctx = ctx;
     this._image = image;
     this._frameIndex = 0;
     this._tickCount = 0;
-    this._startPositionX = 0;
-    this._startPositionY = this._ctx.canvas.height - height;
+    this._startPositionX = startPositionX || 0;
+    this._startPositionY = startPositionY || 0;
     this._curPositionX = this._startPositionX;
     this._curPositionY = this._startPositionY;
     this._ticksPerFrame = ticksPerFrame || 0;
     this._numberOfFrames = numberOfFrames || 1;
     this._jumpTime = 0;
-    this._shotLength = 30;
+    this._shotLength = 80;
+    this._shotHeight = 65;
     this._jumpSpeed = 50;
     this._width = width;
     this._height = height;
+    this._fireballIndexRow = 0;
+    this._fireballIndexColumn = 0;
 
     window.addEventListener('keypress', (e) => {
       if (e.code === 'Space') {
@@ -109,6 +134,7 @@ class Player {
   // Пересчет координат для отрисовки.
   update() {
     if (!this._isJumped) {
+      this._curPositionY = this._ctx.canvas.height - this._startPositionY - this._height;
       this._tickCount += 1;
       if (this._tickCount > this._ticksPerFrame) {
         this._tickCount = 0;
@@ -123,11 +149,31 @@ class Player {
       if (curY < 0) {
         this._isJumped = false;
         this._jumpTime = 0;
-        this._curPositionY = this._startPositionY;
+        this._curPositionY = this._ctx.canvas.height - this._startPositionY - this._height;
         return;
       }
-      this._curPositionY = this._startPositionY - curY;
+      this._curPositionY = this._ctx.canvas.height - this._startPositionY - curY - this._height;
       this._jumpTime += 0.1;
+    }
+    if (this._isShot) {
+      if (
+        this._fireballIndexRow + 1 === NUMBER_FIREBALL_ROW_FRAMES
+        && this._fireballIndexColumn + 1 === NUMBER_FIREBALL_COLUMN_FRAMES
+      ) {
+        this._isShot = false;
+        this._fireballIndexRow = 0;
+        this._fireballIndexColumn = 0;
+      }
+      if (this._fireballIndexColumn + 1 === NUMBER_FIREBALL_COLUMN_FRAMES) {
+        this._fireballIndexColumn = 0;
+      } else {
+        this._fireballIndexColumn += 1;
+      }
+      if (this._fireballIndexRow + 1 === NUMBER_FIREBALL_ROW_FRAMES) {
+        this._fireballIndexRow = 0;
+      } else {
+        this._fireballIndexRow += 1;
+      }
     }
   }
 
@@ -141,12 +187,6 @@ class Player {
 
   // Функция отрисовки.
   render() {
-    this._ctx.clearRect(
-      this._curPositionX,
-      this._curPositionY,
-      this._width / this._numberOfFrames,
-      this._height
-    );
     this._ctx.drawImage(
       this._image,
       (this._frameIndex * this._width) / this._numberOfFrames,
@@ -159,16 +199,21 @@ class Player {
       this._height
     );
     if (this._isShot) {
-      this._ctx.beginPath();
-      this._ctx.fillStyle = 'red';
-      this._ctx.fillRect(
-        this._curPositionX + this._width / this._numberOfFrames,
-        this._curPositionY + this._height / 2,
+      this._shotPositionX = this._curPositionX + this._width / this._numberOfFrames / 2;
+      this._shotPositionY = this._curPositionY - 5;
+      this._ctx.drawImage(
+        fireBallImg,
+        (this._fireballIndexRow * FIREBALL_IMAGE_WIDTH)
+          / NUMBER_FIREBALL_ROW_FRAMES,
+        this._fireballIndexColumn
+          * (FIREBALL_IMAGE_HEIGHT / NUMBER_FIREBALL_COLUMN_FRAMES),
+        FIREBALL_IMAGE_WIDTH / NUMBER_FIREBALL_ROW_FRAMES,
+        FIREBALL_IMAGE_HEIGHT / NUMBER_FIREBALL_COLUMN_FRAMES,
+        this._shotPositionX,
+        this._shotPositionY,
         this._shotLength,
-        20
+        this._shotHeight
       );
-      this._ctx.fillStyle = 'black';
-      this._ctx.closePath();
     }
   }
 
@@ -185,16 +230,25 @@ class Player {
     return this._shotLength;
   }
 
+  public get shotHeight(): number {
+    return this._shotHeight;
+  }
+
   public get ticksPerFrame(): number {
     return this._ticksPerFrame;
+  }
+
+  public get shotPositionX(): number {
+    return this._shotPositionX;
+  }
+
+  public get shotPositionY(): number {
+    return this._shotPositionY;
   }
 
   // Добавляет состояние удара.
   shoot() {
     this._isShot = true;
-    setTimeout(() => {
-      this._isShot = false;
-    }, 500);
   }
 }
 

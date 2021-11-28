@@ -1,0 +1,19 @@
+.finish-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.finish-screen__results {
+  padding: 10px 10px;
+  width: 350px;
+  text-align: center;
+  background: aliceblue;
+  border: 2px solid white;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.finish-screen__rating-button {
+  margin-top: 20px;
+}

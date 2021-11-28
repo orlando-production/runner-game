@@ -15,7 +15,7 @@ const StartScreen = ({ setGameState }: StartScreenProps) => (
       setGameState(GameStates.Proccessed);
     }}
     variant="contained"
-    color="success"
+    size="large"
   >
     Старт!
   </Button>
