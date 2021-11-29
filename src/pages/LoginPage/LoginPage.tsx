@@ -5,7 +5,7 @@ import {
   Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
@@ -23,7 +23,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const [cookies, setCookie] = useCookies(['auth']);
+  const [, setCookie] = useCookies(['auth']);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -54,10 +54,6 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     dispatch(fetchSignIn({
       login, password, setCookie, navigate: goToGame
     }));
-  };
-
-  const onLinkClick = () => {
-    history.push('/sign-up');
   };
 
   return (
@@ -124,8 +120,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             <Button
               type="button"
               variant="text"
-              className={styles['login-sign-up-link']}
-              onClick={onLinkClick}
+              component={Link}
+              to="/sign-up"
             >
               {resources.signUp}
             </Button>
