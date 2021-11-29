@@ -88,8 +88,8 @@ const GameController = ({
       );
       backgroundInstRef.current.update();
       backgroundInstRef.current.render();
-      // obstacleLineInstRef.current.update();
-      // obstacleLineInstRef.current.render();
+      obstacleLineInstRef.current.update();
+      obstacleLineInstRef.current.render();
       playerInstRef.current.update();
       playerInstRef.current.render();
       const [firstObstacle] = obstacleLineInstRef.current.obstacles;
