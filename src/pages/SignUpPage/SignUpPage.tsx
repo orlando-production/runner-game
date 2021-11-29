@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import commonStyles from '../../components/common.module.css';
 import Footer from '../../components/footer/Footer';
-import { ErrorType } from '../../api';
 import styles from './SignUpPage.module.css';
 import { isAllFieldsValid } from './checkValidation';
 import { fetchSignUp } from '../../thunks/registration';
@@ -35,7 +34,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const requestError = useSelector<ErrorType>(getRegistrationError);
+  const requestError = useSelector(getRegistrationError);
 
   const resources = {
     firstName: 'First Name',

@@ -13,7 +13,6 @@ import { fetchSignIn } from '../../thunks/authentication';
 import Footer from '../../components/footer/Footer';
 import styles from './LoginPage.module.css';
 import commonStyles from '../../components/common.module.css';
-import { ErrorType } from '../../api';
 import { getAuthError } from '../../selectors/authentication';
 
 type LoginProps = {
@@ -28,7 +27,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const error = useSelector<ErrorType>(getAuthError);
+  const error = useSelector(getAuthError);
 
   const resources = {
     login: 'Login',
