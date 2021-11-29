@@ -1,16 +1,45 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import type { Cookies } from 'react-cookie';
+import { withCookies } from 'react-cookie';
+import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { RootState } from 'store';
+
+type RouteType = 'private' | 'public';
 
 type PrivateRouteProps = {
-    component: React.FunctionComponent;
-    path: string;
-    exact: boolean;
+    component?: React.FunctionComponent<any>;
+    path?: string;
+    exact?: boolean;
+    type?: RouteType;
+    isAuthenticated?: boolean;
+    cookies?: Cookies;
 }
 
-const PrivateRoute = ({ path, exact, component }: PrivateRouteProps) => {
-  /* todo пока заглушку оставил */
-  const isAuth = true;
-  return isAuth ? (<Route path={path} exact={exact} component={component} />)
-    : (<Redirect to="/sign-in" />);
+const PrivateRoute = (props: PrivateRouteProps) => {
+  const { type, cookies, isAuthenticated } = props;
+  // eslint-disable-next-line react/destructuring-assignment
+  let isAuth = isAuthenticated;
+
+  const allCookies = cookies.getAll();
+  if (allCookies?.auth) {
+    isAuth = true;
+  }
+
+  if (type === 'public' && isAuth) {
+    return <Redirect to="/game" />;
+  } if (type === 'private' && !isAuth) {
+    return <Redirect to="/sign-in" />;
+  }
+  return <Route {...props} />;
 };
-export default PrivateRoute;
+
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.authentication.isAuthenticated
+});
+const Connected = connect(mapStateToProps)(PrivateRoute);
+
+const WithCookies = withCookies(Connected);
+
+export default WithCookies;

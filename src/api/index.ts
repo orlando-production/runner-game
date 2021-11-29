@@ -12,6 +12,7 @@ const API = axios.create({
 export const ENDPOINTS = {
   SIGNIN: 'auth/signin',
   SIGNUP: 'auth/signup',
+  LOGOUT: 'auth/logout',
   AVATAR: 'user/profile/avatar',
   USER: 'auth/user',
   PROFILE: 'user/profile',
@@ -24,7 +25,7 @@ export type ErrorType = AxiosError;
 
 export const requestPostData = <P, R>(
   url: Endpoint,
-  params: P
+  params?: P
 ) => API.post<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);
 
 export const requestGetData = <R>(

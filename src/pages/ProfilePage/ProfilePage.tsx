@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import {
   Box, Button, Avatar, TextField, Typography
@@ -5,11 +7,14 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from '@iconify/react';
+import { useHistory } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
+import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
-import Footer from '../../components/footer/Footer';
+import { fetchLogout } from '../../thunks/logout';
 
 import {
   fetchAvatar, fetchPassword, fetchProfile, fetchUser
@@ -41,6 +46,9 @@ const ProfilePage = () => {
   const [messagePasswordPage, setMessagePasswordPage] = useState<string>('');
 
   const [formData, setFormData] = useState<UserResult>(user);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['auth']);
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -100,6 +108,16 @@ const ProfilePage = () => {
       setStatusProfilePage('error');
       setMessageProfile(warning);
     }
+  };
+
+  const gotToSignIn = () => {
+    history.push('/sign-in');
+  };
+
+  const onLogoutClick = () => {
+    dispatch(fetchLogout({
+      removeCookie, navigate: gotToSignIn
+    }));
   };
 
   useEffect(() => {
@@ -285,6 +303,16 @@ const ProfilePage = () => {
               Save Password
             </Button>
           </Box>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={onLogoutClick}
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Logout
+          </Button>
         </Box>
         <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
           <div className={styles['profile-scores_left']}>
