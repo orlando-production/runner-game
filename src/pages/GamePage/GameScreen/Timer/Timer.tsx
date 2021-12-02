@@ -41,7 +41,7 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
   useEffect(() => clearTimeout(currentInterval), []);
 
   return (
-    <div className={classes.timer}>
+    <div className={classes.timer} aria-label="таймер">
       <img
         src={garland}
         alt="coldWater"

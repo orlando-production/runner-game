@@ -32,6 +32,7 @@ const GameScreen = ({
   const timerEl = useRef();
   const [isPause, setPause] = useState<boolean>(false);
   const firstUpdate = useRef(true);
+
   const addPoints = (pointsNumber: number) => {
     setPoints((prev: number) => prev + pointsNumber);
   };
@@ -72,7 +73,7 @@ const GameScreen = ({
     <div className={classes['game-screen']}>
       <div className={classes['game-screen__header']}>
         <WithRefForwardTimer ref={timerEl} />
-        <div className={classes['game-screen__points']}>
+        <div className={classes['game-screen__points']} aria-label="подарки">
           {points}
           <img
             alt="present"

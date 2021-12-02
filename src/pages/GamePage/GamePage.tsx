@@ -10,6 +10,7 @@ import snowDrift from '../../assets/snowdrift.png';
 import commonStyles from '../../components/common.module.css';
 import snowMan from '../../assets/SnowMan.png';
 import sign from '../../assets/Sign.png';
+import HelpPopup from './HelpPopup/HelpPopup';
 
 // eslint-disable-next-line no-shadow
 export enum GameStates {
@@ -22,6 +23,16 @@ const GamePage = () => {
   const [gameState, setGameState] = useState<GameStates>(GameStates.NotStarted);
   const [isFooterVisible, setFooterVisible] = useState<boolean>(true);
   const [points, setPoints] = useState(0);
+  const [openenedHelpPopup, setOpenedHelpPopup] = useState<boolean>(false);
+
+  const handleClickOpen = () => {
+    setOpenedHelpPopup(true);
+  };
+
+  const handleClose = () => {
+    setOpenedHelpPopup(false);
+  };
+
   useEffect(() => {
     if (gameState === 1) {
       setPoints(0);
@@ -74,12 +85,15 @@ const GamePage = () => {
               alt="snowMan"
               className={classes['game-page__snow-man-image']}
             />
-            <img
-              alt="sign"
-              src={sign}
-              className={classes['game-page__sign-image']}
-            />
+            <button onClick={handleClickOpen} type="button">
+              <img
+                alt="sign"
+                src={sign}
+                className={classes['game-page__sign-image']}
+              />
+            </button>
           </div>
+          <HelpPopup open={openenedHelpPopup} onClose={handleClose} />
           <Footer />
         </>
       )}

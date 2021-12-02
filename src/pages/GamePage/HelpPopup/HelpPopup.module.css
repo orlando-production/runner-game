@@ -1,0 +1,34 @@
+.help-popup__content {
+  padding: 5px 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  line-height: 22px;
+}
+
+.help-popup__control-keys {
+  display: flex;
+  flex-direction: column;
+}
+
+.help-popup__control-keys-line {
+  display: flex;
+  align-items: baseline;
+  margin-top: 10px;
+}
+
+.help-popup__control-key {
+  width: fit-content;
+  border: 2px solid;
+  padding: 5px 5px;
+  font-weight: bold;
+}
+
+.help-popup__control-key-discription {
+  margin-left: 7px;
+}
+
+.help-popup__santa-image {
+  width: 25px;
+  height: 25px;
+}
