@@ -6,6 +6,8 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import LoginPage from 'pages/LoginPage';
 import ForumPage from 'pages/ForumPage';
+import { connect } from 'react-redux';
+import { withCookies } from 'react-cookie';
 import { PrivateRoute } from '../PrivateRoute';
 
 describe('PrivateRoute', () => {
@@ -13,9 +15,16 @@ describe('PrivateRoute', () => {
     it('если пользователь авторизован', async () => {
       const history = createMemoryHistory({ initialEntries: ['/sign-in'] });
 
+      const mapStateToProps = () => ({
+        isAuthenticated: true
+      });
+      const Connected = connect(mapStateToProps)(PrivateRoute);
+
+      const RouteWithCookies = withCookies(Connected);
+
       render(
         <Router history={history}>
-          <PrivateRoute path="/sign-in" component={LoginPage} type="public" isAuthenticated />
+          <RouteWithCookies path="/sign-in" component={LoginPage} type="public" />
         </Router>
       );
 
@@ -27,9 +36,16 @@ describe('PrivateRoute', () => {
     it('если пользователь не авторизован', async () => {
       const history = createMemoryHistory({ initialEntries: ['/forum'] });
 
+      const mapStateToProps = () => ({
+        isAuthenticated: false
+      });
+      const Connected = connect(mapStateToProps)(PrivateRoute);
+
+      const RouteWithCookies = withCookies(Connected);
+
       render(
         <Router history={history}>
-          <PrivateRoute path="/forum" component={ForumPage} exact type="private" isAuthenticated={false} />
+          <RouteWithCookies path="/forum" component={ForumPage} exact type="private" />
         </Router>
       );
 
