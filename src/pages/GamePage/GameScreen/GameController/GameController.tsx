@@ -217,7 +217,7 @@ const GameController = ({
           isPause ? classes['game-controller__canvas_pause'] : ''
         )}
         ref={canvas}
-        id="canvas"
+        data-testid="canvas"
       />
     </>
   );
