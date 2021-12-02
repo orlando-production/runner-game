@@ -33,12 +33,12 @@ describe('Процесс игры', () => {
   });
 
   it('На экране есть таймер', () => {
-    const timer = screen.getByTestId('timer');
+    const timer = screen.getByLabelText('таймер');
     expect(timer).toBeInTheDocument();
   });
 
   it('На экране отображается количество очков игрока', () => {
-    const points = screen.getByTestId('points');
+    const points = screen.getByLabelText('подарки');
     expect(points).toBeInTheDocument();
   });
 

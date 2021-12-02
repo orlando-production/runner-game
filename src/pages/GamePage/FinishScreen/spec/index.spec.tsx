@@ -32,7 +32,7 @@ describe('Финиш игры', () => {
 
   it('На экране отображаются результаты оконченной игры с собранным количеством подарков', () => {
     const finalText = screen.getByText(
-      new RegExp(`Ты помог дедушке собрать ${points} подарков`)
+      new RegExp(`Ты помог дедушке собрать ${points} подарков`, 'i')
     );
     expect(finalText).toBeInTheDocument();
   });

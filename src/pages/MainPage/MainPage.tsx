@@ -54,7 +54,7 @@ const MainPage = () => {
             variant="body1"
             mb={3}
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Запасайся мандаринками и скорей иди помогать Санте!
           </Typography>
           <Button
             onClick={onLinkClickGame}
