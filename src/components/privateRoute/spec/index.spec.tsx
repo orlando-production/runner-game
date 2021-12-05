@@ -6,26 +6,34 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import LoginPage from 'pages/LoginPage';
 import ForumPage from 'pages/ForumPage';
-import { connect } from 'react-redux';
-import { withCookies } from 'react-cookie';
-import { PrivateRoute } from '../PrivateRoute';
+import type { Authentication } from 'pages/LoginPage/loginSlice';
+import type { Registration } from 'pages/SignUpPage/registrationSlice';
+import type { Logout } from 'pages/ProfilePage/logoutSlice';
+import type { User } from 'pages/ProfilePage/userSlice';
+import PrivateRoute from '../PrivateRoute';
 
 describe('PrivateRoute', () => {
   describe('со страницы логина производим редирект на страницу игры', () => {
     it('если пользователь авторизован', async () => {
       const history = createMemoryHistory({ initialEntries: ['/sign-in'] });
 
-      const mapStateToProps = () => ({
-        isAuthenticated: true
-      });
-      const Connected = connect(mapStateToProps)(PrivateRoute);
-
-      const RouteWithCookies = withCookies(Connected);
+      const preloadedState = {
+        authentication: {
+          isAuthenticated: true
+        } as Authentication,
+        registration: {} as Registration,
+        logout: {} as Logout,
+        user: {} as User,
+        statusProfile: {} as User,
+        statusPassword: {} as User,
+        messagePassword: {} as User
+      };
 
       render(
         <Router history={history}>
-          <RouteWithCookies path="/sign-in" component={LoginPage} type="public" />
-        </Router>
+          <PrivateRoute path="/sign-in" component={LoginPage} type="public" />
+        </Router>,
+        { preloadedState }
       );
 
       expect(history.location.pathname).toBe('/game');
@@ -36,17 +44,23 @@ describe('PrivateRoute', () => {
     it('если пользователь не авторизован', async () => {
       const history = createMemoryHistory({ initialEntries: ['/forum'] });
 
-      const mapStateToProps = () => ({
-        isAuthenticated: false
-      });
-      const Connected = connect(mapStateToProps)(PrivateRoute);
-
-      const RouteWithCookies = withCookies(Connected);
+      const preloadedState = {
+        authentication: {
+          isAuthenticated: false
+        } as Authentication,
+        registration: {} as Registration,
+        logout: {} as Logout,
+        user: {} as User,
+        statusProfile: {} as User,
+        statusPassword: {} as User,
+        messagePassword: {} as User
+      };
 
       render(
         <Router history={history}>
-          <RouteWithCookies path="/forum" component={ForumPage} exact type="private" />
-        </Router>
+          <PrivateRoute path="/forum" component={ForumPage} exact type="private" />
+        </Router>,
+        { preloadedState }
       );
 
       expect(history.location.pathname).toBe('/sign-in');
