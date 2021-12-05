@@ -17,12 +17,12 @@ type PrivateRouteProps = {
     cookies?: Cookies;
 }
 
-const PrivateRoute = (props: PrivateRouteProps) => {
+export const PrivateRoute = (props: PrivateRouteProps) => {
   const { type, cookies, isAuthenticated } = props;
   // eslint-disable-next-line react/destructuring-assignment
   let isAuth = isAuthenticated;
 
-  const allCookies = cookies.getAll();
+  const allCookies = cookies?.getAll();
   if (allCookies?.auth) {
     isAuth = true;
   }

@@ -44,7 +44,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
     login: 'Login',
     password: 'Password',
     signIn: title,
-    signUp: 'Already have an account? Sign in'
+    signUp: 'Already have an account? Sign in',
+    requestWarningText: 'Data is incorrect'
   };
 
   const handleFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,7 +204,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
                   : commonStyles['invisible-message']
               }
             >
-              {warningText}
+              {validationError ? warningText : resources.requestWarningText}
             </div>
             <Button
               type="submit"

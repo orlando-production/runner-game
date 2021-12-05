@@ -4,12 +4,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { FETCH_LOGOUT_PENDING, FETCH_LOGOUT_FILFILLED, FETCH_LOGOUT_REJECTED } from '../../actions/logout';
 import { ErrorType } from '../../api';
 
-export type LogoutType = {
+export type Logout = {
   logoutStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
     error?: ErrorType,
   };
 
-const initialState: LogoutType = {
+const initialState: Logout = {
   logoutStatus: 'idle'
 };
 
