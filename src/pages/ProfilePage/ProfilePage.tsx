@@ -20,7 +20,7 @@ import {
   fetchAvatar, fetchPassword, fetchProfile, fetchUser
 } from '../../thunks/profile';
 import {
-  getAvatarSrc, getUserData, getStatusProfile, getMessagePassword, getStatusPassword
+  getAvatarSrc, getUserData, getStatusProfile, getMessageProfile, getMessagePassword, getStatusPassword
 } from '../../selectors/profile';
 
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
@@ -32,6 +32,7 @@ const ProfilePage = () => {
   const avatarSrc = useSelector(getAvatarSrc);
   const statusProfile = useSelector(getStatusProfile);
   const messagePassword = useSelector(getMessagePassword);
+  const messageProfile = useSelector(getMessageProfile);
   const statusPassword = useSelector(getStatusPassword);
 
   const [avatar, setAvatar] = useState<string>();
@@ -40,7 +41,7 @@ const ProfilePage = () => {
   const [newPassword, setNewPassword] = useState<string>();
 
   const [statusProfilePage, setStatusProfilePage] = useState<Status>('invisible');
-  const [messageProfilePage, setMessageProfile] = useState<string>('');
+  const [messageProfilePage, setMessageProfilePage] = useState<string>('');
 
   const [statusPasswordPage, setStatusPasswordPage] = useState<Status>('invisible');
   const [messagePasswordPage, setMessagePasswordPage] = useState<string>('');
@@ -103,10 +104,10 @@ const ProfilePage = () => {
     });
 
     if (isValid) {
-      dispatch(fetchProfile(formData));
+      dispatch(fetchProfile({ ...formData, display_name: formData.login }));
     } else {
       setStatusProfilePage('error');
-      setMessageProfile(warning);
+      setMessageProfilePage(warning);
     }
   };
 
@@ -130,7 +131,8 @@ const ProfilePage = () => {
     setStatusProfilePage(statusProfile);
     setStatusPasswordPage(statusPassword);
     setMessagePasswordPage(messagePassword);
-  }, [user, avatarSrc, statusProfile, statusPassword, messagePassword]);
+    setMessageProfilePage(messageProfile);
+  }, [user, avatarSrc, statusProfile, statusPassword, messagePassword, messageProfile]);
 
   return (
     <div className={commonStyles.page}>
@@ -172,6 +174,7 @@ const ProfilePage = () => {
           >
             Персональные данные
           </Typography>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -242,7 +245,8 @@ const ProfilePage = () => {
               className={classNames(
                 {
                   [commonStyles['invisible-message']]: statusProfilePage === 'invisible',
-                  [commonStyles['warning-message']]: statusProfilePage === 'error'
+                  [commonStyles['warning-message']]: statusProfilePage === 'error',
+                  [commonStyles['success-message']]: statusProfilePage === 'success'
                 }
               )}
             >
@@ -255,7 +259,7 @@ const ProfilePage = () => {
               color="primary"
               sx={{ mt: 1, mb: 2 }}
             >
-              Save
+              Save Profile
             </Button>
           </Box>
           <Box
@@ -287,7 +291,8 @@ const ProfilePage = () => {
               className={classNames(
                 {
                   [commonStyles['invisible-message']]: statusPasswordPage === 'invisible',
-                  [commonStyles['warning-message']]: statusPasswordPage === 'error'
+                  [commonStyles['warning-message']]: statusPasswordPage === 'error',
+                  [commonStyles['success-message']]: statusPasswordPage === 'success'
                 }
               )}
             >

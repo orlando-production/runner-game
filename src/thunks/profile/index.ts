@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FETCH_AVATAR, FETCH_USER, FETCH_PASSWORD } from '../../actions/profile';
+import {
+  FETCH_AVATAR, FETCH_GET_USER, FETCH_SET_USER, FETCH_PASSWORD
+} from '../../actions/profile';
 
 import { ErrorType } from '../../api';
 import {
@@ -16,7 +18,7 @@ export const fetchAvatar = createAsyncThunk(
 );
 
 export const fetchProfile = createAsyncThunk(
-  FETCH_USER,
+  FETCH_SET_USER,
   (
     userResult: UserResult,
     { rejectWithValue }
@@ -35,7 +37,7 @@ export const fetchPassword = createAsyncThunk(
 
 // не уверне что тут правильно
 export const fetchUser = createAsyncThunk(
-  FETCH_USER,
+  FETCH_GET_USER,
   () => getUser()
     .catch((err: ErrorType) => (err?.response?.status))
 );
