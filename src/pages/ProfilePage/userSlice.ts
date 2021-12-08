@@ -81,9 +81,9 @@ export const userSlice = createSlice({
     [FETCH_AVATAR_REJECTED]: (state, action) => {
       state.error = action.payload;
     },
-    [FETCH_PASSWORD_REJECTED]: (state, action) => {
+    [FETCH_PASSWORD_REJECTED]: (state) => {
       state.statusPassword = 'error';
-      state.messagePassword = action?.payload;
+      state.messagePassword = 'Data is incorrect';
     },
     [FETCH_PASSWORD_FILFILLED]: (state) => {
       state.statusPassword = 'success';

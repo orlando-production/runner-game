@@ -7,38 +7,45 @@ import {
   waitFor
 } from 'utils/testing-library';
 
+import { UserResult } from 'services/Profile';
 import ProfilePage from '../ProfilePage';
 
 const mockHistoryPush = jest.fn();
-const mockSetUserData = jest.fn();
-const mockSetPassword = jest.fn();
-
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     push: mockHistoryPush
   })
 }));
 
+const mockSetUserData = jest.fn();
+const mockSetPassword = jest.fn();
+
 jest.mock('../../../services/Profile', () => ({
+  setPassword: (...args: any[]) => mockSetPassword(...args),
   setUserData: (...args: any[]) => mockSetUserData(...args)
 }));
 
-jest.mock('../../../services/Profile', () => ({
-  setPassword: (...args: any[]) => mockSetPassword(...args)
-}));
+const user: UserResult = {
+  avatar: '',
+  display_name: 'admin',
+  email: 'jd@yandex.ru',
+  first_name: 'john',
+  id: null,
+  login: 'admin',
+  phone: '89007006050',
+  second_name: 'doe',
+  status: null
+};
 
 describe('ProfilePage', () => {
-  beforeEach(async () => {
-    mockHistoryPush.mockReset();
-    mockSetUserData.mockReset();
-    mockSetPassword.mockReset();
-    render(<ProfilePage />);
-  });
-
   describe('добавляем данные в профиль', () => {
     let submitSetUserButton: HTMLElement;
 
     beforeEach(async () => {
+      mockHistoryPush.mockReset();
+      mockSetUserData.mockReset();
+      render(<ProfilePage />);
+
       await act(async () => {
         const loginInput = screen.getByLabelText(/login/i);
         const firstNameInput = screen.getByLabelText(/first name/i);
@@ -66,32 +73,11 @@ describe('ProfilePage', () => {
     });
 
     it('если данные введены верно', async () => {
-      mockSetUserData.mockReturnValue(Promise.resolve({
-        login: 'admin',
-        first_name: 'john',
-        display_name: 'admin',
-        second_name: 'doe',
-        email: 'jd@yandex.ru',
-        phone: '89007006050',
-        avatar: '',
-        id: null,
-        status: null
-      }));
+      mockSetUserData.mockReturnValue(Promise.resolve(user));
 
       fireEvent.click(submitSetUserButton);
 
-      await waitFor(() => expect(mockSetUserData)
-        .toHaveBeenCalledWith({
-          login: 'admin',
-          first_name: 'john',
-          display_name: 'admin',
-          second_name: 'doe',
-          email: 'jd@yandex.ru',
-          phone: '89007006050',
-          avatar: '',
-          id: null,
-          status: null
-        }));
+      await waitFor(() => expect(mockSetUserData).toHaveBeenCalledWith(user));
 
       return waitFor(() => expect(screen.getByText(/профиль сохранен/i))
         .toBeInTheDocument());
@@ -103,17 +89,7 @@ describe('ProfilePage', () => {
       fireEvent.click(submitSetUserButton);
 
       await waitFor(() => expect(mockSetUserData)
-        .toHaveBeenCalledWith({
-          login: 'admin',
-          first_name: 'john',
-          display_name: 'admin',
-          second_name: 'doe',
-          email: 'jd@yandex.ru',
-          phone: '89007006050',
-          avatar: '',
-          id: null,
-          status: null
-        }));
+        .toHaveBeenCalledWith(user));
 
       return waitFor(() => expect(screen.getByText(/Data is incorrect/i))
         .toBeInTheDocument());
@@ -124,6 +100,9 @@ describe('ProfilePage', () => {
     let submitSavePasswordButton: HTMLElement;
 
     beforeEach(async () => {
+      mockSetPassword.mockReset();
+      render(<ProfilePage />);
+
       await act(async () => {
         const oldPasswordInput = screen.getByLabelText(/old password/i);
         const newPasswordInput = screen.getByLabelText(/new password/i);
@@ -153,7 +132,7 @@ describe('ProfilePage', () => {
         .toBeInTheDocument());
     });
     it('если данные введены неверно', async () => {
-      mockSetPassword.mockReturnValue(Promise.resolve());
+      mockSetPassword.mockReturnValue(Promise.reject());
 
       fireEvent.click(submitSavePasswordButton);
 
@@ -163,7 +142,7 @@ describe('ProfilePage', () => {
           newPassword: '222'
         }));
 
-      return waitFor(() => expect(screen.getByText(/пароль сохранен/i))
+      return waitFor(() => expect(screen.getByText(/Data is incorrect/i))
         .toBeInTheDocument());
     });
   });
