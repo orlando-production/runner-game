@@ -1,16 +1,17 @@
+import path from 'path';
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
-
-const WorkboxPlugin = require('workbox-webpack-plugin');
+import { DIST_DIR, SRC_DIR } from './env';
 
 const config: Configuration = {
-  mode: 'production',
+  mode: 'development',
   output: {
-    publicPath: '/',
-    clean: true
+    path: DIST_DIR,
+    filename: '[name].js',
+    publicPath: '/'
   },
-  entry: './src/index.tsx',
+  entry: path.join(SRC_DIR, 'client'),
   module: {
     rules: [
       {
@@ -36,7 +37,7 @@ const config: Configuration = {
           {
             loader: 'css-loader',
             options: {
-              modules: true
+              modules: { localIdentName: '[local]___[hash:base64:5]' }
             }
           },
           {
@@ -48,7 +49,7 @@ const config: Configuration = {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
             loader: 'file-loader'
@@ -58,19 +59,23 @@ const config: Configuration = {
     ]
   },
   resolve: {
+    modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
-    new WorkboxPlugin.InjectManifest({
-      swSrc: './src/src-sw.js',
-      swDest: 'sw.js'
-    }),
     new HtmlWebpackPlugin({
-      template: 'static/index.html'
+      template: path.join(SRC_DIR, 'index.html')
     }),
     new HotModuleReplacementPlugin()
   ],
-  devtool: false
+  devtool: 'inline-source-map',
+  devServer: {
+    static: path.join(__dirname, 'build'),
+    historyApiFallback: true,
+    port: 4000,
+    open: true,
+    hot: true
+  }
 };
 
 export default config;

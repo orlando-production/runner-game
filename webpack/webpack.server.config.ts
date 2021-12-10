@@ -1,14 +1,24 @@
-import path from 'path';
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
+import path from 'path';
+import nodeExternals from 'webpack-node-externals';
+import { DIST_DIR, SRC_DIR } from './env';
+
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config: Configuration = {
-  mode: 'development',
+  mode: 'production',
+  target: 'node',
+  node: { __dirname: false },
   output: {
-    publicPath: '/'
+    filename: 'server.js',
+    libraryTarget: 'commonjs2',
+    path: DIST_DIR,
+    publicPath: '/static/',
+    clean: true
   },
-  entry: './src/index.tsx',
+  entry: path.join(SRC_DIR, 'server'),
   module: {
     rules: [
       {
@@ -34,7 +44,7 @@ const config: Configuration = {
           {
             loader: 'css-loader',
             options: {
-              modules: { localIdentName: '[local]___[hash:base64:5]' }
+              modules: true
             }
           },
           {
@@ -46,7 +56,7 @@ const config: Configuration = {
         ]
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
             loader: 'file-loader'
@@ -56,22 +66,21 @@ const config: Configuration = {
     ]
   },
   resolve: {
+    modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new WorkboxPlugin.InjectManifest({
+      swSrc: path.join(SRC_DIR, 'src-sw.js'),
+      swDest: 'sw.js'
+    }),
     new HtmlWebpackPlugin({
-      template: 'static/index.html'
+      template: path.join(DIST_DIR, 'index.html')
     }),
     new HotModuleReplacementPlugin()
   ],
-  devtool: 'inline-source-map',
-  devServer: {
-    static: path.join(__dirname, 'build'),
-    historyApiFallback: true,
-    port: 4000,
-    open: true,
-    hot: true
-  }
+  externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
+  devtool: false
 };
 
 export default config;
