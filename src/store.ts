@@ -11,7 +11,8 @@ export const rootReducer = {
   user: userReducer,
   statusProfile: userReducer,
   statusPassword: userReducer,
-  messagePassword: userReducer
+  messagePassword: userReducer,
+  messageProfile: userReducer
 };
 
 export const store = configureStore({
