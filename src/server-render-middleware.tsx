@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { App } from './components/App';
 
 function getHtml(reactHtml: string) {
