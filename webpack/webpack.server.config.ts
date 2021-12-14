@@ -3,14 +3,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
-import { DIST_DIR, SRC_DIR } from './env';
-
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import { DIST_DIR, IS_DEV, SRC_DIR } from './env';
 
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config: Configuration = {
-  mode: 'production',
+  mode: IS_DEV ? 'development' : 'production',
   target: 'node',
   node: { __dirname: false },
   output: {
@@ -20,7 +18,7 @@ const config: Configuration = {
     publicPath: '/static/',
     clean: true
   },
-  entry: path.join(SRC_DIR, 'server'),
+  entry: './src/server.ts',
   module: {
     rules: [
       {
@@ -39,14 +37,13 @@ const config: Configuration = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        loader: 'null-loader'
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader'
+            loader: 'null-loader'
           }
         ]
       }
@@ -61,9 +58,8 @@ const config: Configuration = {
       swSrc: path.join(SRC_DIR, 'src-sw.js'),
       swDest: 'sw.js'
     }),
-    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(DIST_DIR, 'index.html')
+      template: path.join(SRC_DIR, 'index.html')
     }),
     new HotModuleReplacementPlugin()
   ],

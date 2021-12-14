@@ -2,12 +2,12 @@ import path from 'path';
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
-import { DIST_DIR, SRC_DIR } from './env';
+import { DIST_DIR, IS_DEV } from './env';
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config: Configuration = {
-  mode: 'development',
+  mode: IS_DEV ? 'development' : 'production',
   output: {
     path: DIST_DIR,
     filename: '[name].js',
@@ -53,17 +53,20 @@ const config: Configuration = {
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(SRC_DIR, 'index.html')
+      template: './src/index.html'
     }),
     new HotModuleReplacementPlugin()
   ],
   devtool: 'inline-source-map',
   devServer: {
-    static: path.join(__dirname, 'build'),
+    static: path.join(__dirname, 'dist'),
     historyApiFallback: true,
     port: 4000,
     open: true,
     hot: true
+  },
+  performance: {
+    hints: false
   }
 };
 
