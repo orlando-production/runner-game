@@ -6,7 +6,7 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "start:webpack": "webpack --mode=development --watch",
+    "start:webpack": "webpack --mode=development --watch --config ./webpack/webpack.dev.config.ts",
     "start:server": "nodemon ./index.js --watch ./dist/server.js",
     "start": "NODE_ENV=development npm-run-all --print-label --parallel start:*",
     "heroku-postbuild": "npm run build",
@@ -51,17 +51,17 @@
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
+    "@types/compression": "1.7.0",
+    "@types/compression-webpack-plugin": "2.0.1",
     "@types/react": "17.0.33",
     "@types/react-dom": "17.0.10",
     "@types/react-redux": "7.1.20",
     "@types/redux": "3.6.0",
     "@types/webpack": "4.4.17",
     "@types/webpack-dev-server": "4.3.1",
+    "@types/webpack-node-externals": "2.5.0",
     "@typescript-eslint/eslint-plugin": "5.3.0",
     "@typescript-eslint/parser": "5.3.0",
-    "@types/compression": "1.7.0",
-    "@types/compression-webpack-plugin": "2.0.1",
-    "@types/webpack-node-externals": "2.5.0",
     "babel-loader": "8.2.3",
     "css-loader": "6.5.0",
     "eslint": "7.32.0",
@@ -77,6 +77,10 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "27.3.1",
     "jest-canvas-mock": "2.3.1",
+    "mini-css-extract-plugin": "2.4.5",
+    "nodemon": "2.0.5",
+    "npm-run-all": "4.1.5",
+    "null-loader": "4.0.1",
     "postcss-loader": "6.2.0",
     "postcss-nested": "5.0.6",
     "postcss-preset-env": "6.7.0",
@@ -89,10 +93,7 @@
     "webpack": "5.61.0",
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "4.4.0",
-    "nodemon": "2.0.5",
-    "npm-run-all": "4.1.5",
-    "webpack-node-externals": "2.5.2",
-    "null-loader": "4.0.1"
+    "webpack-node-externals": "2.5.2"
   },
   "dependencies": {
     "@emotion/react": "11.5.0",
@@ -103,7 +104,10 @@
     "@types/react-router": "5.1.7",
     "@types/react-router-dom": "5.3.2",
     "axios": "0.24.0",
+    "babel-polyfill": "6.26.0",
     "classnames": "2.3.1",
+    "compression": "1.7.4",
+    "compression-webpack-plugin": "2.0.0",
     "express": "4.17.1",
     "react": "17.0.2",
     "react-cookie": "4.1.1",
@@ -114,9 +118,6 @@
     "react-router-dom": "5.1.2",
     "redux": "4.1.2",
     "serviceworker-webpack-plugin": "1.0.1",
-    "workbox-webpack-plugin": "6.4.1",
-    "compression": "1.7.4",
-    "compression-webpack-plugin": "2.0.0",
-    "babel-polyfill": "6.26.0"
+    "workbox-webpack-plugin": "6.4.1"
   }
 }

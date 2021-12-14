@@ -4,6 +4,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
 import { DIST_DIR, SRC_DIR } from './env';
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const config: Configuration = {
   mode: 'development',
   output: {
@@ -11,7 +13,7 @@ const config: Configuration = {
     filename: '[name].js',
     publicPath: '/'
   },
-  entry: path.join(SRC_DIR, 'client'),
+  entry: './src/client.tsx',
   module: {
     rules: [
       {
@@ -29,24 +31,10 @@ const config: Configuration = {
         }
       },
       {
-        test: /\.css$/i,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: { localIdentName: '[local]___[hash:base64:5]' }
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        // use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -63,6 +51,7 @@ const config: Configuration = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(SRC_DIR, 'index.html')
     }),

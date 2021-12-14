@@ -5,6 +5,8 @@ import path from 'path';
 import nodeExternals from 'webpack-node-externals';
 import { DIST_DIR, SRC_DIR } from './env';
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config: Configuration = {
@@ -36,24 +38,9 @@ const config: Configuration = {
         }
       },
       {
-        test: /\.css$/i,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -74,6 +61,7 @@ const config: Configuration = {
       swSrc: path.join(SRC_DIR, 'src-sw.js'),
       swDest: 'sw.js'
     }),
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(DIST_DIR, 'index.html')
     }),
