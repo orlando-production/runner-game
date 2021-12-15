@@ -2,13 +2,18 @@ import path from 'path';
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
+import { DIST_DIR, IS_DEV } from './env';
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config: Configuration = {
-  mode: 'development',
+  mode: IS_DEV ? 'development' : 'production',
   output: {
+    path: DIST_DIR,
+    filename: '[name].js',
     publicPath: '/'
   },
-  entry: './src/index.tsx',
+  entry: './src/client.tsx',
   module: {
     rules: [
       {
@@ -26,24 +31,10 @@ const config: Configuration = {
         }
       },
       {
-        test: /\.css$/i,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: { localIdentName: '[local]___[hash:base64:5]' }
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        // use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -56,21 +47,26 @@ const config: Configuration = {
     ]
   },
   resolve: {
+    modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-      template: 'static/index.html'
+      template: './src/index.html'
     }),
     new HotModuleReplacementPlugin()
   ],
   devtool: 'inline-source-map',
   devServer: {
-    static: path.join(__dirname, 'build'),
+    static: path.join(__dirname, 'dist'),
     historyApiFallback: true,
     port: 4000,
     open: true,
     hot: true
+  },
+  performance: {
+    hints: false
   }
 };
 

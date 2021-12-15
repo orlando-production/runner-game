@@ -7,6 +7,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
+import { hot } from 'react-hot-loader/root';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import ForumPage from '../pages/ForumPage';
@@ -18,7 +19,7 @@ import GamePage from '../pages/GamePage';
 import MainPage from '../pages/MainPage';
 import PrivateRoute from './privateRoute';
 
-export function App() {
+function App() {
   return (
     <div>
       <Router>
@@ -38,3 +39,7 @@ export function App() {
     </div>
   );
 }
+
+const Component = hot(App);
+
+export { Component as App };

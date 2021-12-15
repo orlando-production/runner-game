@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate } from 'react-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import type { AxiosError } from 'axios';
 import { Provider } from 'react-redux';
@@ -18,7 +18,14 @@ if (process.env.NODE_ENV === 'production') {
   registerServiceWorker();
 }
 
-ReactDOM.render(
+// global redeclared types
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function;
+    }
+}
+
+hydrate(
   <React.StrictMode>
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Provider store={store}>
