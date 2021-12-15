@@ -2,6 +2,8 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import type { Request, Response } from 'express';
 import { App } from './components/App';
+import { StaticRouter } from 'react-router-dom';
+import { StaticRouterContext } from 'react-router';
 
 function getHtml(reactHtml: string) {
   return `
@@ -24,7 +26,14 @@ function getHtml(reactHtml: string) {
 }
 
 export default (req: Request, res: Response) => {
-  const jsx = <App />;
+  const context: StaticRouterContext = {};
+  const location=req.url;
+
+  const jsx = (
+    <StaticRouter context={context} location={location}>
+      <App />
+    </StaticRouter>
+  );
   const reactHtml = renderToString(jsx);
 
   res.send(getHtml(reactHtml));
