@@ -27,11 +27,6 @@ const TICK_PER_FRAME_COEF = 1;
 const MAX_SPEED = 5;
 const SPEED_CHANGE_TIME = 2000;
 
-const playerImage = new Image();
-playerImage.src = image;
-const backgroundImage = new Image();
-backgroundImage.src = bg;
-
 /**
  * Игровой контроллер.
  * Помогает взаимодействовать сущностям на игровой сцене(игрок, препятствия и т.д.)
@@ -43,6 +38,11 @@ const GameController = ({
   isPause,
   points
 }: GameControllerOptions) => {
+  const playerImage = new Image();
+  playerImage.src = image;
+  const backgroundImage = new Image();
+  backgroundImage.src = bg;
+
   const canvas = useRef();
   const speedRef = useRef(null);
   const firstUpdate = useRef(true);

@@ -20,6 +20,10 @@ export enum GameStates {
 }
 
 const GamePage = () => {
+  if (process.env.renderType === 'server') {
+    return null;
+  }
+
   const [gameState, setGameState] = useState<GameStates>(GameStates.NotStarted);
   const [isFooterVisible, setFooterVisible] = useState<boolean>(true);
   const [points, setPoints] = useState(0);
