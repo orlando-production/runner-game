@@ -23,10 +23,10 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 declare global {
-    interface Window {
-        __INITIAL_STATE__: RootState;
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function;
-    }
+  interface Window {
+    __INITIAL_STATE__: RootState;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: Function;
+  }
 }
 
 hydrate(

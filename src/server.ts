@@ -10,7 +10,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(compression())
-  .use(express.static(path.resolve(__dirname, '../dist')))
   .use(express.static(path.resolve(__dirname, '../static')));
 
 app.get('/*', serverRenderMiddleware);

@@ -1,47 +1,62 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { RouterState } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { combineReducers } from 'redux';
-import { Registration, registrationReducer } from './pages/SignUpPage/registrationSlice';
-import { Authentication, authenticationReducer } from './pages/LoginPage/loginSlice';
+import { connectRouter } from 'connected-react-router';
+import { History } from 'history';
+import {
+  Registration,
+  registrationReducer,
+} from './pages/SignUpPage/registrationSlice';
+import {
+  Authentication,
+  authenticationReducer,
+} from './pages/LoginPage/loginSlice';
 import { Logout, logoutReducer } from './pages/ProfilePage/logoutSlice';
 import { User, userReducer } from './pages/ProfilePage/userSlice';
 
-export const rootReducer = combineReducers({
-  authentication: authenticationReducer,
-  registration: registrationReducer,
-  logout: logoutReducer,
-  user: userReducer,
-  statusProfile: userReducer,
-  statusPassword: userReducer,
-  messagePassword: userReducer,
-  messageProfile: userReducer
-});
+export const rootReducer = (history: History) =>
+  combineReducers({
+    authentication: authenticationReducer,
+    registration: registrationReducer,
+    logout: logoutReducer,
+    user: userReducer,
+    statusProfile: userReducer,
+    statusPassword: userReducer,
+    messagePassword: userReducer,
+    messageProfile: userReducer,
+    router: connectRouter(history),
+  });
 
 export type RootState = {
-  authentication: Authentication,
-  registration: Registration,
-  logout: Logout,
-  user: User,
-  statusProfile: User,
-  statusPassword: User,
-  messagePassword: User,
-  messageProfile: User
-}
+  authentication: Authentication;
+  registration: Registration;
+  logout: Logout;
+  user: User;
+  statusProfile: User;
+  statusPassword: User;
+  messagePassword: User;
+  messageProfile: User;
+  router: RouterState;
+};
 
 export const isServer = !(
-  typeof window !== 'undefined'
-  && window.document
-  && window.document.createElement
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
 );
 
-export default function configureAppStore(preloadedState: RootState, url = '/') {
+export default function configureAppStore(
+  preloadedState: RootState,
+  url = '/'
+) {
   const history = isServer
     ? createMemoryHistory({ initialEntries: [url] })
     : createBrowserHistory();
 
   const store = configureStore({
-    reducer: rootReducer,
-    preloadedState
+    reducer: rootReducer(history),
+    preloadedState,
   });
 
   if (process.env.NODE_ENV !== 'production' && module.hot) {
@@ -62,29 +77,33 @@ const userInitialState: User = {
     login: 'admin',
     phone: '89007006050',
     second_name: 'doe',
-    status: null
+    status: null,
   },
   error: null,
   statusProfile: 'invisible',
   statusPassword: 'invisible',
-  messagePassword: ''
+  messagePassword: '',
 };
 
 // сейчас isAuthenticated: true всегда, но надо как-то получать эту инфу с сервера наверно
-export const getInitialState = (): RootState => ({
+export const getInitialState = (pathname: string = '/'): RootState => ({
   authentication: {
     isAuthenticated: true,
-    authStatus: 'idle'
+    authStatus: 'idle',
   },
   registration: {
-    registrationStatus: 'idle'
+    registrationStatus: 'idle',
   },
   logout: {
-    logoutStatus: 'idle'
+    logoutStatus: 'idle',
   },
   user: userInitialState,
   statusProfile: userInitialState,
   statusPassword: userInitialState,
   messagePassword: userInitialState,
-  messageProfile: userInitialState
+  messageProfile: userInitialState,
+  router: {
+    location: { pathname, search: '', hash: '', key: '' },
+    action: 'POP',
+  } as RouterState,
 });

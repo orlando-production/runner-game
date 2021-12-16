@@ -20,12 +20,6 @@ export enum GameStates {
 }
 
 const GamePage = () => {
-  if (process.env.RENDER_TYPE === 'server') {
-    // eslint-disable-next-line no-console
-    console.log('server mode');
-    return null;
-  }
-
   const [gameState, setGameState] = useState<GameStates>(GameStates.NotStarted);
   const [isFooterVisible, setFooterVisible] = useState<boolean>(true);
   const [points, setPoints] = useState(0);

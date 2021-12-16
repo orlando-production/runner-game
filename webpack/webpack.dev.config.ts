@@ -1,17 +1,15 @@
-import path from 'path';
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
-import { DIST_DIR, IS_DEV } from './env';
+import { IS_DEV, STATIC_DIR } from './env';
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config: Configuration = {
   mode: IS_DEV ? 'development' : 'production',
   output: {
-    path: DIST_DIR,
+    path: STATIC_DIR,
     filename: '[name].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   entry: './src/client.tsx',
   module: {
@@ -25,49 +23,36 @@ const config: Configuration = {
             presets: [
               '@babel/preset-env',
               '@babel/preset-react',
-              '@babel/preset-typescript'
-            ]
-          }
-        }
+              '@babel/preset-typescript',
+            ],
+          },
+        },
       },
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
         // use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
-            loader: 'file-loader'
-          }
-        ]
-      }
-    ]
+            loader: 'file-loader',
+          },
+        ],
+      },
+    ],
   },
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
   },
-  plugins: [
-    new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
-    }),
-    new HotModuleReplacementPlugin()
-  ],
+  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin()],
   devtool: 'inline-source-map',
-  devServer: {
-    static: path.join(__dirname, 'dist'),
-    historyApiFallback: true,
-    port: 4000,
-    open: true,
-    hot: true
-  },
   performance: {
-    hints: false
-  }
+    hints: false,
+  },
 };
 
 export default config;
