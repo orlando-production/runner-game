@@ -35,6 +35,7 @@ export type UserResult = {
 };
 
 export const getUser = () => requestGetData<UserResult>(ENDPOINTS.USER);
-export const setUserData = (profileParams: ProfileParams) => requestPutData<ProfileParams, UserResult>(ENDPOINTS.PROFILE, profileParams);
-export const setAvatar = (avatarParams: AvatarParams) => requestPutData<AvatarParams, UserResult>(ENDPOINTS.AVATAR, avatarParams);
-export const setPassword = (passwordParams: PasswordParams) => requestPutData<PasswordParams, PasswordResult>(ENDPOINTS.PASSWORD, passwordParams);
+export const setUserData = (profileParams: ProfileParams, config?: {}) => requestPutData<ProfileParams, UserResult>(ENDPOINTS.PROFILE, profileParams, config);
+export const setAvatar = (avatarParams: AvatarParams, config?: {}) => requestPutData<AvatarParams, UserResult>(ENDPOINTS.AVATAR, avatarParams, config);
+// eslint-disable-next-line max-len
+export const setPassword = (passwordParams: PasswordParams, config?: {}) => requestPutData<PasswordParams, PasswordResult>(ENDPOINTS.PASSWORD, passwordParams, config);

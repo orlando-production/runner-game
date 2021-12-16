@@ -67,7 +67,8 @@ const userInitialState: User = {
   error: null,
   statusProfile: 'invisible',
   statusPassword: 'invisible',
-  messagePassword: ''
+  messagePassword: '',
+  messageProfile: ''
 };
 
 // сейчас isAuthenticated: true всегда, но надо как-то получать эту инфу с сервера наверно
