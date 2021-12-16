@@ -13,7 +13,8 @@ export const rootReducer = combineReducers({
   user: userReducer,
   statusProfile: userReducer,
   statusPassword: userReducer,
-  messagePassword: userReducer
+  messagePassword: userReducer,
+  messageProfile: userReducer
 });
 
 export type RootState = {
@@ -23,7 +24,8 @@ export type RootState = {
   user: User,
   statusProfile: User,
   statusPassword: User,
-  messagePassword: User
+  messagePassword: User,
+  messageProfile: User
 }
 
 export const isServer = !(
@@ -83,5 +85,6 @@ export const getInitialState = (): RootState => ({
   user: userInitialState,
   statusProfile: userInitialState,
   statusPassword: userInitialState,
-  messagePassword: userInitialState
+  messagePassword: userInitialState,
+  messageProfile: userInitialState
 });

@@ -26,7 +26,8 @@ describe('PrivateRoute', () => {
         user: {} as User,
         statusProfile: {} as User,
         statusPassword: {} as User,
-        messagePassword: {} as User
+        messagePassword: {} as User,
+        messageProfile: {} as User
       };
 
       render(
@@ -53,7 +54,8 @@ describe('PrivateRoute', () => {
         user: {} as User,
         statusProfile: {} as User,
         statusPassword: {} as User,
-        messagePassword: {} as User
+        messagePassword: {} as User,
+        messageProfile: {} as User
       };
 
       render(
