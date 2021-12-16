@@ -102,7 +102,8 @@
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "4.4.0",
     "webpack-node-externals": "2.5.2",
-    "connected-react-router": "6.9.2"
+    "connected-react-router": "6.9.2",
+    "cross-env": "7.0.3"
   },
   "dependencies": {
     "@emotion/react": "11.5.0",
