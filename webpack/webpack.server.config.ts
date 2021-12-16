@@ -50,10 +50,10 @@ const config: Configuration = {
         }
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
-            loader: 'null-loader'
+            loader: 'url-loader'
           }
         ]
       }
