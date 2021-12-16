@@ -61,7 +61,7 @@ const config: Configuration = {
   devServer: {
     static: path.join(__dirname, 'dist'),
     historyApiFallback: true,
-    port: 5000,
+    port: 4000,
     open: true,
     hot: true
   },
