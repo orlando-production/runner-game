@@ -20,7 +20,9 @@ export enum GameStates {
 }
 
 const GamePage = () => {
-  if (process.env.renderType === 'server') {
+  if (process.env.RENDER_TYPE === 'server') {
+    // eslint-disable-next-line no-console
+    console.log('server mode');
     return null;
   }
 

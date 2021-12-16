@@ -6,13 +6,9 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "start:server": "node ./dist/server.js",
-    "start:build-server": "webpack --config ./webpack/webpack.server.config.ts",
-    "start:nodemon": "nodemon --exec start:build-server start:server",
-    "start:build-client": "webpack serve --config ./webpack/webpack.dev.config.ts",
-    "start": "npm-run-all --parallel start:nodemon start:build-client",
+    "start": "webpack --config ./webpack/webpack.server.config.ts --mode production && node ./dist/server.js",
     "heroku-postbuild": "npm run build",
-    "build": "webpack build --env renderType=dev --config ./webpack/webpack.dev.config.ts --mode production",
+    "build": "webpack build --config ./webpack/webpack.dev.config.ts --mode production",
     "dev": "webpack build --config ./webpack/webpack.dev.config.ts --mode development",
     "test": "jest",
     "prepare": "husky install",
@@ -64,9 +60,12 @@
     "@types/webpack-node-externals": "2.5.0",
     "@typescript-eslint/eslint-plugin": "5.3.0",
     "@typescript-eslint/parser": "5.3.0",
+    "@types/webpack-env": "1.16.3",
+    "@types/react-helmet": "6.1.0",
     "babel-loader": "8.2.3",
     "canvas": "2.8.0",
     "css-loader": "6.5.0",
+    "dotenv-webpack": "7.0.3",
     "eslint": "7.32.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-plugin-import": "2.25.2",
@@ -88,6 +87,7 @@
     "postcss-nested": "5.0.6",
     "postcss-preset-env": "6.7.0",
     "react-hot-loader": "4.13.0",
+    "react-helmet": "6.1.0",
     "style-loader": "3.3.1",
     "stylelint": "14.0.1",
     "stylelint-config-standard": "23.0.0",
@@ -97,7 +97,8 @@
     "webpack": "5.61.0",
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "4.4.0",
-    "webpack-node-externals": "2.5.2"
+    "webpack-node-externals": "2.5.2",
+    "connected-react-router": "6.9.2"
   },
   "dependencies": {
     "@emotion/react": "11.5.0",
@@ -111,7 +112,7 @@
     "babel-polyfill": "6.26.0",
     "classnames": "2.3.1",
     "compression": "1.7.4",
-    "compression-webpack-plugin": "9.1.2",
+    "compression-webpack-plugin": "2.0.0",
     "express": "4.17.1",
     "react": "17.0.2",
     "react-cookie": "4.1.1",
@@ -122,6 +123,6 @@
     "react-router-dom": "5.1.2",
     "redux": "4.1.2",
     "serviceworker-webpack-plugin": "1.0.1",
-    "workbox-webpack-plugin": "6.4.2"
+    "workbox-webpack-plugin": "6.4.1"
   }
 }
