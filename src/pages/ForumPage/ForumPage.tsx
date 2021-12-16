@@ -5,6 +5,7 @@ import {
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
 import type { TopicProps } from '../../components/Topic/Topic';
@@ -42,6 +43,7 @@ const ForumPage = () => {
 
   return (
     <div className={commonStyles.page}>
+      <PageMeta title="Forum page" description="New topics everyday" />
       <div className={classNames(commonStyles.content, styles['forum-container'])}>
         <Typography
           component="h1"

@@ -6,6 +6,7 @@ import nodeExternals from 'webpack-node-externals';
 import { DIST_DIR, IS_DEV, SRC_DIR } from './env';
 
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const config: Configuration = {
   mode: IS_DEV ? 'development' : 'production',
@@ -54,6 +55,7 @@ const config: Configuration = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new Dotenv(),
     new WorkboxPlugin.InjectManifest({
       swSrc: path.join(SRC_DIR, 'src-sw.js'),
       swDest: 'sw.js'
