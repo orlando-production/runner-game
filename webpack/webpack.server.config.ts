@@ -38,13 +38,22 @@ const config: Configuration = {
       },
       {
         test: /\.css$/,
-        loader: 'null-loader'
+        exclude: /node_modules/,
+        use: {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            modules: {
+              exportOnlyLocals: true
+            }
+          }
+        }
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
-            loader: 'null-loader'
+            loader: 'url-loader'
           }
         ]
       }

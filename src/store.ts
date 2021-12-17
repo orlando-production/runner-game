@@ -1,12 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { createBrowserHistory, createMemoryHistory } from 'history';
+import { RouterState, connectRouter } from 'connected-react-router';
+import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
-import { Registration, registrationReducer } from './pages/SignUpPage/registrationSlice';
-import { Authentication, authenticationReducer } from './pages/LoginPage/loginSlice';
+import {
+  Registration,
+  registrationReducer
+} from './pages/SignUpPage/registrationSlice';
+import {
+  Authentication,
+  authenticationReducer
+} from './pages/LoginPage/loginSlice';
 import { Logout, logoutReducer } from './pages/ProfilePage/logoutSlice';
 import { User, userReducer } from './pages/ProfilePage/userSlice';
 
-export const rootReducer = combineReducers({
+export const rootReducer = (history: History) => combineReducers({
   authentication: authenticationReducer,
   registration: registrationReducer,
   logout: logoutReducer,
@@ -14,19 +21,21 @@ export const rootReducer = combineReducers({
   statusProfile: userReducer,
   statusPassword: userReducer,
   messagePassword: userReducer,
-  messageProfile: userReducer
+  messageProfile: userReducer,
+  router: connectRouter(history)
 });
 
 export type RootState = {
-  authentication: Authentication,
-  registration: Registration,
-  logout: Logout,
-  user: User,
-  statusProfile: User,
-  statusPassword: User,
-  messagePassword: User,
-  messageProfile: User
-}
+  authentication: Authentication;
+  registration: Registration;
+  logout: Logout;
+  user: User;
+  statusProfile: User;
+  statusPassword: User;
+  messagePassword: User;
+  messageProfile: User;
+  router: RouterState;
+};
 
 export const isServer = !(
   typeof window !== 'undefined'
@@ -34,19 +43,22 @@ export const isServer = !(
   && window.document.createElement
 );
 
-export default function configureAppStore(preloadedState: RootState, url = '/') {
+export default function configureAppStore(
+  preloadedState: RootState,
+  url = '/'
+) {
   const history = isServer
     ? createMemoryHistory({ initialEntries: [url] })
     : createBrowserHistory();
 
   const store = configureStore({
-    reducer: rootReducer,
+    reducer: rootReducer(history),
     preloadedState
   });
 
   if (process.env.NODE_ENV !== 'production' && module.hot) {
-    // по не придумала что надо заменять на rootReducer, у нас нет отдельной папки с редьюсерами
-    // module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
+    // попробовала вынести отдельно, но вся сборка глобально сломалась, вернусь к этому чуть позже
+    // module.hot.accept('./slices', () => store.replaceReducer(rootReducer(history)));
   }
 
   return { store, history };
@@ -72,7 +84,7 @@ const userInitialState: User = {
 };
 
 // сейчас isAuthenticated: true всегда, но надо как-то получать эту инфу с сервера наверно
-export const getInitialState = (): RootState => ({
+export const getInitialState = (pathname: string = '/'): RootState => ({
   authentication: {
     isAuthenticated: true,
     authStatus: 'idle'
@@ -87,5 +99,11 @@ export const getInitialState = (): RootState => ({
   statusProfile: userInitialState,
   statusPassword: userInitialState,
   messagePassword: userInitialState,
-  messageProfile: userInitialState
+  messageProfile: userInitialState,
+  router: {
+    location: {
+      pathname, search: '', hash: '', key: ''
+    },
+    action: 'POP'
+  } as RouterState
 });

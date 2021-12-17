@@ -1,6 +1,13 @@
 import React from 'react';
 import { render, screen } from 'utils/testing-library';
+import { RouterState } from 'connected-react-router';
+import { StaticRouter, StaticRouterContext } from 'react-router';
+import { createMemoryHistory } from 'history';
 import FinishScreen from '../FinishScreen';
+import type { Logout } from '../../../ProfilePage/logoutSlice';
+import type { User } from '../../../ProfilePage/userSlice';
+import type { Registration } from '../../../SignUpPage/registrationSlice';
+import type { Authentication } from '../../../LoginPage/loginSlice';
 
 const mockHistoryPush = jest.fn();
 
@@ -9,11 +16,35 @@ jest.mock('react-router-dom', () => ({
     push: mockHistoryPush
   })
 }));
+
+const history = createMemoryHistory({ initialEntries: ['/game'] });
+const context: StaticRouterContext = {};
+
+const preloadedState = {
+  authentication: {
+    isAuthenticated: true
+  } as Authentication,
+  registration: {} as Registration,
+  logout: {} as Logout,
+  user: {} as User,
+  statusProfile: {} as User,
+  statusPassword: {} as User,
+  messagePassword: {} as User,
+  messageProfile: {} as User,
+  router: {} as RouterState
+};
+
 describe('Финиш игры', () => {
   const points = 5;
   beforeEach(() => {
     const setState = jest.fn();
-    render(<FinishScreen setGameState={setState} points={points} />);
+
+    render(
+      <StaticRouter context={context} location={history.location}>
+        <FinishScreen setGameState={setState} points={points} />
+      </StaticRouter>,
+      { preloadedState, history }
+    );
   });
 
   afterEach(() => {

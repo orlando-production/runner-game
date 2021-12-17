@@ -8,10 +8,8 @@ import Helmet, { HelmetData } from 'react-helmet';
 import { App } from './components/App';
 
 function getHtml(reactHtml: string, reduxState = {}, helmetData: HelmetData) {
-  return `
-          <!DOCTYPE html>
+  return `<!DOCTYPE html>
           <html lang="en">
-          
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,24 +19,20 @@ function getHtml(reactHtml: string, reduxState = {}, helmetData: HelmetData) {
             ${helmetData.title.toString()}
             ${helmetData.meta.toString()}
           </head>
-          
           <body>
             <div id="root">${reactHtml}</div>
             <script>
-                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+            window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
             </script>
-            <script src="/main.js" type = "text/babel"></script>
+            <script src="/main.js"></script>
           </body>
-          </html> 
-      `;
+          </html>`;
 }
 
 export default (req: Request, res: Response) => {
-  // тут тоже что-то получше надо придумать
-  const location = req.url === '/static/server.js' ? '/' : req.url;
+  const location = req.url;
 
   const context: StaticRouterContext = {};
-  // в примере прокидывали location в getInitialState в роутер, но у нас роутера в стейте нет
   const { store } = configureAppStore(getInitialState(), location);
 
   const jsx = (

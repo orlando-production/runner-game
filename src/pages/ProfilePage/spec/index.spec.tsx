@@ -6,8 +6,14 @@ import {
   act,
   waitFor
 } from 'utils/testing-library';
-
+import { RouterState } from 'connected-react-router';
+import { StaticRouter, StaticRouterContext } from 'react-router';
+import { createMemoryHistory } from 'history';
 import { UserResult } from 'services/Profile';
+import type { Logout } from '../logoutSlice';
+import type { User } from '../userSlice';
+import type { Registration } from '../../SignUpPage/registrationSlice';
+import type { Authentication } from '../../LoginPage/loginSlice';
 import ProfilePage from '../ProfilePage';
 
 const mockHistoryPush = jest.fn();
@@ -25,6 +31,9 @@ jest.mock('../../../services/Profile', () => ({
   setUserData: (...args: any[]) => mockSetUserData(...args)
 }));
 
+const history = createMemoryHistory({ initialEntries: ['/profile'] });
+const context: StaticRouterContext = {};
+
 const user: UserResult = {
   avatar: '',
   display_name: 'admin',
@@ -37,6 +46,26 @@ const user: UserResult = {
   status: null
 };
 
+const preloadedState = {
+  authentication: {
+    isAuthenticated: true
+  } as Authentication,
+  registration: {} as Registration,
+  logout: {} as Logout,
+  user: {
+    user,
+    statusProfile: 'success',
+    statusPassword: 'success',
+    messagePassword: '',
+    messageProfile: ''
+  } as User,
+  statusProfile: {} as User,
+  statusPassword: {} as User,
+  messagePassword: {} as User,
+  messageProfile: {} as User,
+  router: {} as RouterState
+};
+
 describe('ProfilePage', () => {
   describe('добавляем данные в профиль', () => {
     let submitSetUserButton: HTMLElement;
@@ -44,7 +73,13 @@ describe('ProfilePage', () => {
     beforeEach(async () => {
       mockHistoryPush.mockReset();
       mockSetUserData.mockReset();
-      render(<ProfilePage />);
+
+      render(
+        <StaticRouter context={context} location={history.location}>
+          <ProfilePage />
+        </StaticRouter>,
+        { preloadedState, history }
+      );
 
       await act(async () => {
         const loginInput = screen.getByLabelText(/login/i);
@@ -101,7 +136,13 @@ describe('ProfilePage', () => {
 
     beforeEach(async () => {
       mockSetPassword.mockReset();
-      render(<ProfilePage />);
+
+      render(
+        <StaticRouter context={context} location={history.location}>
+          <ProfilePage />
+        </StaticRouter>,
+        { preloadedState, history }
+      );
 
       await act(async () => {
         const oldPasswordInput = screen.getByLabelText(/old password/i);

@@ -38,10 +38,4 @@ function PageMeta(props: PageMetaProps) {
   );
 }
 
-PageMeta.defaultProps = {
-  title: 'Site',
-  description: null,
-  image: null
-};
-
 export { PageMeta };
