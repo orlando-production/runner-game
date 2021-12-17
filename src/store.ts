@@ -57,8 +57,8 @@ export default function configureAppStore(
   });
 
   if (process.env.NODE_ENV !== 'production' && module.hot) {
-    // по не придумала что надо заменять на rootReducer, у нас нет отдельной папки с редьюсерами
-    // module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
+    // попробовала вынести отдельно, но вся сборка глобально сломалась, вернусь к этому чуть позже
+    // module.hot.accept('./slices', () => store.replaceReducer(rootReducer(history)));
   }
 
   return { store, history };
@@ -79,7 +79,8 @@ const userInitialState: User = {
   error: null,
   statusProfile: 'invisible',
   statusPassword: 'invisible',
-  messagePassword: ''
+  messagePassword: '',
+  messageProfile: ''
 };
 
 // сейчас isAuthenticated: true всегда, но надо как-то получать эту инфу с сервера наверно

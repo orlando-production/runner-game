@@ -30,11 +30,9 @@ function getHtml(reactHtml: string, reduxState = {}, helmetData: HelmetData) {
 }
 
 export default (req: Request, res: Response) => {
-  // тут тоже что-то получше надо придумать
   const location = req.url;
 
   const context: StaticRouterContext = {};
-  // в примере прокидывали location в getInitialState в роутер, но у нас роутера в стейте нет
   const { store } = configureAppStore(getInitialState(), location);
 
   const jsx = (
