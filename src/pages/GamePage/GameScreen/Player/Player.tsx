@@ -1,11 +1,10 @@
 import fireBall from '../../../../assets/fireball.png';
 
-const fireBallImg = new Image();
 const NUMBER_FIREBALL_COLUMN_FRAMES = 10;
 const NUMBER_FIREBALL_ROW_FRAMES = 4;
 const FIREBALL_IMAGE_WIDTH = 2048;
 const FIREBALL_IMAGE_HEIGHT = 3840;
-fireBallImg.src = fireBall;
+
 type PlayerOptions = {
   ticksPerFrame: number;
   numberOfFrames: number;
@@ -92,6 +91,8 @@ class Player {
 
   _shotPositionY: number;
 
+  fireBallImg: HTMLImageElement;
+
   constructor({
     ticksPerFrame,
     numberOfFrames,
@@ -120,6 +121,9 @@ class Player {
     this._height = height;
     this._fireballIndexRow = 0;
     this._fireballIndexColumn = 0;
+
+    this.fireBallImg = new Image();
+    this.fireBallImg.src = fireBall;
 
     window.addEventListener('keypress', (e) => {
       if (e.code === 'Space') {
@@ -202,7 +206,7 @@ class Player {
       this._shotPositionX = this._curPositionX + this._width / this._numberOfFrames / 2;
       this._shotPositionY = this._curPositionY - 5;
       this._ctx.drawImage(
-        fireBallImg,
+        this.fireBallImg,
         (this._fireballIndexRow * FIREBALL_IMAGE_WIDTH)
           / NUMBER_FIREBALL_ROW_FRAMES,
         this._fireballIndexColumn

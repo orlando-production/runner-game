@@ -6,7 +6,13 @@ import {
   act,
   waitFor
 } from 'utils/testing-library';
-
+import { RouterState } from 'connected-react-router';
+import { StaticRouter, StaticRouterContext } from 'react-router';
+import { createMemoryHistory } from 'history';
+import type { Logout } from '../../ProfilePage/logoutSlice';
+import type { User } from '../../ProfilePage/userSlice';
+import type { Registration } from '../registrationSlice';
+import type { Authentication } from '../../LoginPage/loginSlice';
 import SignUpPage from '../SignUpPage';
 
 const mockHistoryPush = jest.fn();
@@ -23,6 +29,23 @@ jest.mock('../../../services/Registration', () => ({
   registerUser: (...args: any[]) => mockRegisterUser(...args)
 }));
 
+const history = createMemoryHistory({ initialEntries: ['/sign-up'] });
+const context: StaticRouterContext = {};
+
+const preloadedState = {
+  authentication: {
+    isAuthenticated: false
+  } as Authentication,
+  registration: {} as Registration,
+  logout: {} as Logout,
+  user: {} as User,
+  statusProfile: {} as User,
+  statusPassword: {} as User,
+  messagePassword: {} as User,
+  messageProfile: {} as User,
+  router: {} as RouterState
+};
+
 describe('SignUpPage', () => {
   let submitButton: HTMLElement;
 
@@ -30,7 +53,12 @@ describe('SignUpPage', () => {
     mockHistoryPush.mockReset();
     mockRegisterUser.mockReset();
 
-    render(<SignUpPage />);
+    render(
+      <StaticRouter context={context} location={history.location}>
+        <SignUpPage />
+      </StaticRouter>,
+      { preloadedState, history }
+    );
 
     await act(async () => {
       const loginInput = screen.getByLabelText(/login/i);

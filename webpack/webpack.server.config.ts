@@ -1,16 +1,25 @@
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
+import path from 'path';
+import nodeExternals from 'webpack-node-externals';
+import { DIST_DIR, IS_DEV, SRC_DIR } from './env';
 
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const config: Configuration = {
-  mode: 'production',
+  mode: IS_DEV ? 'development' : 'production',
+  target: 'node',
+  node: { __dirname: false },
   output: {
-    publicPath: '/',
+    filename: 'server.js',
+    libraryTarget: 'commonjs2',
+    path: DIST_DIR,
+    publicPath: '/static/',
     clean: true
   },
-  entry: './src/index.tsx',
+  entry: './src/server.ts',
   module: {
     rules: [
       {
@@ -28,48 +37,44 @@ const config: Configuration = {
         }
       },
       {
-        test: /\.css$/i,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            modules: {
+              exportOnlyLocals: true
             }
           }
-        ]
+        }
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
-            loader: 'file-loader'
+            loader: 'url-loader'
           }
         ]
       }
     ]
   },
   resolve: {
+    modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
+    new Dotenv(),
     new WorkboxPlugin.InjectManifest({
-      swSrc: './src/src-sw.js',
+      swSrc: path.join(SRC_DIR, 'src-sw.js'),
       swDest: 'sw.js'
     }),
     new HtmlWebpackPlugin({
-      template: 'static/index.html'
+      template: path.join(SRC_DIR, 'index.html')
     }),
     new HotModuleReplacementPlugin()
   ],
+  externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
   devtool: false
 };
 

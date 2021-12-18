@@ -10,11 +10,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "esModuleInterop": true,
+    "types": ["webpack-env", "jest", "@testing-library/jest-dom"],
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
       "*": ["src/*"],
-    }
+    },
+
   },
   "include": ["src"],
   "exclude": ["node_modules"],
