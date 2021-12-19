@@ -8,6 +8,10 @@
         "jest": true,
         "jest/globals": true
    },
+   "globals": {
+    "React": true,
+    "JSX": true
+  },
   "rules": {
       "max-len": [2, 160],
       "@typescript-eslint/no-unused-vars": 2,

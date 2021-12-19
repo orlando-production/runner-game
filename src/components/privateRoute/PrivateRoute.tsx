@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { RootState } from 'store';
 
-type RouteType = 'private' | 'public';
+export type RouteType = 'private' | 'public' | 'error';
 
 type PrivateRouteProps = {
     component?: React.FunctionComponent<any>;
