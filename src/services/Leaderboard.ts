@@ -9,8 +9,13 @@ export type LeaderboardAddResultParams = {
 export type LeaderboardAddResult = null;
 
 export const addLeaderboardResult = (
-  leaderboardParams: LeaderboardAddResultParams
-) => requestPostData<LeaderboardAddResultParams, LeaderboardAddResult>(
+  leaderboardParams: LeaderboardAddResultParams,
+  isServer?: boolean
+) =>
+  requestPostData<LeaderboardAddResultParams, LeaderboardAddResult>(
   ENDPOINTS.LEADERBOARD,
-  leaderboardParams
+    leaderboardParams,
+    {},
+    isServer
+  );
 );

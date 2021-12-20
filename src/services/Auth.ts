@@ -7,4 +7,5 @@ export type SignInParams = {
 
 export type SignInResult = null;
 
-export const authenticateUser = (signInParams: SignInParams) => requestPostData<SignInParams, SignInResult>(ENDPOINTS.SIGNIN, signInParams);
+export const authenticateUser = (signInParams: SignInParams, isServer?:boolean) =>
+  requestPostData<SignInParams, SignInResult>(ENDPOINTS.SIGNIN, signInParams, {}, isServer);

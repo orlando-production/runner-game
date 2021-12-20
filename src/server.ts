@@ -37,7 +37,7 @@ api.post('/signin', (req, res) => {
     password: 'pass'
   } as SignInParams;
 
-  authenticateUser(user)
+  authenticateUser(user, true)
     .then(({ headers }) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       cookies = parseCookies(headers['set-cookie'].join('; '));
@@ -53,19 +53,19 @@ api.post('/leaderboard', (req, res) => {
     teamName: 'OlegTeam'
   } as LeaderboardAddResultParams;
 
-  addLeaderboardResult(leaderboard)
+  addLeaderboardResult(leaderboard, true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
 });
 
 api.post('/logout', (req, res) => {
-  logoutUser()
+  logoutUser(true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response));
 });
 
 api.post('/user', (req, res) => {
-  getUser()
+  getUser(true)
     .then(({ data }) => res.send(data))
     .catch(({ response }) => console.error(response));
 });
@@ -89,7 +89,7 @@ api.post('/profile', (req, res) => {
     withCredentials: true
   };
 
-  setUserData(profile, config)
+  setUserData(profile, config, true)
     .then(({ data }) => res.send(data))
     .catch(({ response }) => console.error(response));
 });
@@ -106,7 +106,7 @@ api.post('/password', (req, res) => {
     }
   };
 
-  setPassword(passwords, config)
+  setPassword(passwords, config, true)
     .then(({ data }) => res.send(data))
     .catch(({ response }) => console.error(response));
 });
@@ -129,7 +129,7 @@ api.post('/avatar', (req, res) => {
       }
     };
 
-    setAvatar(formData, config)
+    setAvatar(formData, config, true)
       .then(({ data }: {}) => res.send(data))
       .catch(({ response }) => console.error(response));
   });
