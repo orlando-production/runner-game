@@ -26,7 +26,7 @@ export type User = {
     error?: ErrorType,
 };
 
-const initialState: User = {
+export const userInitialState: User = {
   user: {
     id: null,
     login: '',
@@ -47,7 +47,7 @@ const initialState: User = {
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: userInitialState,
   reducers: {},
   extraReducers: {
     [FETCH_GET_USER_PENDING]: (state) => {

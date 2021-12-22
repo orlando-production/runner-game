@@ -12,3 +12,8 @@ export const getAuthError = createSelector(
   getAuthentication,
   ({ error }) => error
 );
+
+export const getUserInfoData = createSelector(
+  getAuthentication,
+  ({ isAuthenticated }) => isAuthenticated || false
+);

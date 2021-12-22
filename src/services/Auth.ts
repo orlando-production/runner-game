@@ -1,4 +1,4 @@
-import { ENDPOINTS, requestPostData } from '../api';
+import { ENDPOINTS, requestGetData, requestPostData } from '../api';
 
 export type SignInParams = {
   login: string;
@@ -7,4 +7,13 @@ export type SignInParams = {
 
 export type SignInResult = null;
 
-export const authenticateUser = (signInParams: SignInParams) => requestPostData<SignInParams, SignInResult>(ENDPOINTS.SIGNIN, signInParams);
+export const authenticateUser = (
+  signInParams: SignInParams,
+  isServer?:boolean
+) => requestPostData<SignInParams, SignInResult>(ENDPOINTS.SIGNIN, signInParams, {}, isServer);
+
+type UserInfo = null;
+
+export const getUserInfo = (
+  isServer?:boolean
+) => requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, null, isServer);

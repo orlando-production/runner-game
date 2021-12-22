@@ -1,10 +1,13 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import type { Request, Response } from 'express';
-import { StaticRouter, StaticRouterContext } from 'react-router';
+import { matchPath, StaticRouter, StaticRouterContext } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux';
 import configureAppStore, { getInitialState } from 'store';
 import Helmet, { HelmetData } from 'react-helmet';
+import routes from 'routes';
+import { Action, ThunkAction } from '@reduxjs/toolkit';
+import url from 'url';
 import { App } from './components/App';
 
 function getHtml(reactHtml: string, reduxState = {}, helmetData: HelmetData) {
@@ -30,26 +33,53 @@ function getHtml(reactHtml: string, reduxState = {}, helmetData: HelmetData) {
 }
 
 export default (req: Request, res: Response) => {
+  const { cookies } = res.locals;
   const location = req.url;
 
   const context: StaticRouterContext = {};
   const { store } = configureAppStore(getInitialState(), location);
 
-  const jsx = (
-    <ReduxProvider store={store}>
-      <StaticRouter context={context} location={location}>
-        <App />
-      </StaticRouter>
-    </ReduxProvider>
-  );
-  const reactHtml = renderToString(jsx);
-  const reduxState = store.getState();
-  const helmetData = Helmet.renderStatic();
+  const renderApp = () => {
+    const jsx = (
+      <ReduxProvider store={store}>
+        <StaticRouter context={context} location={location}>
+          <App />
+        </StaticRouter>
+      </ReduxProvider>
+    );
+    const reactHtml = renderToString(jsx);
+    const reduxState = store.getState();
+    const helmetData = Helmet.renderStatic();
 
-  if (context.url) {
-    res.redirect(context.url);
-    return;
-  }
+    if (context.url) {
+      res.redirect(context.url);
+      return;
+    }
 
-  res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState, helmetData));
+    res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState, helmetData));
+  };
+
+  const dataRequirements: ThunkAction<void, () => void, any, Action<string>>[] = [];
+
+  routes.some((route) => {
+    const { fetchData } = route;
+    const match = matchPath<{ slug: string }>(
+      url.parse(location).pathname as string,
+      route
+    );
+
+    if (match && fetchData) {
+      dataRequirements.push(fetchData({ dispatch: store.dispatch, cookies, match }));
+    }
+
+    return Boolean(match);
+  });
+
+  return Promise.all(dataRequirements)
+    .then(() => {
+      renderApp();
+    })
+    .catch((err) => {
+      throw err;
+    });
 };

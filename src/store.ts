@@ -4,14 +4,16 @@ import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
 import {
   Registration,
+  registrationInitialState,
   registrationReducer
 } from './pages/SignUpPage/registrationSlice';
 import {
   Authentication,
-  authenticationReducer
+  authenticationReducer,
+  authInitialState
 } from './pages/LoginPage/loginSlice';
-import { Logout, logoutReducer } from './pages/ProfilePage/logoutSlice';
-import { User, userReducer } from './pages/ProfilePage/userSlice';
+import { Logout, logoutInitialState, logoutReducer } from './pages/ProfilePage/logoutSlice';
+import { User, userInitialState, userReducer } from './pages/ProfilePage/userSlice';
 
 export const rootReducer = (history: History) => combineReducers({
   authentication: authenticationReducer,
@@ -64,37 +66,11 @@ export default function configureAppStore(
   return { store, history };
 }
 
-const userInitialState: User = {
-  user: {
-    avatar: '',
-    display_name: 'admin',
-    email: 'jd@yandex.ru',
-    first_name: 'john',
-    id: null,
-    login: 'admin',
-    phone: '89007006050',
-    second_name: 'doe',
-    status: null
-  },
-  error: null,
-  statusProfile: 'invisible',
-  statusPassword: 'invisible',
-  messagePassword: '',
-  messageProfile: ''
-};
-
 // сейчас isAuthenticated: true всегда, но надо как-то получать эту инфу с сервера наверно
 export const getInitialState = (pathname: string = '/'): RootState => ({
-  authentication: {
-    isAuthenticated: true,
-    authStatus: 'idle'
-  },
-  registration: {
-    registrationStatus: 'idle'
-  },
-  logout: {
-    logoutStatus: 'idle'
-  },
+  authentication: authInitialState,
+  registration: registrationInitialState,
+  logout: logoutInitialState,
   user: userInitialState,
   statusProfile: userInitialState,
   statusPassword: userInitialState,

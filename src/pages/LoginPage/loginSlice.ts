@@ -1,7 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { FETCH_SIGNIN_PENDING, FETCH_SIGNIN_FILFILLED, FETCH_SIGNIN_REJECTED } from '../../actions/authentication';
+import {
+  FETCH_SIGNIN_PENDING, FETCH_SIGNIN_FILFILLED, FETCH_SIGNIN_REJECTED, FETCH_USER_INFO_PENDING, FETCH_USER_INFO_FILFILLED, FETCH_USER_INFO_REJECTED
+} from '../../actions/authentication';
 import { ErrorType } from '../../api';
 
 export type Authentication = {
@@ -10,14 +12,14 @@ export type Authentication = {
     error?: ErrorType,
   };
 
-const initialState: Authentication = {
+export const authInitialState: Authentication = {
   authStatus: 'idle',
   isAuthenticated: false
 };
 
 export const authenticationSlice = createSlice({
   name: 'authentication',
-  initialState,
+  initialState: authInitialState,
   reducers: {
     setAuthentication: (state) => {
       state.isAuthenticated = true;
@@ -32,6 +34,17 @@ export const authenticationSlice = createSlice({
       state.isAuthenticated = true;
     },
     [FETCH_SIGNIN_REJECTED]: (state, action) => {
+      state.authStatus = 'failed';
+      state.error = action.payload;
+    },
+    [FETCH_USER_INFO_PENDING]: (state) => {
+      state.authStatus = 'loading';
+    },
+    [FETCH_USER_INFO_FILFILLED]: (state) => {
+      state.authStatus = 'succeeded';
+      state.isAuthenticated = true;
+    },
+    [FETCH_USER_INFO_REJECTED]: (state, action) => {
       state.authStatus = 'failed';
       state.error = action.payload;
     }

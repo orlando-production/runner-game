@@ -1,37 +1,54 @@
-import React from 'react';
+/* eslint-disable no-console */
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect } from 'react';
 import './reset.css';
 import './constants.css';
 import {
-  Switch,
   Route,
-  Redirect
+  Switch
 } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
-import LoginPage from '../pages/LoginPage';
-import SignUpPage from '../pages/SignUpPage';
-import ForumPage from '../pages/ForumPage';
-import LeaderboardPage from '../pages/LeaderboardPage';
-import ForumTopicPage from '../pages/ForumTopicPage';
-import NotFoundPage from '../pages/NotFoundPage';
-import ProfilePage from '../pages/ProfilePage';
-import GamePage from '../pages/GamePage';
-import MainPage from '../pages/MainPage';
-import PrivateRoute from './privateRoute';
+import routes from 'routes';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserInfoData } from 'selectors/authentication';
+import { fetchUserInfo } from 'thunks/authentication';
+import { PrivateRoute } from './privateRoute/PrivateRoute';
 
 function App() {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(getUserInfoData);
+  console.log('isAuthenticated from App');
+  console.log(isAuthenticated);
+
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
+
   return (
     <div>
       <Switch>
-        <PrivateRoute path="/" component={MainPage} exact type="private" />
-        <PrivateRoute path="/sign-in" component={LoginPage} type="public" />
-        <PrivateRoute path="/sign-up" component={SignUpPage} type="public" />
-        <PrivateRoute path="/game" component={GamePage} type="private" />
-        <PrivateRoute path="/leaderboard" component={LeaderboardPage} type="private" />
-        <PrivateRoute path="/forum" component={ForumPage} exact type="private" />
-        <PrivateRoute path="/forum/:topicId" component={ForumTopicPage} type="private" />
-        <PrivateRoute path="/profile" component={ProfilePage} type="private" />
-        <Route path="/404" component={NotFoundPage} />
-        <Redirect to="/404" />
+        {routes.map(({
+          path, type, ...props
+        }) => (
+          type !== 'error'
+            ? (
+              <PrivateRoute
+                key={path}
+                path={path}
+                type={type}
+                isAuthenticated={isAuthenticated}
+                {...props}
+              />
+            )
+            : (
+              <Route
+                key={path}
+                path={path}
+                type={type}
+                {...props}
+              />
+            )
+        ))}
       </Switch>
     </div>
   );

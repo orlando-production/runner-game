@@ -9,13 +9,13 @@ export type Logout = {
     error?: ErrorType,
   };
 
-const initialState: Logout = {
+export const logoutInitialState: Logout = {
   logoutStatus: 'idle'
 };
 
 export const logoutSlice = createSlice({
   name: 'logout',
-  initialState,
+  initialState: logoutInitialState,
   reducers: {},
   extraReducers: {
     [FETCH_LOGOUT_PENDING]: (state) => {

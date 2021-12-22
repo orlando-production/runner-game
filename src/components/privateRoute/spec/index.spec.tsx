@@ -11,7 +11,7 @@ import type { Logout } from '../../../pages/ProfilePage/logoutSlice';
 import type { User } from '../../../pages/ProfilePage/userSlice';
 import type { Registration } from '../../../pages/SignUpPage/registrationSlice';
 import type { Authentication } from '../../../pages/LoginPage/loginSlice';
-import PrivateRoute from '../PrivateRoute';
+import { PrivateRoute } from '../PrivateRoute';
 
 describe('PrivateRoute', () => {
   describe('со страницы логина производим редирект на страницу игры', () => {

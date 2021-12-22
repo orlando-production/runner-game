@@ -9,13 +9,13 @@ export type Registration = {
     error?: ErrorType,
   };
 
-const initialState: Registration = {
+export const registrationInitialState: Registration = {
   registrationStatus: 'idle'
 };
 
 export const registrationSlice = createSlice({
   name: 'registration',
-  initialState,
+  initialState: registrationInitialState,
   reducers: {},
   extraReducers: {
     [FETCH_SIGNUP_PENDING]: (state) => {
