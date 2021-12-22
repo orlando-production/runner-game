@@ -1,4 +1,5 @@
 import { ThunkAction } from '@reduxjs/toolkit';
+import { RouteType } from 'components/privateRoute/PrivateRoute';
 import ForumPage from 'pages/ForumPage';
 import ForumTopicPage from 'pages/ForumTopicPage';
 import GamePage from 'pages/GamePage';
@@ -11,7 +12,6 @@ import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
 import { Action } from 'redux';
-import { RouteType } from './components/privateRoute/PrivateRoute';
 
 export type ReduxAction<T = any, P = any>= {
     type: T;

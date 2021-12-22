@@ -3,7 +3,7 @@ import path from 'path';
 import express from 'express';
 import compression from 'compression';
 import 'babel-polyfill';
-import { authenticateUser, SignInParams } from 'services/Auth';
+import { authenticateUser, getUserInfo, SignInParams } from 'services/Auth';
 import { addLeaderboardResult, LeaderboardAddResultParams } from 'services/Leaderboard';
 import { logoutUser } from 'services/Logout';
 import {
@@ -133,6 +133,14 @@ api.post('/avatar', (req, res) => {
       .then(({ data }: {}) => res.send(data))
       .catch(({ response }) => console.error(response));
   });
+});
+
+api.get('/auth/user', (req, res) => {
+  getUserInfo(true)
+    .then(({ data }) => {
+      res.send(data);
+    })
+    .catch(({ response }) => console.error(response));
 });
 
 app.use(compression())
