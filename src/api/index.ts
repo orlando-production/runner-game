@@ -26,9 +26,10 @@ export type ErrorType = AxiosError;
 
 export const requestPostData = <P, R>(
   url: Endpoint,
-  params?: P
-) => API.post<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);
+  params?: P,
+  config?: {}
+) => API.post<R, AxiosResponse<R>, P>(url, params, config).then(({ data }) => data);
 
 export const requestGetData = <R>(url: Endpoint) => API.get<R>(url).then(({ data }) => data);
 
-export const requestPutData = <P, R>(url: Endpoint, params: P) => API.put<R, AxiosResponse<R>, P>(url, params).then(({ data }) => data);
+export const requestPutData = <P, R>(url: Endpoint, params: P, config?: {}) => API.put<R, AxiosResponse<R>, P>(url, params, config).then(({ data }) => data);
