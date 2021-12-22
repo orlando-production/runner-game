@@ -73,10 +73,10 @@ const GameScreen = ({
     <div className={classes['game-screen']}>
       <div className={classes['game-screen__header']}>
         <WithRefForwardTimer ref={timerEl} />
-        <div className={classes['game-screen__points']} aria-label="подарки">
+        <div className={classes['game-screen__points']} aria-label='подарки'>
           {points}
           <img
-            alt="present"
+            alt='present'
             src={presentImg}
             className={classes['game-screen__present-img']}
           />
@@ -85,28 +85,28 @@ const GameScreen = ({
       {isPause ? (
         <button
           className={classes['game-screen__change-pause-button']}
-          type="button"
+          type='button'
           onClick={() => {
             setPause(false);
           }}
         >
           <img
             src={playImg}
-            alt="play"
+            alt='play'
             className={classes['game-screen__change-pause-img']}
           />
         </button>
       ) : (
         <button
           className={classes['game-screen__change-pause-button']}
-          type="button"
+          type='button'
           onClick={() => {
             setPause(true);
           }}
         >
           <img
             src={pauseImg}
-            alt="pause"
+            alt='pause'
             className={classes['game-screen__change-pause-img']}
           />
         </button>
@@ -115,7 +115,6 @@ const GameScreen = ({
         isPause={isPause}
         setGameState={setGameState}
         onPointsChange={addPoints}
-        points={points}
         setFooterVisible={setFooterVisible}
       />
     </div>

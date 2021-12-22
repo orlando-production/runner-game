@@ -31,8 +31,6 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({ topic, description });
-    console.log('New topic saved');
     onClose();
   };
 

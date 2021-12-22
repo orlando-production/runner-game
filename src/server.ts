@@ -4,12 +4,21 @@ import express from 'express';
 import compression from 'compression';
 import 'babel-polyfill';
 import { authenticateUser, getUserInfo, SignInParams } from 'services/Auth';
-import { addLeaderboardResult, LeaderboardAddResultParams } from 'services/Leaderboard';
+import {
+  addLeaderboardResult,
+  LeaderboardAddResultParams
+} from 'services/Leaderboard';
 import { logoutUser } from 'services/Logout';
 import {
-  getUser, setUserData, setAvatar, setPassword, PasswordParams, ProfileParams
+  getUser,
+  setUserData,
+  setAvatar,
+  setPassword,
+  PasswordParams,
+  ProfileParams
 } from 'services/Profile';
 import serverRenderMiddleware from './server-render-middleware';
+import { ENDPOINTS } from 'api';
 
 const busboy = require('connect-busboy');
 const FormData = require('form-data');
@@ -19,34 +28,33 @@ const api = express.Router();
 
 const port = process.env.PORT || 3000;
 
-api.use(express.json());
-api.use(busboy({ immediate: true }));
+app.use(express.json());
+app.use(busboy({ immediate: true }));
 
 let cookies = '';
 
-const parseCookies = (cookie: string) => cookie
-  .split(/;\s+/)
-  .filter((token) => token.startsWith('authCookie') || token.startsWith('uuid'))
-  // возвращает 2 куки 'uuid', первую вырезаем
-  .slice(1)
-  .join('; ');
+const parseCookies = (cookie: string) =>
+  cookie
+    .split(/;\s+/)
+    .filter(
+      (token) => token.startsWith('authCookie') || token.startsWith('uuid')
+    )
+    // возвращает 2 куки 'uuid', первую вырезаем
+    .slice(1)
+    .join('; ');
 
-api.post('/signin', (req, res) => {
-  const user = {
-    login: 'login',
-    password: 'pass'
-  } as SignInParams;
+app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
 
-  authenticateUser(user, true)
-    .then(({ headers }) => {
+  authenticateUser(req.body, true)
+    .then((result) => {
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!', result);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      cookies = parseCookies(headers['set-cookie'].join('; '));
+      //cookies = parseCookies(headers['set-cookie'].join('; '));
       return res.sendStatus(200);
-    })
-    .catch(({ response }) => console.error(response.data));
+    });
 });
 
-api.post('/leaderboard', (req, res) => {
+app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
   const leaderboard = {
     data: {},
     ratingFieldName: 'Oleg',
@@ -58,19 +66,23 @@ api.post('/leaderboard', (req, res) => {
     .catch(({ response }) => console.error(response.data));
 });
 
-api.post('/logout', (req, res) => {
+app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
   logoutUser(true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response));
 });
 
-api.post('/user', (req, res) => {
+app.get(`/${ENDPOINTS.USER}`, (req, res) => {
+  console.log('auth.user');
   getUser(true)
-    .then(({ data }) => res.send(data))
+    .then(({ data }) => {
+      console.log(data);
+      res.send(data);
+    })
     .catch(({ response }) => console.error(response));
 });
 
-api.post('/profile', (req, res) => {
+app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
   const profile = {
     login: 'login',
     first_name: 'first_name',
@@ -94,7 +106,7 @@ api.post('/profile', (req, res) => {
     .catch(({ response }) => console.error(response));
 });
 
-api.post('/password', (req, res) => {
+app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
   const passwords = {
     newPassword: '111',
     oldPassword: '1111'
@@ -112,7 +124,7 @@ api.post('/password', (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-api.post('/avatar', (req, res) => {
+app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
   if (!req.busboy) {
     return res.sendStatus(500);
   }
@@ -135,17 +147,10 @@ api.post('/avatar', (req, res) => {
   });
 });
 
-api.get('/auth/user', (req, res) => {
-  getUserInfo(true)
-    .then(({ data }) => {
-      res.send(data);
-    })
-    .catch(({ response }) => console.error(response));
-});
-
-app.use(compression())
+app
+  .use(compression())
   .use(express.static(path.resolve(__dirname, '../static')))
-  .use('/api', api);
+  .use('/api', api)
 app.get('/*', serverRenderMiddleware);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

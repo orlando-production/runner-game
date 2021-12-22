@@ -9,13 +9,15 @@ import { GameStates } from '../../GamePage';
 import classes from './GameController.module.css';
 import { ObstacleTypes } from '../ObstacleLine/ObstacleLine';
 import Background from '../Background';
+import { useSelector } from 'react-redux';
+import { getUserData } from 'selectors/profile';
+import { UserResult } from 'services/Profile';
 
 type GameControllerOptions = {
   setGameState: (state: GameStates) => void;
   onPointsChange: (pointsNumber: number) => void;
   setFooterVisible: (visible: boolean) => void;
   isPause: boolean;
-  points: number;
 };
 const PLAYER_SPRITE_WIDTH = 963;
 const PLAYER_SPRITE_HEIGHT = 60;
@@ -35,8 +37,7 @@ const GameController = ({
   setGameState,
   onPointsChange,
   setFooterVisible,
-  isPause,
-  points
+  isPause
 }: GameControllerOptions) => {
   const playerImage = new Image();
   playerImage.src = image;
@@ -44,6 +45,7 @@ const GameController = ({
   backgroundImage.src = bg;
 
   const canvas = useRef();
+  const user = useSelector(getUserData) as UserResult;
   const speedRef = useRef(null);
   const firstUpdate = useRef(true);
   const obstacleLineInstRef = useRef(null);
@@ -94,38 +96,43 @@ const GameController = ({
       playerInstRef.current.render();
       const [firstObstacle] = obstacleLineInstRef.current.obstacles;
       if (
-        playerInstRef.current.isShot
-        && firstObstacle
-        && firstObstacle.canvX >= playerInstRef.current.shotPositionX
-        && firstObstacle.canvX
-          <= playerInstRef.current.shotPositionX
-            + playerInstRef.current.shotLength
-        && firstObstacle.canvY + firstObstacle.height
-          > playerInstRef.current.shotPositionY
-        && firstObstacle.canvY
-          < playerInstRef.current.shotPositionY + playerInstRef.current.shotHeight
+        playerInstRef.current.isShot &&
+        firstObstacle &&
+        firstObstacle.canvX >= playerInstRef.current.shotPositionX &&
+        firstObstacle.canvX <=
+          playerInstRef.current.shotPositionX +
+            playerInstRef.current.shotLength &&
+        firstObstacle.canvY + firstObstacle.height >
+          playerInstRef.current.shotPositionY &&
+        firstObstacle.canvY <
+          playerInstRef.current.shotPositionY + playerInstRef.current.shotHeight
       ) {
         obstacleLineInstRef.current.obstacleShift();
       }
       if (
-        firstObstacle
-        && firstObstacle.canvX
-          <= playerInstRef.current.position.x
-            + playerInstRef.current.position.width / NUMBER_OF_FRAMES
-            - 40
-        && firstObstacle.canvX >= playerInstRef.current.position.x
-        && playerInstRef.current.position.y
-          + playerInstRef.current.position.height
-          > firstObstacle.canvY
-        && playerInstRef.current.position.y
-          < firstObstacle.canvY + firstObstacle.height
+        firstObstacle &&
+        firstObstacle.canvX <=
+          playerInstRef.current.position.x +
+            playerInstRef.current.position.width / NUMBER_OF_FRAMES -
+            40 &&
+        firstObstacle.canvX >= playerInstRef.current.position.x &&
+        playerInstRef.current.position.y +
+          playerInstRef.current.position.height >
+          firstObstacle.canvY &&
+        playerInstRef.current.position.y <
+          firstObstacle.canvY + firstObstacle.height
       ) {
         if (firstObstacle.type === ObstacleTypes.ENEMY) {
           setGameState(GameStates.Finished);
           obstacleLineInstRef.current.clear();
           addLeaderboardResult({
-            data: { presents: points },
-            teamName: 'orlando',
+            data: {
+              presents: 10,
+              name: user.first_name,
+              avatar: user.avatar,
+              id: user.id
+            },
+            teamName: 'orlando_production',
             ratingFieldName: 'presents'
           });
         } else if (firstObstacle.type === ObstacleTypes.FRIEND) {
@@ -191,7 +198,8 @@ const GameController = ({
         });
         obstacleLineInstRef.current.speed = speed;
         // eslint-disable-next-line operator-assignment
-        playerInstRef.current.ticksPerFrame = playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
+        playerInstRef.current.ticksPerFrame =
+          playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
         speedTimeout = setTimeout(increaseSpeed, 5000);
       }
     }, SPEED_CHANGE_TIME);
@@ -217,7 +225,7 @@ const GameController = ({
           isPause ? classes['game-controller__canvas_pause'] : ''
         )}
         ref={canvas}
-        data-testid="canvas"
+        data-testid='canvas'
       />
     </>
   );

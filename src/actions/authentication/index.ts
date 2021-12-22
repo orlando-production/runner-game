@@ -1,4 +1,5 @@
 export const FETCH_SIGNIN = 'auth/SIGNIN';
+export const SIGN_IN_BY_CODE='auth/code';
 
 export const FETCH_SIGNIN_PENDING = `${FETCH_SIGNIN}/pending`;
 export const FETCH_SIGNIN_FILFILLED = `${FETCH_SIGNIN}/fulfilled`;

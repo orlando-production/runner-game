@@ -23,7 +23,7 @@
 .leaderboard-field {
     display: grid;
     align-items: center;
-    grid-template-columns: 1fr 100px 100px;
+    grid-template-columns: 100px 1fr 100px;
     gap: 15px;
     min-height: 54px;
     border-bottom: 1px solid rgba(var(--black-color), 0.08);

@@ -23,8 +23,6 @@ const Topic = (props: TopicProps) => {
   ];
 
   const onAddButtonClick = () => {
-    console.log(props);
-    console.log('Add Text to topic');
   };
 
   return (
