@@ -34,7 +34,7 @@ export type UserResult = {
     status?: null
 };
 
-export const getUser = (isServer?:boolean) => requestGetData<UserResult>(ENDPOINTS.USER, null, isServer);
+export const getUser = (isServer?:boolean) => requestGetData<UserResult>(ENDPOINTS.USER, null, {}, isServer);
 export const setUserData = (
   profileParams: ProfileParams,
   config?: {}, isServer?:boolean

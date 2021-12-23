@@ -21,6 +21,8 @@ export const PrivateRoute = (props: PrivateRouteProps) => {
   const dispatch = useDispatch();
   console.log('private');
   dispatch(fetchUserInfo());
+
+  console.log(useSelector(getUserInfoData));
   const isAuthenticated = useSelector(getUserInfoData);
 
   if (type === 'public' && isAuthenticated) {
