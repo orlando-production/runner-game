@@ -28,8 +28,8 @@ const api = express.Router();
 
 const port = process.env.PORT || 3000;
 
-api.use(express.json());
-api.use(busboy({ immediate: true }));
+app.use(express.json());
+app.use(busboy({ immediate: true }));
 
 let cookies = '';
 
@@ -42,7 +42,7 @@ const parseCookies = (cookie: string) => cookie
   .slice(1)
   .join('; ');
 
-api.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
+app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
   authenticateUser(req.body, true)
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; '));
@@ -50,9 +50,7 @@ api.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
     });
 });
 
-console.log(cookies, 'cookies');
-
-api.get(`/${ENDPOINTS.USER}`, (req, res) => {
+app.get(`/${ENDPOINTS.USER}`, (req, res) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -62,6 +60,7 @@ api.get(`/${ENDPOINTS.USER}`, (req, res) => {
   console.log('auth.user');
   getUserInfo(config, true)
     .then(({ data }) => {
+      console.log('success');
       res.send(data);
     })
     .catch(({ response }) => console.error(response));

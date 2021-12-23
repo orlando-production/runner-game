@@ -26,8 +26,7 @@ export const fetchSignUp = createAsyncThunk(
     password
   })
     .then(() => {
-      setCookie('auth', login);
-      navigate();
+      
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
