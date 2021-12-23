@@ -46,108 +46,120 @@ app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
   authenticateUser(req.body, true)
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; '));
+      console.log(cookies, 'sign-in');
+      // const test = cookies.split(';');
+      // res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
+      //   maxAge: 365 * 24 * 60 * 60 * 1000,
+      //   secure: true
+      // });
+      // res.cookie(`${test[1].split('=')[0]}`, `${test[1].split('=')[1]}`, {
+      //   maxAge: 365 * 24 * 60 * 60 * 1000,
+      //   secure: true
+      // });
       return res.sendStatus(200);
     });
 });
 
+app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
+  const leaderboard = {
+    data: {},
+    ratingFieldName: 'Oleg',
+    teamName: 'OlegTeam'
+  } as LeaderboardAddResultParams;
+
+  addLeaderboardResult(leaderboard, true)
+    .then(() => res.sendStatus(200))
+    .catch(({ response }) => console.error(response.data));
+});
+
+app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
+  logoutUser(true)
+    .then(() => res.sendStatus(200))
+    .catch(({ response }) => console.error(response));
+});
+
 app.get(`/${ENDPOINTS.USER}`, (req, res) => {
+  console.log('auth.user');
   const config = {
     headers: {
       Cookie: cookies
     }
   };
 
-  console.log('auth.user');
-  getUserInfo(config, true)
-    .then(({ data }) => {
-      console.log('success');
-      res.send(data);
+  console.log(config);
+
+  getUser(config, true)
+    .then((res) => {
+      console.log(res, 'user');
+      res.send(res);
     })
+    .catch(({ response }) => console.error('response user'));
+});
+
+app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
+  const profile = {
+    login: 'login',
+    first_name: 'first_name',
+    second_name: 'second_name',
+    email: 'email@gmail.com',
+    phone: '88003555335',
+    display_name: 'display_name',
+    status: null,
+    avatar: null
+  } as ProfileParams;
+
+  const config = {
+    headers: {
+      Cookie: cookies
+    },
+    withCredentials: true
+  };
+
+  setUserData(profile, config, true)
+    .then(({ data }) => res.send(data))
     .catch(({ response }) => console.error(response));
 });
 
-// app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
-//   const leaderboard = {
-//     data: {},
-//     ratingFieldName: 'Oleg',
-//     teamName: 'OlegTeam'
-//   } as LeaderboardAddResultParams;
-//
-//   addLeaderboardResult(leaderboard, true)
-//     .then(() => res.sendStatus(200))
-//     .catch(({ response }) => console.error(response.data));
-// });
-//
-// app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
-//   logoutUser(true)
-//     .then(() => res.sendStatus(200))
-//     .catch(({ response }) => console.error(response));
-// });
+app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
+  const passwords = {
+    newPassword: '111',
+    oldPassword: '1111'
+  } as PasswordParams;
 
-// app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
-//   const profile = {
-//     login: 'login',
-//     first_name: 'first_name',
-//     second_name: 'second_name',
-//     email: 'email@gmail.com',
-//     phone: '88003555335',
-//     display_name: 'display_name',
-//     status: null,
-//     avatar: null
-//   } as ProfileParams;
-//
-//   const config = {
-//     headers: {
-//       Cookie: cookies
-//     },
-//     withCredentials: true
-//   };
-//
-//   setUserData(profile, config, true)
-//     .then(({ data }) => res.send(data))
-//     .catch(({ response }) => console.error(response));
-// });
-//
-// app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
-//   const passwords = {
-//     newPassword: '111',
-//     oldPassword: '1111'
-//   } as PasswordParams;
-//
-//   const config = {
-//     headers: {
-//       Cookie: cookies
-//     }
-//   };
-//
-//   setPassword(passwords, config, true)
-//     .then(({ data }) => res.send(data))
-//     .catch(({ response }) => console.error(response));
-// });
-//
-// // eslint-disable-next-line consistent-return
-// app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
-//   if (!req.busboy) {
-//     return res.sendStatus(500);
-//   }
-//
-//   req.busboy.on('file', (fieldName: string, file: any, filename: string) => {
-//     const formData = new FormData();
-//
-//     formData.append('avatar', file, { filename });
-//
-//     const config = {
-//       headers: {
-//         Cookie: cookies,
-//         ...formData.getHeaders()
-//       }
-//     };
-//
-//     setAvatar(formData, config, true)
-//       .then(({ data }: {}) => res.send(data))
-//       .catch(({ response }) => console.error(response));
-//   });
-// });
+  const config = {
+    headers: {
+      Cookie: cookies
+    }
+  };
+
+  setPassword(passwords, config, true)
+    .then(({ data }) => res.send(data))
+    .catch(({ response }) => console.error(response));
+});
+
+// eslint-disable-next-line consistent-return
+app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
+  if (!req.busboy) {
+    return res.sendStatus(500);
+  }
+
+  req.busboy.on('file', (fieldName: string, file: any, filename: string) => {
+    const formData = new FormData();
+
+    formData.append('avatar', file, { filename });
+
+    const config = {
+      headers: {
+        Cookie: cookies,
+        ...formData.getHeaders()
+      }
+    };
+
+    setAvatar(formData, config, true)
+      .then(({ data }: {}) => res.send(data))
+      .catch(({ response }) => console.error(response));
+  });
+});
 
 app
   .use(compression())

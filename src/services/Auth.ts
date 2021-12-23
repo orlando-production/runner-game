@@ -29,7 +29,10 @@ export const authenticateUser = (
 
 type UserInfo = null;
 
-export const getUserInfo = (config?: {}, isServer?: boolean) => requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, null, config, isServer);
+export const getUserInfo = (config?: {}, isServer?: boolean) => {
+  console.log(config, 'config auth');
+  return requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, config, isServer);
+};
 
 export const getServiceId = (redirect_uri: string) => requestGetData<string, OAuthServiceConfig>(`${ENDPOINTS.OAUTH_SERVICE}`, {
   params: { redirect_uri }

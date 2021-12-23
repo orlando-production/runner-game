@@ -40,15 +40,17 @@ export const requestPostData = <P, R>(
     .post<R, AxiosResponse<R>, P>(url, params, config)
     .then(({ data, headers }) => ({ data, headers }));
 
-// @ts-ignore
 export const requestGetData = <R, P>(
   url: Endpoint,
-  params?: P,
   config?: {},
   isServer?: boolean
-) => API(isServer)
-    .get<R, P>(url, params, config)
+) => {
+  console.log(url, 'url');
+  console.log(config, 'config');
+  return API(isServer)
+    .get<R, P>(url, config)
     .then(({ data }) => data);
+};
 
 export const requestPutData = <P, R>(
   url: Endpoint,
