@@ -52,7 +52,9 @@ export const requestGetData = <R, P>(
   return API(isServer)
     .get<R, P>(url, config)
     .then(({ data }) => data)
-    .catch((err) => err);
+    .catch((err) => {
+      throw err;
+    });
 };
 
 export const requestPutData = <P, R>(

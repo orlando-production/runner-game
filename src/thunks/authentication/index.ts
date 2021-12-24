@@ -63,7 +63,8 @@ export const fetchUserInfo = createAsyncThunk(
       console.log('thunk fetchUserInfo');
     })
     .catch((err: ErrorType) => {
-      console.log('error thunk fetchUserInfo');
+      console.log('error thunk fetchUserInfo',err?.response?.status);
+      throw new Error('feffefe');
       rejectWithValue(err?.response?.status);
     })
 );

@@ -95,8 +95,7 @@ app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
       res.send(result);
     })
     .catch(({ response }) => {
-      console.log('error from app.get(`/${ENDPOINTS.USER}`');
-      console.error(response?.status);
+      res.sendStatus(401);
     });
 });
 
