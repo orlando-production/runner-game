@@ -47,15 +47,15 @@ app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; '));
       console.log(cookies, 'sign-in');
-      // const test = cookies.split(';');
-      // res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
-      //   maxAge: 365 * 24 * 60 * 60 * 1000,
-      //   secure: true
-      // });
-      // res.cookie(`${test[1].split('=')[0]}`, `${test[1].split('=')[1]}`, {
-      //   maxAge: 365 * 24 * 60 * 60 * 1000,
-      //   secure: true
-      // });
+      const test = cookies.split(';');
+      res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
+        maxAge: 365 * 24 * 60 * 60 * 1000,
+        secure: true
+      });
+      res.cookie(`${test[1].split('=')[0]}`, `${test[1].split('=')[1]}`, {
+        maxAge: 365 * 24 * 60 * 60 * 1000,
+        secure: true
+      });
       return res.sendStatus(200);
     });
 });
