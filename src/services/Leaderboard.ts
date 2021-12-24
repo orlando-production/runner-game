@@ -1,4 +1,4 @@
-import { ENDPOINTS, requestGetData, requestPostData } from '../api';
+import { ENDPOINTS, requestPostData } from '../api';
 
 export type LeaderboardAddResultParams = {
   data: any;
@@ -26,18 +26,16 @@ export type LeaderboardAddResult = null;
 export const addLeaderboardResult = (
   leaderboardParams: LeaderboardAddResultParams,
   isServer?: boolean
-) =>
-  requestPostData<LeaderboardAddResultParams, LeaderboardAddResult>(
-    ENDPOINTS.LEADERBOARD,
-    leaderboardParams,
-    {},
-    isServer
-  );
+) => requestPostData<LeaderboardAddResultParams, LeaderboardAddResult>(
+  ENDPOINTS.LEADERBOARD,
+  leaderboardParams,
+  {},
+  isServer
+);
 
 export const getLeaderboardResults = (
   leaderBoardParams: LeaderboardGetResultsParams
-) =>
-  requestPostData<LeaderboardGetResultsParams, LeaderboardGetResult[]>(
-    ENDPOINTS.LEADERBOARD_RESULTS,
-    leaderBoardParams
-  );
+) => requestPostData<LeaderboardGetResultsParams, LeaderboardGetResult[]>(
+  ENDPOINTS.LEADERBOARD_RESULTS,
+  leaderBoardParams
+);

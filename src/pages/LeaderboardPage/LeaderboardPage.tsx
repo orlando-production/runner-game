@@ -1,15 +1,15 @@
 import { Box, Avatar, Typography } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import Footer from '../../components/footer';
-import commonStyles from '../../components/common.module.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-import styles from './LeaderboardPage.module.css';
 import {
   getLeaderboardResults,
   LeaderboardGetResult
 } from 'services/Leaderboard';
+import Footer from '../../components/footer';
+import commonStyles from '../../components/common.module.css';
+
+import styles from './LeaderboardPage.module.css';
 
 const LOAD_LIMIT = 30;
 
@@ -53,8 +53,8 @@ const LeaderboardPage = () => {
         )}
       >
         <Typography
-          component='h1'
-          variant='h5'
+          component="h1"
+          variant="h5"
           className={styles['leaderboard-title']}
           mb={5}
         >
@@ -67,13 +67,13 @@ const LeaderboardPage = () => {
           )}
         >
           <div className={styles['leaderboard-field']}>
-            <Typography color='text.secondary' variant='subtitle1'>
+            <Typography color="text.secondary" variant="subtitle1">
               Id
             </Typography>
-            <Typography color='text.secondary' variant='subtitle1'>
+            <Typography color="text.secondary" variant="subtitle1">
               Name
             </Typography>
-            <Typography color='text.secondary' variant='subtitle1'>
+            <Typography color="text.secondary" variant="subtitle1">
               Presents
             </Typography>
           </div>
@@ -85,20 +85,20 @@ const LeaderboardPage = () => {
           >
             {data.map((field) => (
               <div key={field.data.id} className={styles['leaderboard-field']}>
-                <Typography color='text.secondary' variant='body1'>
+                <Typography color="text.secondary" variant="body1">
                   {field.data.id}
                 </Typography>
                 <div className={styles['leaderboard-name']}>
                   <Avatar src={field.avatar} />
                   <Typography
                     sx={{ ml: 2 }}
-                    color='text.secondary'
-                    variant='body1'
+                    color="text.secondary"
+                    variant="body1"
                   >
                     {field.data.name}
                   </Typography>
                 </div>
-                <Typography color='text.secondary' variant='body1'>
+                <Typography color="text.secondary" variant="body1">
                   {field.data.presents}
                 </Typography>
               </div>

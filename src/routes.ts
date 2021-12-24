@@ -1,4 +1,4 @@
-import { ThunkAction } from '@reduxjs/toolkit';
+import { AsyncThunkAction } from '@reduxjs/toolkit';
 import { RouteType } from 'components/privateRoute/PrivateRoute';
 import ForumPage from 'pages/ForumPage';
 import ForumTopicPage from 'pages/ForumTopicPage';
@@ -11,8 +11,7 @@ import ProfilePage from 'pages/ProfilePage';
 import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
-import { Action } from 'redux';
-import { fetchUser } from 'thunks/profile';
+import { fetchUserInfo } from 'thunks/authentication';
 
 export type ReduxAction<T = any, P = any> = {
   type: T;
@@ -20,14 +19,14 @@ export type ReduxAction<T = any, P = any> = {
 };
 
 export type RouterFetchDataArgs = {
-  dispatch: Dispatch<ReduxAction>;
+  dispatch: Dispatch<AsyncThunkAction<void, void, {}>>;
   match: match<{ slug: string }>;
   cookies: string;
 };
 
 export type RouterFetchData = ({
   dispatch
-}: RouterFetchDataArgs) => ThunkAction<void, () => void, any, Action<string>>;
+}: RouterFetchDataArgs) => void;
 
 export type RoutesType = {
   path: string;
@@ -44,7 +43,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -53,7 +52,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -62,7 +61,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -71,7 +70,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -80,7 +79,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -89,7 +88,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -98,7 +97,7 @@ const routes: RoutesType = [
     exact: false,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -107,7 +106,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      dispatch(fetchUser());
+      return dispatch(fetchUserInfo());
     }
   },
   {
@@ -115,13 +114,13 @@ const routes: RoutesType = [
     component: NotFoundPage,
     exact: false,
     type: 'error'
-  },
-  {
-    path: '*',
-    component: NotFoundPage,
-    exact: false,
-    type: 'error'
   }
+  // {
+  //   path: '*',
+  //   component: NotFoundPage,
+  //   exact: false,
+  //   type: 'error'
+  // }
 ];
 
 export default routes;

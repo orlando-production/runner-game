@@ -15,7 +15,6 @@ export const fetchSignUp = createAsyncThunk(
     phone,
     login,
     password,
-    setCookie,
     navigate
   }: FetchSignUpParams, { rejectWithValue }) => registerUser({
     first_name,
@@ -26,7 +25,7 @@ export const fetchSignUp = createAsyncThunk(
     password
   })
     .then(() => {
-      
+      navigate();
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );

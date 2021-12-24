@@ -30,7 +30,7 @@ export const authenticateUser = (
 type UserInfo = null;
 
 export const getUserInfo = (config?: {}, isServer?: boolean) => {
-  console.log(config, 'config auth');
+  console.log('getUserInfo in Auth');
   return requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, config, isServer);
 };
 

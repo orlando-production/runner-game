@@ -46,7 +46,7 @@ export const requestGetData = <R, P>(
   isServer?: boolean
 ) => {
   console.log(url, 'url');
-  console.log(config, 'config');
+  console.log('requestGetData');
   return API(isServer)
     .get<R, P>(url, config)
     .then(({ data }) => data);

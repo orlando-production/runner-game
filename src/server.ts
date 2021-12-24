@@ -1,16 +1,16 @@
+/* eslint-disable no-template-curly-in-string */
 /* eslint-disable no-console */
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
 import 'babel-polyfill';
-import { authenticateUser, getUserInfo, SignInParams } from 'services/Auth';
+import { authenticateUser, getUserInfo } from 'services/Auth';
 import {
   addLeaderboardResult,
   LeaderboardAddResultParams
 } from 'services/Leaderboard';
 import { logoutUser } from 'services/Logout';
 import {
-  getUser,
   setUserData,
   setAvatar,
   setPassword,
@@ -78,7 +78,7 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
     .catch(({ response }) => console.error(response));
 });
 
-app.get(`/${ENDPOINTS.USER}`, (req, res) => {
+app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
   console.log('auth.user');
   const config = {
     headers: {
@@ -88,12 +88,16 @@ app.get(`/${ENDPOINTS.USER}`, (req, res) => {
 
   console.log(config);
 
-  getUser(config, true)
-    .then((res) => {
-      console.log(res, 'user');
-      res.send(res);
+  getUserInfo(config, true)
+    .then((result) => {
+      console.log('app.get(`/${ENDPOINTS.USER}`');
+      console.log(result, 'user');
+      res.send(result);
     })
-    .catch(({ response }) => console.error('response user'));
+    .catch(({ response }) => {
+      console.log('error from app.get(`/${ENDPOINTS.USER}`');
+      console.error(response?.status);
+    });
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {

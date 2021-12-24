@@ -50,7 +50,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const alternAuthHandler = () => {
     const redirectUri = window.origin;
     getServiceId(redirectUri).then((response) => {
-       location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.service_id}&redirect_uri=${redirectUri}`;
+      // eslint-disable-next-line no-restricted-globals
+      location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.service_id}&redirect_uri=${redirectUri}`;
     });
   };
 

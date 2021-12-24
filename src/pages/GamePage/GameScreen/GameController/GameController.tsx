@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { getUserData } from 'selectors/profile';
+import { UserResult } from 'services/Profile';
 import { addLeaderboardResult } from '../../../../services/Leaderboard';
 import ObstacleLine from '../ObstacleLine';
 import Player from '../Player';
@@ -9,9 +12,6 @@ import { GameStates } from '../../GamePage';
 import classes from './GameController.module.css';
 import { ObstacleTypes } from '../ObstacleLine/ObstacleLine';
 import Background from '../Background';
-import { useSelector } from 'react-redux';
-import { getUserData } from 'selectors/profile';
-import { UserResult } from 'services/Profile';
 
 type GameControllerOptions = {
   setGameState: (state: GameStates) => void;
@@ -96,31 +96,31 @@ const GameController = ({
       playerInstRef.current.render();
       const [firstObstacle] = obstacleLineInstRef.current.obstacles;
       if (
-        playerInstRef.current.isShot &&
-        firstObstacle &&
-        firstObstacle.canvX >= playerInstRef.current.shotPositionX &&
-        firstObstacle.canvX <=
-          playerInstRef.current.shotPositionX +
-            playerInstRef.current.shotLength &&
-        firstObstacle.canvY + firstObstacle.height >
-          playerInstRef.current.shotPositionY &&
-        firstObstacle.canvY <
-          playerInstRef.current.shotPositionY + playerInstRef.current.shotHeight
+        playerInstRef.current.isShot
+        && firstObstacle
+        && firstObstacle.canvX >= playerInstRef.current.shotPositionX
+        && firstObstacle.canvX
+          <= playerInstRef.current.shotPositionX
+            + playerInstRef.current.shotLength
+        && firstObstacle.canvY + firstObstacle.height
+          > playerInstRef.current.shotPositionY
+        && firstObstacle.canvY
+          < playerInstRef.current.shotPositionY + playerInstRef.current.shotHeight
       ) {
         obstacleLineInstRef.current.obstacleShift();
       }
       if (
-        firstObstacle &&
-        firstObstacle.canvX <=
-          playerInstRef.current.position.x +
-            playerInstRef.current.position.width / NUMBER_OF_FRAMES -
-            40 &&
-        firstObstacle.canvX >= playerInstRef.current.position.x &&
-        playerInstRef.current.position.y +
-          playerInstRef.current.position.height >
-          firstObstacle.canvY &&
-        playerInstRef.current.position.y <
-          firstObstacle.canvY + firstObstacle.height
+        firstObstacle
+        && firstObstacle.canvX
+          <= playerInstRef.current.position.x
+            + playerInstRef.current.position.width / NUMBER_OF_FRAMES
+            - 40
+        && firstObstacle.canvX >= playerInstRef.current.position.x
+        && playerInstRef.current.position.y
+          + playerInstRef.current.position.height
+          > firstObstacle.canvY
+        && playerInstRef.current.position.y
+          < firstObstacle.canvY + firstObstacle.height
       ) {
         if (firstObstacle.type === ObstacleTypes.ENEMY) {
           setGameState(GameStates.Finished);
@@ -198,8 +198,7 @@ const GameController = ({
         });
         obstacleLineInstRef.current.speed = speed;
         // eslint-disable-next-line operator-assignment
-        playerInstRef.current.ticksPerFrame =
-          playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
+        playerInstRef.current.ticksPerFrame = playerInstRef.current.ticksPerFrame - TICK_PER_FRAME_COEF;
         speedTimeout = setTimeout(increaseSpeed, 5000);
       }
     }, SPEED_CHANGE_TIME);
@@ -225,7 +224,7 @@ const GameController = ({
           isPause ? classes['game-controller__canvas_pause'] : ''
         )}
         ref={canvas}
-        data-testid='canvas'
+        data-testid="canvas"
       />
     </>
   );

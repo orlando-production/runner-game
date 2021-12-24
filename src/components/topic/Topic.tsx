@@ -15,6 +15,8 @@ const Topic = (props: TopicProps) => {
     button: 'ADD'
   };
 
+  console.log(props);
+
   // TODO Get real messages
   const oldMessages = [
     { user: 'Ann', content: 'First msg' },

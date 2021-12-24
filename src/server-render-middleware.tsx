@@ -6,7 +6,6 @@ import { Provider as ReduxProvider } from 'react-redux';
 import configureAppStore, { getInitialState } from 'store';
 import Helmet, { HelmetData } from 'react-helmet';
 import routes from 'routes';
-import { Action, ThunkAction } from '@reduxjs/toolkit';
 import url from 'url';
 import { App } from './components/App';
 
@@ -59,7 +58,7 @@ export default (req: Request, res: Response) => {
     res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState, helmetData));
   };
 
-  const dataRequirements: ThunkAction<void, () => void, any, Action<string>>[] = [];
+  const dataRequirements: any = [];
 
   routes.some((route) => {
     const { fetchData } = route;
@@ -67,6 +66,9 @@ export default (req: Request, res: Response) => {
       url.parse(location).pathname as string,
       route
     );
+
+    console.log('match');
+    console.log(match);
 
     if (match && fetchData) {
       dataRequirements.push(fetchData({ dispatch: store.dispatch, cookies, match }));

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react';
+import React from 'react';
 import './reset.css';
 import './constants.css';
 import { Route, Switch } from 'react-router-dom';
@@ -12,13 +12,11 @@ function App() {
   return (
     <div>
       <Switch>
-        {routes.map(({ path, type, ...props }) =>
-          type !== 'error' ? (
-            <PrivateRoute key={path} path={path} type={type} {...props} />
-          ) : (
-            <Route key={path} path={path} type={type} {...props} />
-          )
-        )}
+        {routes.map(({ path, type, ...props }) => (type !== 'error' ? (
+          <PrivateRoute key={path} path={path} type={type} {...props} />
+        ) : (
+          <Route key={path} path={path} type={type} {...props} />
+        )))}
       </Switch>
     </div>
   );
