@@ -58,13 +58,13 @@ export const signInByCode = createAsyncThunk(
 
 export const fetchUserInfo = createAsyncThunk(
   FETCH_USER_INFO,
-  (props, { rejectWithValue }) => getUserInfo()
+  () => getUserInfo()
     .then(() => {
       console.log('thunk fetchUserInfo');
     })
     .catch((err: ErrorType) => {
-      console.log('error thunk fetchUserInfo',err?.response?.status);
+      console.log('error thunk fetchUserInfo', err?.response?.status);
       throw new Error('feffefe');
-      rejectWithValue(err?.response?.status);
+      // rejectWithValue(err?.response?.status);
     })
 );
