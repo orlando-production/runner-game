@@ -16,12 +16,12 @@ export type TimerType = {
 const second = 1000;
 const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
   const [currentTime, setCurrentTime] = useState(0);
-  const [currentInterval, setCurrentInterval] = useState(null);
+  let currentInterval: ReturnType<typeof setInterval>;
+
   const start = () => {
-    const interval = setInterval(() => {
+    currentInterval = setInterval(() => {
       setCurrentTime((curTime) => curTime + 1);
     }, second);
-    setCurrentInterval(interval);
   };
   useImperativeHandle(ref, () => ({
     startTimer() {
@@ -38,7 +38,8 @@ const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
       secs < 10 ? `0${secs}` : secs
     }`;
   };
-  useEffect(() => clearTimeout(currentInterval), []);
+
+  useEffect(() => () => clearInterval(currentInterval), []);
 
   return (
     <div className={classes.timer} aria-label="таймер">
