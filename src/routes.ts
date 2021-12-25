@@ -12,6 +12,7 @@ import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
 import { fetchUserInfo } from 'thunks/authentication';
+import { fetchLeaderboardList } from 'thunks/leaderboard';
 
 export type ReduxAction<T = any, P = any> = {
   type: T;
@@ -24,9 +25,7 @@ export type RouterFetchDataArgs = {
   cookies: string;
 };
 
-export type RouterFetchData = ({
-  dispatch
-}: RouterFetchDataArgs) => void;
+export type RouterFetchData = ({ dispatch }: RouterFetchDataArgs) => void;
 
 export type RoutesType = {
   path: string;
@@ -79,7 +78,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return [dispatch(fetchUserInfo()), dispatch(fetchLeaderboardList())];
     }
   },
   {

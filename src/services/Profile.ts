@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ENDPOINTS, requestGetData, requestPutData } from '../api';
 
 export type AvatarParams = {

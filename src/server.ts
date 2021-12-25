@@ -7,6 +7,7 @@ import 'babel-polyfill';
 import { authenticateUser, getUserInfo } from 'services/Auth';
 import {
   addLeaderboardResult,
+  getLeaderboardResults,
   LeaderboardAddResultParams
 } from 'services/Leaderboard';
 import { logoutUser } from 'services/Logout';
@@ -43,21 +44,20 @@ const parseCookies = (cookie: string) => cookie
   .join('; ');
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
-  authenticateUser(req.body, true)
-    .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; '));
-      console.log(cookies, 'sign-in');
-      const test = cookies.split(';');
-      res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
-        maxAge: 365 * 24 * 60 * 60 * 1000,
-        secure: true
-      });
-      res.cookie(`${test[1].split('=')[0]}`, `${test[1].split('=')[1]}`, {
-        maxAge: 365 * 24 * 60 * 60 * 1000,
-        secure: true
-      });
-      return res.sendStatus(200);
+  authenticateUser(req.body, true).then(({ headers }) => {
+    cookies = parseCookies(headers['set-cookie'].join('; '));
+    console.log(cookies, 'sign-in');
+    const test = cookies.split(';');
+    res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
     });
+    res.cookie(`${test[1].split('=')[0]}`, `${test[1].split('=')[1]}`, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    });
+    return res.sendStatus(200);
+  });
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
@@ -70,6 +70,22 @@ app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
   addLeaderboardResult(leaderboard, true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
+});
+
+app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req, res) => {
+  const config = {
+    headers: {
+      Cookie: cookies
+    }
+  };
+  getLeaderboardResults(req.body, config, true)
+    .then((results) => {
+      console.log('LEADER', results.data);
+    })
+    .catch(({ response }) => {
+      console.log(response);
+      res.sendStatus(500);
+    });
 });
 
 app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {

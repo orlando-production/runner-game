@@ -1,6 +1,6 @@
 import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
-
+/* eslint-disable no-console */
 const YANDEX_END_POINT = 'https://ya-praktikum.tech/api/v2/';
 const OWN_SERVER_END_POINT = 'http://localhost:5000/';
 const API = (isServer: boolean = false) => axios.create({

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
 import {
   FETCH_SIGNIN_PENDING, FETCH_SIGNIN_FILFILLED, FETCH_SIGNIN_REJECTED, FETCH_USER_INFO_PENDING, FETCH_USER_INFO_FILFILLED, FETCH_USER_INFO_REJECTED

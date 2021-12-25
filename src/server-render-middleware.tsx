@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import type { Request, Response } from 'express';
