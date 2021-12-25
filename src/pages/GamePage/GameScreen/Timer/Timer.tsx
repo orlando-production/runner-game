@@ -14,9 +14,9 @@ export type TimerType = {
  */
 
 const second = 1000;
+let currentInterval: ReturnType<typeof setInterval>;
 const Timer = (_: { children?: React.ReactNode }, ref: Ref<TimerType>) => {
   const [currentTime, setCurrentTime] = useState(0);
-  let currentInterval: ReturnType<typeof setInterval>;
 
   const start = () => {
     currentInterval = setInterval(() => {
