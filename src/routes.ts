@@ -113,13 +113,13 @@ const routes: RoutesType = [
     component: NotFoundPage,
     exact: false,
     type: 'error'
+  },
+  {
+    path: '*',
+    component: NotFoundPage,
+    exact: false,
+    type: 'error'
   }
-  // {
-  //   path: '*',
-  //   component: NotFoundPage,
-  //   exact: false,
-  //   type: 'error'
-  // }
 ];
 
 export default routes;
