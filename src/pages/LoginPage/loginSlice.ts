@@ -42,12 +42,10 @@ export const authenticationSlice = createSlice({
       state.authStatus = 'loading';
     },
     [FETCH_USER_INFO_FILFILLED]: (state) => {
-      console.log('SUCCESS');
       state.authStatus = 'succeeded';
       state.isAuthenticated = true;
     },
     [FETCH_USER_INFO_REJECTED]: (state, action) => {
-      console.log('ERROR');
       state.authStatus = 'failed';
       state.error = action.payload;
     }

@@ -56,10 +56,12 @@ export default (req: Request, res: Response) => {
       return;
     }
 
-    res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState, helmetData));
+    res
+      .status(context.statusCode || 200)
+      .send(getHtml(reactHtml, reduxState, helmetData));
   };
 
-  const dataRequirements: any = [];
+  let dataRequirements: any = [];
 
   routes.some((route) => {
     const { fetchData } = route;
@@ -72,12 +74,15 @@ export default (req: Request, res: Response) => {
     console.log(match);
 
     if (match && fetchData) {
-      dataRequirements.push(fetchData({ dispatch: store.dispatch, cookies, match }));
+      dataRequirements = fetchData({
+        dispatch: store.dispatch,
+        cookies,
+        match
+      });
     }
 
     return Boolean(match);
   });
-
   return Promise.all(dataRequirements)
     .then(() => {
       renderApp();

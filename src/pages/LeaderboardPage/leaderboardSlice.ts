@@ -4,27 +4,31 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   FETCH_LEADERBOARD_FILFILLED,
   FETCH_LEADERBOARD_PENDING,
-  FETCH_LEADERBOARD_REJECTED
+  FETCH_LEADERBOARD_REJECTED,
 } from 'actions/leaderboard';
 import { ErrorType } from 'api';
 import { LeaderboardAddResult } from 'services/Leaderboard';
 
-export type Authentication = {
+export type LeaderBoard = {
   leaderBoardList: LeaderboardAddResult[];
   loadStatus: 'loading' | 'succeeded' | 'failed' | 'noLoading';
   error: ErrorType;
 };
 
-export const leaderBoardInitialState: Authentication = {
+export const leaderBoardInitialState: LeaderBoard = {
   leaderBoardList: [],
   loadStatus: 'noLoading',
   error: null
 };
 
 export const leaderboardSlice = createSlice({
-  name: 'authentication',
+  name: 'leaderboard',
   initialState: leaderBoardInitialState,
-  reducers: {},
+  reducers: {
+    setLeaderboardList: (state, action) => {
+      state.leaderBoardList = action.payload;
+    }
+  },
   extraReducers: {
     [FETCH_LEADERBOARD_PENDING]: (state) => {
       state.loadStatus = 'loading';
@@ -40,4 +44,5 @@ export const leaderboardSlice = createSlice({
   }
 });
 
-export const leaderboardnReducer = leaderboardSlice.reducer;
+export const leaderboardReducer = leaderboardSlice.reducer;
+export const { setLeaderboardList } = leaderboardSlice.actions;

@@ -4,19 +4,22 @@ import classNames from 'classnames';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   getLeaderboardResults,
-  LeaderboardGetResult
 } from 'services/Leaderboard';
 import Footer from '../../components/footer';
 import commonStyles from '../../components/common.module.css';
 
 import styles from './LeaderboardPage.module.css';
+import { getList } from 'selectors/leaderboard';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLeaderboardList } from './leaderboardSlice';
 
-const LOAD_LIMIT = 30;
+export const LOAD_LIMIT = 20;
 
 const LeaderboardPage = () => {
-  const [data, setData] = useState<LeaderboardGetResult[]>([]);
-  const cursor = useRef<number>(0);
+  const data = useSelector(getList);
+  const cursor = useRef<number>(LOAD_LIMIT);
   const isLoad = useRef<boolean>(false);
+  const dispatch = useDispatch();
   const [hasMore, setHasMore] = useState<boolean>(true);
 
   const fetchRating = () => {
@@ -26,22 +29,24 @@ const LeaderboardPage = () => {
         ratingFieldName: 'presents',
         cursor: cursor.current,
         limit: LOAD_LIMIT
-      }).then((res) => {
-        if (res.length === 0) {
+      }).then((resData) => {
+        const newData = resData.data;
+        debugger;
+        if (newData.length === 0) {
           setHasMore(false);
           return;
         }
-        setData((prev) => {
-          isLoad.current = false;
-          cursor.current = prev.length + res.length;
-          return [...prev, ...res];
-        });
+        isLoad.current = false;
+        cursor.current = data.length + newData.length;
+        dispatch(setLeaderboardList([...data, ...newData]));
       });
     }
   };
 
   useEffect(() => {
-    fetchRating();
+    if (!data) {
+      fetchRating();
+    }
   }, []);
 
   return (
@@ -53,8 +58,8 @@ const LeaderboardPage = () => {
         )}
       >
         <Typography
-          component="h1"
-          variant="h5"
+          component='h1'
+          variant='h5'
           className={styles['leaderboard-title']}
           mb={5}
         >
@@ -67,13 +72,13 @@ const LeaderboardPage = () => {
           )}
         >
           <div className={styles['leaderboard-field']}>
-            <Typography color="text.secondary" variant="subtitle1">
+            <Typography color='text.secondary' variant='subtitle1'>
               Id
             </Typography>
-            <Typography color="text.secondary" variant="subtitle1">
+            <Typography color='text.secondary' variant='subtitle1'>
               Name
             </Typography>
-            <Typography color="text.secondary" variant="subtitle1">
+            <Typography color='text.secondary' variant='subtitle1'>
               Presents
             </Typography>
           </div>
@@ -85,20 +90,20 @@ const LeaderboardPage = () => {
           >
             {data.map((field) => (
               <div key={field.data.id} className={styles['leaderboard-field']}>
-                <Typography color="text.secondary" variant="body1">
+                <Typography color='text.secondary' variant='body1'>
                   {field.data.id}
                 </Typography>
                 <div className={styles['leaderboard-name']}>
-                  <Avatar src={field.avatar} />
+                  <Avatar src={field.data.avatar} />
                   <Typography
                     sx={{ ml: 2 }}
-                    color="text.secondary"
-                    variant="body1"
+                    color='text.secondary'
+                    variant='body1'
                   >
                     {field.data.name}
                   </Typography>
                 </div>
-                <Typography color="text.secondary" variant="body1">
+                <Typography color='text.secondary' variant='body1'>
                   {field.data.presents}
                 </Typography>
               </div>

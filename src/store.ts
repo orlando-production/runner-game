@@ -12,20 +12,35 @@ import {
   authenticationReducer,
   authInitialState
 } from './pages/LoginPage/loginSlice';
-import { Logout, logoutInitialState, logoutReducer } from './pages/ProfilePage/logoutSlice';
-import { User, userInitialState, userReducer } from './pages/ProfilePage/userSlice';
+import {
+  Logout,
+  logoutInitialState,
+  logoutReducer
+} from './pages/ProfilePage/logoutSlice';
+import {
+  User,
+  userInitialState,
+  userReducer
+} from './pages/ProfilePage/userSlice';
+import {
+  LeaderBoard,
+  leaderBoardInitialState,
+  leaderboardReducer
+} from 'pages/LeaderboardPage/leaderboardSlice';
 
-export const rootReducer = (history: History) => combineReducers({
-  authentication: authenticationReducer,
-  registration: registrationReducer,
-  logout: logoutReducer,
-  user: userReducer,
-  statusProfile: userReducer,
-  statusPassword: userReducer,
-  messagePassword: userReducer,
-  messageProfile: userReducer,
-  router: connectRouter(history)
-});
+export const rootReducer = (history: History) =>
+  combineReducers({
+    authentication: authenticationReducer,
+    registration: registrationReducer,
+    logout: logoutReducer,
+    user: userReducer,
+    statusProfile: userReducer,
+    statusPassword: userReducer,
+    messagePassword: userReducer,
+    messageProfile: userReducer,
+    leaderboard: leaderboardReducer,
+    router: connectRouter(history)
+  });
 
 export type RootState = {
   authentication: Authentication;
@@ -37,12 +52,13 @@ export type RootState = {
   messagePassword: User;
   messageProfile: User;
   router: RouterState;
+  leaderboard: LeaderBoard;
 };
 
 export const isServer = !(
-  typeof window !== 'undefined'
-  && window.document
-  && window.document.createElement
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
 );
 
 export default function configureAppStore(
@@ -76,9 +92,13 @@ export const getInitialState = (pathname: string = '/'): RootState => ({
   statusPassword: userInitialState,
   messagePassword: userInitialState,
   messageProfile: userInitialState,
+  leaderboard: leaderBoardInitialState,
   router: {
     location: {
-      pathname, search: '', hash: '', key: ''
+      pathname,
+      search: '',
+      hash: '',
+      key: ''
     },
     action: 'POP'
   } as RouterState

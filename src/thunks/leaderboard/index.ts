@@ -2,21 +2,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FETCH_LEADERBOARD } from 'actions/leaderboard';
 import { ErrorType } from 'api';
+import { LOAD_LIMIT } from 'pages/LeaderboardPage/LeaderboardPage';
 import { getLeaderboardResults } from 'services/Leaderboard';
 
 export const fetchLeaderboardList = createAsyncThunk(
   FETCH_LEADERBOARD,
   () => {
-    console.log('THUNK LEADER');
     return getLeaderboardResults(
-      { ratingFieldName: 'presents', cursor: 0, limit: 10 },
+      { ratingFieldName: 'presents', cursor: 0, limit: LOAD_LIMIT },
       {}
     )
-      .then(() => {
-        console.log('thunk leaderboard');
+      .then((res) => {
+        return res.data;
       })
       .catch((err: ErrorType) => {
-        console.log('error thunk fetchUserInfo', err?.response?.status);
         throw new Error('error');
       });
   }

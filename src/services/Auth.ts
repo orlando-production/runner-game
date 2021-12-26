@@ -21,12 +21,13 @@ export type SignInResult = null;
 export const authenticateUser = (
   signInParams: SignInParams,
   isServer?: boolean
-) => requestPostData<SignInParams, SignInResult>(
-  ENDPOINTS.SIGNIN,
-  signInParams,
-  {},
-  isServer
-);
+) =>
+  requestPostData<SignInParams, SignInResult>(
+    ENDPOINTS.SIGNIN,
+    signInParams,
+    {},
+    isServer
+  );
 
 type UserInfo = null;
 
@@ -35,10 +36,25 @@ export const getUserInfo = (config?: {}, isServer?: boolean) => {
   return requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, config, isServer);
 };
 
-export const getServiceId = (redirect_uri: string) => requestGetData<string, OAuthServiceConfig>(`${ENDPOINTS.OAUTH_SERVICE}`, {
-  params: { redirect_uri }
-});
-export const authByCode = (code: string, redirect_uri: string) => requestPostData<CodeAuthParams, undefined>(`${ENDPOINTS.AUTH_BY_CODE}`, {
-  code,
-  redirect_uri
-});
+export const getServiceId = (redirect_uri: string, isServer?: boolean) =>
+  requestGetData<string, OAuthServiceConfig>(
+    `${ENDPOINTS.OAUTH_SERVICE}`,
+    {
+      params: { redirect_uri }
+    },
+    isServer
+  );
+export const authByCode = (
+  code: string,
+  redirect_uri: string,
+  isServer?: boolean
+) =>
+  requestPostData<CodeAuthParams, undefined>(
+    `${ENDPOINTS.AUTH_BY_CODE}`,
+    {
+      code,
+      redirect_uri
+    },
+    {},
+    isServer
+  );

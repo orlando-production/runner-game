@@ -35,7 +35,7 @@ export const addLeaderboardResult = (
 
 export const getLeaderboardResults = (
   leaderBoardParams: LeaderboardGetResultsParams,
-  config: { [param: string]: unknown },
+  config?: { [param: string]: unknown },
   isServer?: boolean
 ) => requestPostData<LeaderboardGetResultsParams, LeaderboardGetResult[]>(
   ENDPOINTS.LEADERBOARD_RESULTS,

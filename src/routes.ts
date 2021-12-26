@@ -42,7 +42,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return [dispatch(fetchUserInfo())];
     }
   },
   {
@@ -51,7 +51,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return  [dispatch(fetchUserInfo())];
     }
   },
   {
@@ -60,7 +60,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return  [dispatch(fetchUserInfo())];
     }
   },
   {
@@ -69,7 +69,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return  [dispatch(fetchUserInfo())];
     }
   },
   {
@@ -87,7 +87,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return  [dispatch(fetchUserInfo())];
     }
   },
   {
@@ -96,7 +96,7 @@ const routes: RoutesType = [
     exact: false,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return  [dispatch(fetchUserInfo())];
     }
   },
   {
@@ -105,7 +105,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return dispatch(fetchUserInfo());
+      return  [dispatch(fetchUserInfo())];
     }
   },
   {
