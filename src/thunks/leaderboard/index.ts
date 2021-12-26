@@ -7,16 +7,12 @@ import { getLeaderboardResults } from 'services/Leaderboard';
 
 export const fetchLeaderboardList = createAsyncThunk(
   FETCH_LEADERBOARD,
-  () => {
-    return getLeaderboardResults(
-      { ratingFieldName: 'presents', cursor: 0, limit: LOAD_LIMIT },
-      {}
-    )
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err: ErrorType) => {
-        throw new Error('error');
-      });
-  }
+  () => getLeaderboardResults(
+    { ratingFieldName: 'presents', cursor: 0, limit: LOAD_LIMIT },
+    {}
+  )
+    .then((res) => res.data)
+    .catch((err: ErrorType) => {
+      throw err;
+    })
 );

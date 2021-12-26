@@ -3,6 +3,11 @@ import { RouterState, connectRouter } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
 import {
+  LeaderBoard,
+  leaderBoardInitialState,
+  leaderboardReducer
+} from 'pages/LeaderboardPage/leaderboardSlice';
+import {
   Registration,
   registrationInitialState,
   registrationReducer
@@ -22,25 +27,19 @@ import {
   userInitialState,
   userReducer
 } from './pages/ProfilePage/userSlice';
-import {
-  LeaderBoard,
-  leaderBoardInitialState,
-  leaderboardReducer
-} from 'pages/LeaderboardPage/leaderboardSlice';
 
-export const rootReducer = (history: History) =>
-  combineReducers({
-    authentication: authenticationReducer,
-    registration: registrationReducer,
-    logout: logoutReducer,
-    user: userReducer,
-    statusProfile: userReducer,
-    statusPassword: userReducer,
-    messagePassword: userReducer,
-    messageProfile: userReducer,
-    leaderboard: leaderboardReducer,
-    router: connectRouter(history)
-  });
+export const rootReducer = (history: History) => combineReducers({
+  authentication: authenticationReducer,
+  registration: registrationReducer,
+  logout: logoutReducer,
+  user: userReducer,
+  statusProfile: userReducer,
+  statusPassword: userReducer,
+  messagePassword: userReducer,
+  messageProfile: userReducer,
+  leaderboard: leaderboardReducer,
+  router: connectRouter(history)
+});
 
 export type RootState = {
   authentication: Authentication;
@@ -56,9 +55,9 @@ export type RootState = {
 };
 
 export const isServer = !(
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
+  typeof window !== 'undefined'
+  && window.document
+  && window.document.createElement
 );
 
 export default function configureAppStore(

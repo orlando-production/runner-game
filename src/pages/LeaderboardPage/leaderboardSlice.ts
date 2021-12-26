@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   FETCH_LEADERBOARD_FILFILLED,
   FETCH_LEADERBOARD_PENDING,
-  FETCH_LEADERBOARD_REJECTED,
+  FETCH_LEADERBOARD_REJECTED
 } from 'actions/leaderboard';
 import { ErrorType } from 'api';
 import { LeaderboardAddResult } from 'services/Leaderboard';

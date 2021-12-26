@@ -3,14 +3,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
-  getLeaderboardResults,
+  getLeaderboardResults
 } from 'services/Leaderboard';
+import { getList } from 'selectors/leaderboard';
+import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../../components/footer';
 import commonStyles from '../../components/common.module.css';
 
 import styles from './LeaderboardPage.module.css';
-import { getList } from 'selectors/leaderboard';
-import { useDispatch, useSelector } from 'react-redux';
 import { setLeaderboardList } from './leaderboardSlice';
 
 export const LOAD_LIMIT = 20;
@@ -31,7 +31,6 @@ const LeaderboardPage = () => {
         limit: LOAD_LIMIT
       }).then((resData) => {
         const newData = resData.data;
-        debugger;
         if (newData.length === 0) {
           setHasMore(false);
           return;
@@ -58,8 +57,8 @@ const LeaderboardPage = () => {
         )}
       >
         <Typography
-          component='h1'
-          variant='h5'
+          component="h1"
+          variant="h5"
           className={styles['leaderboard-title']}
           mb={5}
         >
@@ -72,13 +71,13 @@ const LeaderboardPage = () => {
           )}
         >
           <div className={styles['leaderboard-field']}>
-            <Typography color='text.secondary' variant='subtitle1'>
+            <Typography color="text.secondary" variant="subtitle1">
               Id
             </Typography>
-            <Typography color='text.secondary' variant='subtitle1'>
+            <Typography color="text.secondary" variant="subtitle1">
               Name
             </Typography>
-            <Typography color='text.secondary' variant='subtitle1'>
+            <Typography color="text.secondary" variant="subtitle1">
               Presents
             </Typography>
           </div>
@@ -90,20 +89,20 @@ const LeaderboardPage = () => {
           >
             {data.map((field) => (
               <div key={field.data.id} className={styles['leaderboard-field']}>
-                <Typography color='text.secondary' variant='body1'>
+                <Typography color="text.secondary" variant="body1">
                   {field.data.id}
                 </Typography>
                 <div className={styles['leaderboard-name']}>
                   <Avatar src={field.data.avatar} />
                   <Typography
                     sx={{ ml: 2 }}
-                    color='text.secondary'
-                    variant='body1'
+                    color="text.secondary"
+                    variant="body1"
                   >
                     {field.data.name}
                   </Typography>
                 </div>
-                <Typography color='text.secondary' variant='body1'>
+                <Typography color="text.secondary" variant="body1">
                   {field.data.presents}
                 </Typography>
               </div>
