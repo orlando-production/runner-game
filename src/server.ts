@@ -81,8 +81,8 @@ app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req, res) => {
     }
   };
   getLeaderboardResults(req.body, config, true)
-    .then((results) => {
-      console.log('LEADER', results.data);
+    .then(({ data }) => {
+      res.send(data);
     })
     .catch(({ response }) => {
       console.log(response);
