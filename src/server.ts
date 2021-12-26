@@ -34,8 +34,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(busboy({ immediate: true }));
 
-let cookies = '';
-
 const parseCookies = (cookie: string) => cookie
   .split(/;\s+/)
   .filter(

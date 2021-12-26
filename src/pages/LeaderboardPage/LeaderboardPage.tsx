@@ -1,9 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 import { Box, Avatar, Typography } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
-  getLeaderboardResults
+  getLeaderboardResults, LeaderboardGetResult
 } from 'services/Leaderboard';
 import { getList } from 'selectors/leaderboard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +17,7 @@ import { setLeaderboardList } from './leaderboardSlice';
 export const LOAD_LIMIT = 20;
 
 const LeaderboardPage = () => {
-  const data = useSelector(getList);
+  const data: LeaderboardGetResult[] = useSelector(getList);
   const cursor = useRef<number>(LOAD_LIMIT);
   const isLoad = useRef<boolean>(false);
   const dispatch = useDispatch();
@@ -87,8 +88,8 @@ const LeaderboardPage = () => {
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
           >
-            {data.map((field) => (
-              <div key={field.data.id} className={styles['leaderboard-field']}>
+            {data.map((field, index) => (
+              <div key={`${field.data.id}-${index}`} className={styles['leaderboard-field']}>
                 <Typography color="text.secondary" variant="body1">
                   {field.data.id}
                 </Typography>

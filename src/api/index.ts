@@ -44,16 +44,12 @@ export const requestGetData = <R, P>(
   url: Endpoint,
   config?: {},
   isServer?: boolean
-) => {
-  console.log(url, 'url');
-  console.log('requestGetData');
-  return API(isServer)
-    .get<R, P>(url, config)
+) => API(isServer)
+    .get<R, AxiosResponse<R>, P>(url, config)
     .then(({ data }) => data)
     .catch((err) => {
       throw err;
     });
-};
 
 export const requestPutData = <P, R>(
   url: Endpoint,

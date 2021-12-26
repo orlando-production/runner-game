@@ -30,10 +30,7 @@ export const authenticateUser = (
 
 type UserInfo = null;
 
-export const getUserInfo = (config?: {}, isServer?: boolean) => {
-  console.log('getUserInfo in Auth');
-  return requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, config, isServer);
-};
+export const getUserInfo = (config?: {}, isServer?: boolean) => requestGetData<UserInfo, UserInfo>(ENDPOINTS.USER, config, isServer);
 
 export const getServiceId = (redirect_uri: string, isServer?: boolean) => requestGetData<string, OAuthServiceConfig>(
   `${ENDPOINTS.OAUTH_SERVICE}`,

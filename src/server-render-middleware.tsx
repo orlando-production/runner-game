@@ -70,9 +70,6 @@ export default (req: Request, res: Response) => {
       route
     );
 
-    console.log('match');
-    console.log(match);
-
     if (match && fetchData) {
       dataRequirements = fetchData({
         dispatch: store.dispatch,
