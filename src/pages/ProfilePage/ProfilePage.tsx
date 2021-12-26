@@ -122,7 +122,9 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchUser());
+    if (!user) {
+      dispatch(fetchUser());
+    }
   }, [dispatch]);
 
   useEffect(() => {

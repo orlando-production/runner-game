@@ -95,19 +95,14 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
 });
 
 app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
-  console.log('auth.user');
   const config = {
     headers: {
       Cookie: cookies
     }
   };
 
-  console.log(config);
-
   getUserInfo(config, true)
     .then((result) => {
-      console.log('app.get(`/${ENDPOINTS.USER}`');
-      console.log(result, 'user');
       res.send(result);
     })
     .catch(() => {
