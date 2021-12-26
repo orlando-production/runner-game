@@ -27,6 +27,8 @@ const FormData = require('form-data');
 const app = express();
 const api = express.Router();
 
+let cookies = '';
+
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
