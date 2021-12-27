@@ -8,16 +8,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from '@iconify/react';
 import { useHistory } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
 import { fetchLogout } from '../../thunks/logout';
-
+import { fetchUserInfo } from '../../thunks/authentication';
 import {
-  fetchAvatar, fetchPassword, fetchProfile, fetchUser
+  fetchAvatar, fetchPassword, fetchProfile
 } from '../../thunks/profile';
 import {
   getAvatarSrc, getUserData, getStatusProfile, getMessageProfile, getMessagePassword, getStatusPassword
@@ -122,7 +121,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!user) {
-      dispatch(fetchUser());
+      dispatch(fetchUserInfo());
     }
   }, [dispatch]);
 

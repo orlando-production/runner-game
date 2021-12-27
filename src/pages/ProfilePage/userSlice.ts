@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { FETCH_USER_INFO_FILFILLED } from 'actions/authentication';
+import {
+  FETCH_USER_INFO_FILFILLED,
+  FETCH_USER_INFO_PENDING,
+  FETCH_USER_INFO_REJECTED
+} from 'actions/authentication';
 import { UserResult } from 'services/Profile';
 import {
-  FETCH_GET_USER_PENDING,
-  FETCH_GET_USER_FILFILLED,
-  FETCH_GET_USER_REJECTED,
   FETCH_SET_USER_PENDING,
   FETCH_SET_USER_FILFILLED,
   FETCH_SET_USER_REJECTED,
@@ -51,14 +52,14 @@ export const userSlice = createSlice({
   initialState: userInitialState,
   reducers: {},
   extraReducers: {
-    [FETCH_GET_USER_PENDING]: (state) => {
+    [FETCH_USER_INFO_PENDING]: (state) => {
       state.statusProfile = 'invisible';
       state.messageProfile = '...';
     },
-    [FETCH_GET_USER_FILFILLED]: (state, action) => {
+    [FETCH_USER_INFO_FILFILLED]: (state, action) => {
       state.user = action?.payload;
     },
-    [FETCH_GET_USER_REJECTED]: (state, action) => {
+    [FETCH_USER_INFO_REJECTED]: (state, action) => {
       state.statusProfile = 'error';
       state.error = action.payload;
     },
