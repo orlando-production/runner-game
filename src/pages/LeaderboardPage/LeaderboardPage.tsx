@@ -18,7 +18,7 @@ export const LOAD_LIMIT = 20;
 
 const LeaderboardPage = () => {
   const data: LeaderboardGetResult[] = useSelector(getList);
-  const cursor = useRef<number>(LOAD_LIMIT);
+  const cursor = useRef<number>(0);
   const isLoad = useRef<boolean>(false);
   const dispatch = useDispatch();
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -44,7 +44,7 @@ const LeaderboardPage = () => {
   };
 
   useEffect(() => {
-    if (!data) {
+    if (data?.length === 0) {
       fetchRating();
     }
   }, []);

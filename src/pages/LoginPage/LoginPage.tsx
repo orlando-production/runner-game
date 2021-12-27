@@ -25,8 +25,6 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const [, setCookie] = useCookies(['auth']);
-
   const history = useHistory();
   const dispatch = useDispatch();
   const error = useSelector(getAuthError);
@@ -65,7 +63,6 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
       fetchSignIn({
         login,
         password,
-        setCookie,
         navigate: goToGame
       })
     );

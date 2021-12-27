@@ -16,12 +16,10 @@ import {
 } from '../../services/Auth';
 
 export type FetchSignInParams = SignInParams & {
-  setCookie: (name?: string, value?: string) => void;
   navigate: () => void;
 };
 
 export type SignInByCodeParams = CodeAuthParams & {
-  setCookie: (name?: string, value?: string) => void;
   navigate: void;
 };
 
@@ -29,12 +27,11 @@ export const fetchSignIn = createAsyncThunk(
   FETCH_SIGNIN,
   (
     {
-      login, password, setCookie, navigate
+      login, password, navigate
     }: FetchSignInParams,
     { rejectWithValue }
   ) => authenticateUser({ login, password })
     .then(() => {
-      setCookie('auth', login);
       navigate();
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
@@ -44,13 +41,12 @@ export const signInByCode = createAsyncThunk(
   SIGN_IN_BY_CODE,
   (
     {
-      code, redirect_uri, setCookie, navigate
+      code, redirect_uri, navigate
     }: SignInByCodeParams,
     { rejectWithValue }
   ) => authByCode(code, redirect_uri)
     .then(() => {
       navigate();
-      setCookie('auth');
     })
     .catch((err: ErrorType) => {
       rejectWithValue(err?.response.status);
