@@ -39,10 +39,20 @@ const GameController = ({
   setFooterVisible,
   isPause
 }: GameControllerOptions) => {
-  const playerImage = new Image();
-  playerImage.src = image;
-  const backgroundImage = new Image();
-  backgroundImage.src = bg;
+  const playerImage = useRef();
+  const backgroundImage = useRef();
+
+  if (
+    playerImage
+    && backgroundImage
+    && !playerImage.current
+    && !backgroundImage.current
+  ) {
+    playerImage.current = new Image();
+    backgroundImage.current = new Image();
+    playerImage.current.src = image;
+    backgroundImage.current.src = bg;
+  }
 
   const canvas = useRef();
   const user = useSelector(getUserData) as UserResult;
@@ -82,7 +92,7 @@ const GameController = ({
       const canvas2d = currentCanvas.getContext('2d');
       canvas2d.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
       canvas2d.drawImage(
-        backgroundImage,
+        backgroundImage.current,
         0,
         0,
         currentCanvas.width,
@@ -167,7 +177,7 @@ const GameController = ({
       document.addEventListener('keydown', keyDownHandler, false);
       const player = new Player({
         ctx: canvas2d,
-        image: playerImage,
+        image: playerImage.current,
         width: PLAYER_SPRITE_WIDTH,
         height: PLAYER_SPRITE_HEIGHT,
         numberOfFrames: NUMBER_OF_FRAMES,

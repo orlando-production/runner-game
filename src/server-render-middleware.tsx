@@ -69,17 +69,17 @@ export default (req: Request, res: Response) => {
       url.parse(location).pathname as string,
       route
     );
-
     if (match && fetchData) {
       dataRequirements = fetchData({
         dispatch: store.dispatch,
         cookies,
-        match
+        match,
+        query: req.query
       });
     }
-
     return Boolean(match);
   });
+
   return Promise.all(dataRequirements)
     .then(() => {
       renderApp();

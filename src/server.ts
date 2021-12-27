@@ -4,17 +4,18 @@ import path from 'path';
 import express from 'express';
 import compression from 'compression';
 import 'babel-polyfill';
-import { authenticateUser, getUserInfo } from 'services/Auth';
+import {
+  authByCode,
+  authenticateUser,
+  getServiceId,
+  getUserInfo
+} from 'services/Auth';
 import {
   addLeaderboardResult,
   getLeaderboardResults
 } from 'services/Leaderboard';
 import { logoutUser } from 'services/Logout';
-import {
-  setUserData,
-  setAvatar,
-  setPassword
-} from 'services/Profile';
+import { setUserData, setAvatar, setPassword } from 'services/Profile';
 import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import serverRenderMiddleware from './server-render-middleware';
@@ -40,35 +41,41 @@ const parseCookies = (cookie: string) => cookie
 // возвращает 2 куки 'uuid', первую вырезаем
   .slice(1)
   .join('; ');
+const setCookies = (
+  newCookies: string,
+  res: Response<any, Record<string, any>, number>
+) => {
+  const cookiesArr = newCookies.split(';');
+  res.cookie(
+    `${cookiesArr[0].split('=')[0]}`,
+    `${cookiesArr[0].split('=')[1]}`,
+    {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    }
+  );
+  res.cookie(
+    `${cookiesArr[1].split('=')[0]}`,
+    `${cookiesArr[1].split('=')[1]}`,
+    {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    }
+  );
+};
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
   authenticateUser(req.body, true).then(({ headers }) => {
     cookies = parseCookies(headers['set-cookie'].join('; '));
-    console.log(cookies, 'sign-in');
-    const test = cookies.split(';');
-    res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      secure: true
-    });
-    res.cookie(`${test[1].split('=')[0]}`, `${test[1].split('=')[1]}`, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      secure: true
-    });
+    setCookies(cookies, res);
     return res.sendStatus(200);
   });
 });
 
 app.post(`/${ENDPOINTS.SIGNUP}`, (req, res) => {
   registerUser(req.body, true).then(({ headers }) => {
-    console.log('headers');
-    console.log(headers);
     cookies = parseCookies(headers['set-cookie'].join('; '));
-    console.log(cookies, 'sign-up');
-    const test = cookies;
-    res.cookie(`${test[0].split('=')[0]}`, `${test[0].split('=')[1]}`, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      secure: true
-    });
+    setCookies(cookies, res);
     return res.sendStatus(200);
   });
 });
@@ -89,8 +96,7 @@ app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req, res) => {
     .then(({ data }) => {
       res.send(data);
     })
-    .catch(({ response }) => {
-      console.log(response);
+    .catch(() => {
       res.sendStatus(500);
     });
 });
@@ -104,6 +110,28 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
 
   logoutUser(config, true)
     .then(() => res.sendStatus(200))
+    .catch(() => {
+      res.sendStatus(500);
+    });
+});
+
+app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req, res) => {
+  authByCode(req.body.code, req.body.redirect_uri, true)
+    .then(({ headers }) => {
+      cookies = parseCookies(headers['set-cookie'].join('; '));
+      setCookies(cookies, res);
+      return res.sendStatus(200);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+});
+
+app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req, res) => {
+  getServiceId(req.query.redirect_uri, true)
+    .then(({ service_id }) => {
+      res.send(service_id);
+    })
     .catch(() => {
       res.sendStatus(500);
     });

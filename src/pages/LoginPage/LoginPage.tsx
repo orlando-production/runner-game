@@ -49,7 +49,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     const redirectUri = window.origin;
     getServiceId(redirectUri).then((response) => {
       // eslint-disable-next-line no-restricted-globals
-      location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.service_id}&redirect_uri=${redirectUri}`;
+      location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response}&redirect_uri=${redirectUri}`;
     });
   };
 

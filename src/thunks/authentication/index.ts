@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
+  AUTH_BY_CODE,
   FETCH_SIGNIN,
-  FETCH_USER_INFO,
-  SIGN_IN_BY_CODE
+  FETCH_USER_INFO
 } from '../../actions/authentication';
 
 import { ErrorType } from '../../api';
@@ -25,39 +25,24 @@ export type SignInByCodeParams = CodeAuthParams & {
 
 export const fetchSignIn = createAsyncThunk(
   FETCH_SIGNIN,
-  (
-    {
-      login, password, navigate
-    }: FetchSignInParams,
-    { rejectWithValue }
-  ) => authenticateUser({ login, password })
+  ({ login, password, navigate }: FetchSignInParams, { rejectWithValue }) => authenticateUser({ login, password })
     .then(() => {
       navigate();
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
 
-export const signInByCode = createAsyncThunk(
-  SIGN_IN_BY_CODE,
-  (
-    {
-      code, redirect_uri, navigate
-    }: SignInByCodeParams,
-    { rejectWithValue }
-  ) => authByCode(code, redirect_uri)
-    .then(() => {
-      navigate();
-    })
-    .catch((err: ErrorType) => {
-      rejectWithValue(err?.response.status);
-    })
-);
+export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, () => getUserInfo()
+  .then((result) => result)
+  .catch(() => {
+    throw new Error('Error in FetchUserInfo');
+  }));
 
-export const fetchUserInfo = createAsyncThunk(
-  FETCH_USER_INFO,
-  () => getUserInfo()
-    .then((result) => result)
+export const authByCodeThunk = createAsyncThunk(
+  AUTH_BY_CODE,
+  (code, dispatch) => authByCode(code, 'http://localhost:5000')
+    .then(() => dispatch(fetchUserInfo()))
     .catch(() => {
-      throw new Error('Error in FetchUserInfo');
+      throw new Error('Error in authByCodeThunk');
     })
 );

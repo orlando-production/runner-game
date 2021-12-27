@@ -11,7 +11,7 @@ import ProfilePage from 'pages/ProfilePage';
 import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
-import { fetchUserInfo } from 'thunks/authentication';
+import { authByCodeThunk, fetchUserInfo } from 'thunks/authentication';
 import { fetchLeaderboardList } from 'thunks/leaderboard';
 
 export type ReduxAction<T = any, P = any> = {
@@ -20,9 +20,10 @@ export type ReduxAction<T = any, P = any> = {
 };
 
 export type RouterFetchDataArgs = {
-  dispatch: Dispatch<AsyncThunkAction<void, void, {}>>;
+  dispatch: Dispatch<AsyncThunkAction<Promise<unknown>, void, {}>>;
   match: match<{ slug: string }>;
   cookies: string;
+  query?: { [prop: string]: unknown };
 };
 
 export type RouterFetchData = ({ dispatch }: RouterFetchDataArgs) => void;
@@ -41,7 +42,12 @@ const routes: RoutesType = [
     component: MainPage,
     exact: true,
     type: 'private',
-    fetchData({ dispatch }: RouterFetchDataArgs) {
+    fetchData({ dispatch, query }: RouterFetchDataArgs) {
+      if (query.code) {
+        return [
+          dispatch(authByCodeThunk(query.code, dispatch))
+        ];
+      }
       return [dispatch(fetchUserInfo())];
     }
   },
