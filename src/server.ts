@@ -37,47 +37,46 @@ const parseCookies = (cookie: string) => cookie
   .split(/;\s+/)
   .filter(
     (token) => token.startsWith('authCookie') || token.startsWith('uuid')
-  )
-// возвращает 2 куки 'uuid', первую вырезаем
-  .slice(1)
-  .join('; ');
+  );
+
 const setCookies = (
   newCookies: string,
   res: Response<any, Record<string, any>, number>
 ) => {
-  const cookiesArr = newCookies.split(';');
-  res.cookie(
-    `${cookiesArr[0].split('=')[0]}`,
-    `${cookiesArr[0].split('=')[1]}`,
-    {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      secure: true
-    }
-  );
-  res.cookie(
-    `${cookiesArr[1].split('=')[0]}`,
-    `${cookiesArr[1].split('=')[1]}`,
-    {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      secure: true
-    }
-  );
+  newCookies.split(';').forEach((cookie) => {
+    res.cookie(
+      `${cookie.split('=')[0]}`,
+      `${cookie.split('=')[1]}`,
+      {
+        maxAge: 365 * 24 * 60 * 60 * 1000,
+        secure: true
+      }
+    );
+  });
 };
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
-  authenticateUser(req.body, true).then(({ headers }) => {
-    cookies = parseCookies(headers['set-cookie'].join('; '));
-    setCookies(cookies, res);
-    return res.sendStatus(200);
-  });
+  authenticateUser(req.body, true)
+    .then(({ headers }) => {
+      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
+      setCookies(cookies, res);
+      return res.sendStatus(200);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
 });
 
 app.post(`/${ENDPOINTS.SIGNUP}`, (req, res) => {
-  registerUser(req.body, true).then(({ headers }) => {
-    cookies = parseCookies(headers['set-cookie'].join('; '));
-    setCookies(cookies, res);
-    return res.sendStatus(200);
-  });
+  registerUser(req.body, true)
+    .then(({ headers }) => {
+      cookies = parseCookies(headers['set-cookie'].join('; ')).join('; ');
+      setCookies(cookies, res);
+      return res.sendStatus(200);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
@@ -109,7 +108,10 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
   };
 
   logoutUser(config, true)
-    .then(() => res.sendStatus(200))
+    .then(() => {
+      cookies = '';
+      res.sendStatus(200);
+    })
     .catch(() => {
       res.sendStatus(500);
     });
@@ -118,7 +120,7 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
 app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req, res) => {
   authByCode(req.body.code, req.body.redirect_uri, true)
     .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; '));
+      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
       setCookies(cookies, res);
       return res.sendStatus(200);
     })
@@ -148,8 +150,8 @@ app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
     .then((result) => {
       res.send(result);
     })
-    .catch(() => {
-      res.sendStatus(401);
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
     });
 });
 
@@ -163,7 +165,9 @@ app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
 
   setUserData(req.body, config, true)
     .then(({ data }) => res.send(data))
-    .catch(({ response }) => console.error(response));
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
 });
 
 app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
@@ -175,7 +179,9 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
 
   setPassword(req.body, config, true)
     .then(({ data }) => res.send(data))
-    .catch(({ response }) => console.error(response));
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
 });
 
 // eslint-disable-next-line consistent-return
@@ -197,8 +203,12 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
     };
 
     setAvatar(formData, config, true)
-      .then((data) => res.send(data))
-      .catch(({ response }) => console.error(response));
+      .then((data) => {
+        res.send(data);
+      })
+      .catch(({ response }) => {
+        res.status(response.status || 500).json(response.data);
+      });
   });
 });
 

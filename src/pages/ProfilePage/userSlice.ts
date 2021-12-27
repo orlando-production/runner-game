@@ -61,14 +61,14 @@ export const userSlice = createSlice({
     },
     [FETCH_USER_INFO_REJECTED]: (state, action) => {
       state.statusProfile = 'error';
-      state.error = action.payload;
+      state.error = action.payload?.data;
     },
     [FETCH_SET_USER_PENDING]: (state) => {
       state.statusProfile = 'invisible';
       state.messageProfile = '...';
     },
     [FETCH_SET_USER_FILFILLED]: (state, action) => {
-      state.user = action?.payload;
+      state.user = action?.payload?.data;
       state.statusProfile = 'success';
       state.messageProfile = 'Профиль сохранен';
     },
@@ -78,7 +78,7 @@ export const userSlice = createSlice({
       state.messageProfile = 'Data is incorrect';
     },
     [FETCH_AVATAR_FILFILLED]: (state, action) => {
-      state.user = action?.payload;
+      state.user = action?.payload?.data;
     },
     [FETCH_AVATAR_REJECTED]: (state, action) => {
       state.error = action.payload;
