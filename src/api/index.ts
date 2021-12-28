@@ -46,10 +46,7 @@ export const requestGetData = <R, P>(
   isServer?: boolean
 ) => API(isServer)
     .get<R, AxiosResponse<R>, P>(url, config)
-    .then(({ data }) => data)
-    .catch((err) => {
-      throw err;
-    });
+    .then(({ data }) => data);
 
 export const requestPutData = <P, R>(
   url: Endpoint,

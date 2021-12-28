@@ -10,7 +10,7 @@ export type TopicProps = {
   id: string;
 }
 
-const Topic = (props: TopicProps) => {
+const Topic = () => {
   const resources = {
     button: 'ADD'
   };

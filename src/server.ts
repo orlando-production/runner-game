@@ -108,10 +108,7 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
   };
 
   logoutUser(config, true)
-    .then(() => {
-      cookies = '';
-      res.sendStatus(200);
-    })
+    .then(() => res.sendStatus(200))
     .catch(() => {
       res.sendStatus(500);
     });
@@ -120,7 +117,7 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
 app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req, res) => {
   authByCode(req.body.code, req.body.redirect_uri, true)
     .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
+      cookies = parseCookies(headers['set-cookie'].join('; '));
       setCookies(cookies, res);
       return res.sendStatus(200);
     })
