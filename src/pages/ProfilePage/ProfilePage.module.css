@@ -11,8 +11,10 @@
     width: 100%;
     flex-grow: 1;
     background-color: var(--login-container-bg);
+}
 
-    @media (min-width: 768px) {
+@media (min-width: 768px) {
+    .profile-container {
         grid-template-areas: "avatar settings scores";
         grid-template-columns: minmax(190px,290px) minmax(300px, 550px) minmax(190px,290px);
         padding: 2.5vw 5vw;

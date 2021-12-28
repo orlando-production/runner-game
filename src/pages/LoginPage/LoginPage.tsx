@@ -14,6 +14,8 @@ import Footer from '../../components/footer/Footer';
 import styles from './LoginPage.module.css';
 import commonStyles from '../../components/common.module.css';
 import { getAuthError } from '../../selectors/authentication';
+import yandexImg from '../../assets/yandex.png';
+import { getServiceId } from '../../services/Auth';
 
 type LoginProps = {
   title?: string;
@@ -22,8 +24,6 @@ type LoginProps = {
 const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const [, setCookie] = useCookies(['auth']);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -45,15 +45,27 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     setPassword(event.target.value);
   };
 
+  const alternAuthHandler = () => {
+    const redirectUri = window.origin;
+    getServiceId(redirectUri).then((response) => {
+      // eslint-disable-next-line no-restricted-globals
+      location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response}&redirect_uri=${redirectUri}`;
+    });
+  };
+
   const goToGame = () => {
     history.push('/game');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(fetchSignIn({
-      login, password, setCookie, navigate: goToGame
-    }));
+    dispatch(
+      fetchSignIn({
+        login,
+        password,
+        navigate: goToGame
+      })
+    );
   };
 
   return (
@@ -117,14 +129,20 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
             >
               {resources.signIn}
             </Button>
-            <Button
-              type="button"
-              variant="text"
-              component={Link}
-              to="/sign-up"
-            >
+            <Button type="button" variant="text" component={Link} to="/sign-up">
               {resources.signUp}
             </Button>
+            <button
+              type="button"
+              className={styles['login-altern-auth-button']}
+              onClick={alternAuthHandler}
+            >
+              <img
+                src={yandexImg}
+                className={styles['login-altern-auth-icon']}
+                alt="yandex-auth"
+              />
+            </button>
           </Box>
         </Box>
       </div>

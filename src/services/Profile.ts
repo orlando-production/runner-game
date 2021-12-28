@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ENDPOINTS, requestGetData, requestPutData } from '../api';
 
 export type AvatarParams = {
@@ -34,14 +35,15 @@ export type UserResult = {
     status?: null
 };
 
-export const getUser = (isServer?:boolean) => requestGetData<UserResult>(ENDPOINTS.USER, null, isServer);
+export const getUser = (config?: {}, isServer?: boolean) => requestGetData<UserResult, UserResult>(ENDPOINTS.USER, config, isServer);
 export const setUserData = (
   profileParams: ProfileParams,
   config?: {}, isServer?:boolean
 ) => requestPutData<ProfileParams, UserResult>(ENDPOINTS.PROFILE, profileParams, config, isServer);
 export const setAvatar = (
   avatarParams: AvatarParams,
-  config?: {}, isServer?:boolean
+  config?: {},
+  isServer?:boolean
 ) => requestPutData<AvatarParams, UserResult>(ENDPOINTS.AVATAR, avatarParams, config, isServer);
 // eslint-disable-next-line max-len
 export const setPassword = (passwordParams: PasswordParams, config?: {}, isServer?:boolean) => requestPutData<PasswordParams, PasswordResult>(ENDPOINTS.PASSWORD, passwordParams, config, isServer);

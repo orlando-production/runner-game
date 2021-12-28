@@ -30,8 +30,6 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   const [validationError, setWarning] = useState<boolean>(false);
   const [warningText, setWarningText] = useState<string>('');
 
-  const [cookies, setCookie] = useCookies(['auth']);
-
   const history = useHistory();
   const dispatch = useDispatch();
   const requestError = useSelector(getRegistrationError);
@@ -96,7 +94,6 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
         phone,
         login,
         password,
-        setCookie,
         navigate: goToGame
       }));
     } else {

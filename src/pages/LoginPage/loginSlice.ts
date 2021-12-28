@@ -1,6 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
+import { FETCH_LOGOUT_FILFILLED } from 'actions/logout';
+import { FETCH_SIGNUP_FILFILLED } from 'actions/registration';
 import {
   FETCH_SIGNIN_PENDING, FETCH_SIGNIN_FILFILLED, FETCH_SIGNIN_REJECTED, FETCH_USER_INFO_PENDING, FETCH_USER_INFO_FILFILLED, FETCH_USER_INFO_REJECTED
 } from '../../actions/authentication';
@@ -47,6 +50,14 @@ export const authenticationSlice = createSlice({
     [FETCH_USER_INFO_REJECTED]: (state, action) => {
       state.authStatus = 'failed';
       state.error = action.payload;
+    },
+    [FETCH_SIGNUP_FILFILLED]: (state) => {
+      state.authStatus = 'succeeded';
+      state.isAuthenticated = true;
+    },
+    [FETCH_LOGOUT_FILFILLED]: (state) => {
+      state.authStatus = 'failed';
+      state.isAuthenticated = false;
     }
   }
 });

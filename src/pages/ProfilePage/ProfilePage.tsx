@@ -48,7 +48,6 @@ const ProfilePage = () => {
 
   const [formData, setFormData] = useState<UserResult>(user);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['auth']);
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -117,12 +116,14 @@ const ProfilePage = () => {
 
   const onLogoutClick = () => {
     dispatch(fetchLogout({
-      removeCookie, navigate: gotToSignIn
+      navigate: gotToSignIn
     }));
   };
 
   useEffect(() => {
-    dispatch(fetchUser());
+    if (!user) {
+      dispatch(fetchUser());
+    }
   }, [dispatch]);
 
   useEffect(() => {

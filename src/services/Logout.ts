@@ -1,3 +1,6 @@
 import { ENDPOINTS, requestPostData } from '../api';
 
-export const logoutUser = (isServer?: boolean) => requestPostData(ENDPOINTS.LOGOUT, null, {}, isServer);
+export const logoutUser = (
+  config?: {},
+  isServer?: boolean
+) => requestPostData(ENDPOINTS.LOGOUT, {}, config, isServer);

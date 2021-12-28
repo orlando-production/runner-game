@@ -3,6 +3,11 @@ import { RouterState, connectRouter } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
 import {
+  LeaderBoard,
+  leaderBoardInitialState,
+  leaderboardReducer
+} from 'pages/LeaderboardPage/leaderboardSlice';
+import {
   Registration,
   registrationInitialState,
   registrationReducer
@@ -12,8 +17,16 @@ import {
   authenticationReducer,
   authInitialState
 } from './pages/LoginPage/loginSlice';
-import { Logout, logoutInitialState, logoutReducer } from './pages/ProfilePage/logoutSlice';
-import { User, userInitialState, userReducer } from './pages/ProfilePage/userSlice';
+import {
+  Logout,
+  logoutInitialState,
+  logoutReducer
+} from './pages/ProfilePage/logoutSlice';
+import {
+  User,
+  userInitialState,
+  userReducer
+} from './pages/ProfilePage/userSlice';
 
 export const rootReducer = (history: History) => combineReducers({
   authentication: authenticationReducer,
@@ -24,6 +37,7 @@ export const rootReducer = (history: History) => combineReducers({
   statusPassword: userReducer,
   messagePassword: userReducer,
   messageProfile: userReducer,
+  leaderboard: leaderboardReducer,
   router: connectRouter(history)
 });
 
@@ -37,6 +51,7 @@ export type RootState = {
   messagePassword: User;
   messageProfile: User;
   router: RouterState;
+  leaderboard: LeaderBoard;
 };
 
 export const isServer = !(
@@ -76,9 +91,13 @@ export const getInitialState = (pathname: string = '/'): RootState => ({
   statusPassword: userInitialState,
   messagePassword: userInitialState,
   messageProfile: userInitialState,
+  leaderboard: leaderBoardInitialState,
   router: {
     location: {
-      pathname, search: '', hash: '', key: ''
+      pathname,
+      search: '',
+      hash: '',
+      key: ''
     },
     action: 'POP'
   } as RouterState

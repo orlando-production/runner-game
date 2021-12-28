@@ -1,6 +1,6 @@
 import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
-
+/* eslint-disable no-console */
 const YANDEX_END_POINT = 'https://ya-praktikum.tech/api/v2/';
 const OWN_SERVER_END_POINT = 'http://localhost:5000/';
 const API = (isServer: boolean = false) => axios.create({
@@ -11,6 +11,8 @@ const API = (isServer: boolean = false) => axios.create({
   withCredentials: true
 });
 
+const TEAM_NAME = 'orlando_production';
+
 export const ENDPOINTS = {
   SIGNIN: 'auth/signin',
   SIGNUP: 'auth/signup',
@@ -19,7 +21,10 @@ export const ENDPOINTS = {
   USER: 'auth/user',
   PROFILE: 'user/profile',
   PASSWORD: 'user/password',
-  LEADERBOARD: 'leaderboard'
+  LEADERBOARD: 'leaderboard',
+  LEADERBOARD_RESULTS: `leaderboard/${TEAM_NAME}`,
+  OAUTH_SERVICE: 'oauth/yandex/service-id',
+  AUTH_BY_CODE: 'oauth/yandex'
 } as const;
 
 type Endpoint = typeof ENDPOINTS[keyof typeof ENDPOINTS];
@@ -33,14 +38,14 @@ export const requestPostData = <P, R>(
   isServer?: boolean
 ) => API(isServer)
     .post<R, AxiosResponse<R>, P>(url, params, config)
-    .then(({ data }) => data);
+    .then(({ data, headers }) => ({ data, headers }));
 
 export const requestGetData = <R, P>(
   url: Endpoint,
-  params?: P,
+  config?: {},
   isServer?: boolean
 ) => API(isServer)
-    .get<R, P>(url, params)
+    .get<R, AxiosResponse<R>, P>(url, config)
     .then(({ data }) => data);
 
 export const requestPutData = <P, R>(
@@ -50,4 +55,4 @@ export const requestPutData = <P, R>(
   isServer?: boolean
 ) => API(isServer)
     .put<R, AxiosResponse<R>, P>(url, params, config)
-    .then(({ data }) => data);
+    .then(({ data, headers }) => ({ data, headers }));

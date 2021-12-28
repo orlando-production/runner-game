@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { getUserData } from 'selectors/profile';
+import { UserResult } from 'services/Profile';
 import { addLeaderboardResult } from '../../../../services/Leaderboard';
 import ObstacleLine from '../ObstacleLine';
 import Player from '../Player';
@@ -15,7 +18,6 @@ type GameControllerOptions = {
   onPointsChange: (pointsNumber: number) => void;
   setFooterVisible: (visible: boolean) => void;
   isPause: boolean;
-  points: number;
 };
 const PLAYER_SPRITE_WIDTH = 963;
 const PLAYER_SPRITE_HEIGHT = 60;
@@ -35,15 +37,25 @@ const GameController = ({
   setGameState,
   onPointsChange,
   setFooterVisible,
-  isPause,
-  points
+  isPause
 }: GameControllerOptions) => {
-  const playerImage = new Image();
-  playerImage.src = image;
-  const backgroundImage = new Image();
-  backgroundImage.src = bg;
+  const playerImage = useRef();
+  const backgroundImage = useRef();
+
+  if (
+    playerImage
+    && backgroundImage
+    && !playerImage.current
+    && !backgroundImage.current
+  ) {
+    playerImage.current = new Image();
+    backgroundImage.current = new Image();
+    playerImage.current.src = image;
+    backgroundImage.current.src = bg;
+  }
 
   const canvas = useRef();
+  const user = useSelector(getUserData) as UserResult;
   const speedRef = useRef(null);
   const firstUpdate = useRef(true);
   const obstacleLineInstRef = useRef(null);
@@ -80,7 +92,7 @@ const GameController = ({
       const canvas2d = currentCanvas.getContext('2d');
       canvas2d.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
       canvas2d.drawImage(
-        backgroundImage,
+        backgroundImage.current,
         0,
         0,
         currentCanvas.width,
@@ -124,8 +136,13 @@ const GameController = ({
           setGameState(GameStates.Finished);
           obstacleLineInstRef.current.clear();
           addLeaderboardResult({
-            data: { presents: points },
-            teamName: 'orlando',
+            data: {
+              presents: 10,
+              name: user.first_name,
+              avatar: user.avatar,
+              id: user.id
+            },
+            teamName: 'orlando_production',
             ratingFieldName: 'presents'
           });
         } else if (firstObstacle.type === ObstacleTypes.FRIEND) {
@@ -160,7 +177,7 @@ const GameController = ({
       document.addEventListener('keydown', keyDownHandler, false);
       const player = new Player({
         ctx: canvas2d,
-        image: playerImage,
+        image: playerImage.current,
         width: PLAYER_SPRITE_WIDTH,
         height: PLAYER_SPRITE_HEIGHT,
         numberOfFrames: NUMBER_OF_FRAMES,

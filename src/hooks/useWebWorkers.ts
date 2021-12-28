@@ -18,7 +18,7 @@ export const useWebworker = (fn: Function) => {
     );
     workerRef.current = worker;
     worker.onmessage = (event: MessageEvent) => setResult(event.data);
-    worker.onerror = (error: ErrorEvent) => setError(error.message);
+    worker.onerror = (errorWorker: ErrorEvent) => setError(errorWorker.message);
     return () => {
       worker.terminate();
     };

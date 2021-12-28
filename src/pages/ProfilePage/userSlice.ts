@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
+import { FETCH_USER_INFO_FILFILLED } from 'actions/authentication';
 import { UserResult } from 'services/Profile';
 import {
   FETCH_GET_USER_PENDING,
@@ -91,6 +92,9 @@ export const userSlice = createSlice({
     },
     [FETCH_PASSWORD_PENDING]: (state) => {
       state.messagePassword = '...';
+    },
+    [FETCH_USER_INFO_FILFILLED]: (state, action) => {
+      state.user = action?.payload;
     }
   }
 });

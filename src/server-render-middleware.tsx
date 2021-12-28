@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import type { Request, Response } from 'express';
@@ -6,7 +7,6 @@ import { Provider as ReduxProvider } from 'react-redux';
 import configureAppStore, { getInitialState } from 'store';
 import Helmet, { HelmetData } from 'react-helmet';
 import routes from 'routes';
-import { Action, ThunkAction } from '@reduxjs/toolkit';
 import url from 'url';
 import { App } from './components/App';
 
@@ -56,10 +56,12 @@ export default (req: Request, res: Response) => {
       return;
     }
 
-    res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState, helmetData));
+    res
+      .status(context.statusCode || 200)
+      .send(getHtml(reactHtml, reduxState, helmetData));
   };
 
-  const dataRequirements: ThunkAction<void, () => void, any, Action<string>>[] = [];
+  let dataRequirements: any = [];
 
   routes.some((route) => {
     const { fetchData } = route;
@@ -67,19 +69,19 @@ export default (req: Request, res: Response) => {
       url.parse(location).pathname as string,
       route
     );
-
     if (match && fetchData) {
-      dataRequirements.push(fetchData({ dispatch: store.dispatch, cookies, match }));
+      dataRequirements = fetchData({
+        dispatch: store.dispatch,
+        cookies,
+        match,
+        query: req.query
+      });
     }
-
     return Boolean(match);
   });
 
   return Promise.all(dataRequirements)
     .then(() => {
       renderApp();
-    })
-    .catch((err) => {
-      throw err;
     });
 };

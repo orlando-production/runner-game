@@ -1,4 +1,4 @@
-import { ThunkAction } from '@reduxjs/toolkit';
+import { AsyncThunkAction } from '@reduxjs/toolkit';
 import { RouteType } from 'components/privateRoute/PrivateRoute';
 import ForumPage from 'pages/ForumPage';
 import ForumTopicPage from 'pages/ForumTopicPage';
@@ -11,77 +11,108 @@ import ProfilePage from 'pages/ProfilePage';
 import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
-import { Action } from 'redux';
+import { authByCodeThunk, fetchUserInfo } from 'thunks/authentication';
+import { fetchLeaderboardList } from 'thunks/leaderboard';
 
-export type ReduxAction<T = any, P = any>= {
-    type: T;
-    payload?: P;
-}
-
-export type RouterFetchDataArgs = {
-    dispatch: Dispatch<ReduxAction>;
-    match: match<{ slug: string }>;
-    cookies: string;
+export type ReduxAction<T = any, P = any> = {
+  type: T;
+  payload?: P;
 };
 
-export type RouterFetchData = ({ dispatch, cookies }: RouterFetchDataArgs) => ThunkAction<void, () => void, any, Action<string>>;
+export type RouterFetchDataArgs = {
+  dispatch: Dispatch<AsyncThunkAction<Promise<unknown>, void, {}>>;
+  match: match<{ slug: string }>;
+  cookies: string;
+  query?: { [prop: string]: unknown };
+};
+
+export type RouterFetchData = ({ dispatch }: RouterFetchDataArgs) => void;
 
 export type RoutesType = {
-    path: string;
-    component?: React.FunctionComponent<any>;
-    exact?: boolean;
-    type?: RouteType;
-    fetchData?: RouterFetchData;
+  path: string;
+  component?: React.FunctionComponent<any>;
+  exact?: boolean;
+  type?: RouteType;
+  fetchData?: RouterFetchData;
 }[];
 
-const routes:RoutesType = [
+const routes: RoutesType = [
   {
     path: '/',
     component: MainPage,
     exact: true,
-    type: 'private'
+    type: 'private',
+    fetchData({ dispatch, query }: RouterFetchDataArgs) {
+      if (query.code) {
+        return [
+          dispatch(authByCodeThunk(query.code, dispatch))
+        ];
+      }
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/sign-in',
     component: LoginPage,
     exact: true,
-    type: 'public'
+    type: 'public',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/sign-up',
     component: SignUpPage,
     exact: true,
-    type: 'public'
+    type: 'public',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/game',
     component: GamePage,
     exact: true,
-    type: 'private'
+    type: 'private',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/leaderboard',
     component: LeaderboardPage,
     exact: true,
-    type: 'private'
+    type: 'private',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo()), dispatch(fetchLeaderboardList())];
+    }
   },
   {
     path: '/forum',
     component: ForumPage,
     exact: true,
-    type: 'private'
+    type: 'private',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/forum/:topicId',
     component: ForumTopicPage,
     exact: false,
-    type: 'private'
+    type: 'private',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/profile',
     component: ProfilePage,
     exact: true,
-    type: 'private'
+    type: 'private',
+    fetchData({ dispatch }: RouterFetchDataArgs) {
+      return [dispatch(fetchUserInfo())];
+    }
   },
   {
     path: '/404',

@@ -11,4 +11,12 @@ export type SignUpParams = {
 
 export type SignUpResult = null;
 
-export const registerUser = (signUpParams: SignUpParams) => requestPostData<SignUpParams, SignUpResult>(ENDPOINTS.SIGNUP, signUpParams);
+export const registerUser = (
+  signUpParams: SignUpParams,
+  isServer?: boolean
+) => requestPostData<SignUpParams, SignUpResult>(
+  ENDPOINTS.SIGNUP,
+  signUpParams,
+  {},
+  isServer
+);

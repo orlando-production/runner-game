@@ -1,14 +1,23 @@
+/* eslint-disable no-template-curly-in-string */
 /* eslint-disable no-console */
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
 import 'babel-polyfill';
-import { authenticateUser, getUserInfo, SignInParams } from 'services/Auth';
-import { addLeaderboardResult, LeaderboardAddResultParams } from 'services/Leaderboard';
-import { logoutUser } from 'services/Logout';
 import {
-  getUser, setUserData, setAvatar, setPassword, PasswordParams, ProfileParams
-} from 'services/Profile';
+  authByCode,
+  authenticateUser,
+  getServiceId,
+  getUserInfo
+} from 'services/Auth';
+import {
+  addLeaderboardResult,
+  getLeaderboardResults
+} from 'services/Leaderboard';
+import { logoutUser } from 'services/Logout';
+import { setUserData, setAvatar, setPassword } from 'services/Profile';
+import { ENDPOINTS } from 'api';
+import { registerUser } from 'services/Registration';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -17,71 +26,134 @@ const FormData = require('form-data');
 const app = express();
 const api = express.Router();
 
+let cookies = '';
+
 const port = process.env.PORT || 3000;
 
-api.use(express.json());
-api.use(busboy({ immediate: true }));
-
-let cookies = '';
+app.use(express.json());
+app.use(busboy({ immediate: true }));
 
 const parseCookies = (cookie: string) => cookie
   .split(/;\s+/)
-  .filter((token) => token.startsWith('authCookie') || token.startsWith('uuid'))
-  // возвращает 2 куки 'uuid', первую вырезаем
+  .filter(
+    (token) => token.startsWith('authCookie') || token.startsWith('uuid')
+  )
+// возвращает 2 куки 'uuid', первую вырезаем
   .slice(1)
   .join('; ');
+const setCookies = (
+  newCookies: string,
+  res: Response<any, Record<string, any>, number>
+) => {
+  const cookiesArr = newCookies.split(';');
+  res.cookie(
+    `${cookiesArr[0].split('=')[0]}`,
+    `${cookiesArr[0].split('=')[1]}`,
+    {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    }
+  );
+  res.cookie(
+    `${cookiesArr[1].split('=')[0]}`,
+    `${cookiesArr[1].split('=')[1]}`,
+    {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    }
+  );
+};
 
-api.post('/signin', (req, res) => {
-  const user = {
-    login: 'login',
-    password: 'pass'
-  } as SignInParams;
+app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
+  authenticateUser(req.body, true).then(({ headers }) => {
+    cookies = parseCookies(headers['set-cookie'].join('; '));
+    setCookies(cookies, res);
+    return res.sendStatus(200);
+  });
+});
 
-  authenticateUser(user, true)
+app.post(`/${ENDPOINTS.SIGNUP}`, (req, res) => {
+  registerUser(req.body, true).then(({ headers }) => {
+    cookies = parseCookies(headers['set-cookie'].join('; '));
+    setCookies(cookies, res);
+    return res.sendStatus(200);
+  });
+});
+
+app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
+  addLeaderboardResult(req.body, true)
+    .then(() => res.sendStatus(200))
+    .catch(({ response }) => console.error(response.data));
+});
+
+app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req, res) => {
+  const config = {
+    headers: {
+      Cookie: cookies
+    }
+  };
+  getLeaderboardResults(req.body, config, true)
+    .then(({ data }) => {
+      res.send(data);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+});
+
+app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
+  const config = {
+    headers: {
+      Cookie: cookies
+    }
+  };
+
+  logoutUser(config, true)
+    .then(() => res.sendStatus(200))
+    .catch(() => {
+      res.sendStatus(500);
+    });
+});
+
+app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req, res) => {
+  authByCode(req.body.code, req.body.redirect_uri, true)
     .then(({ headers }) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       cookies = parseCookies(headers['set-cookie'].join('; '));
+      setCookies(cookies, res);
       return res.sendStatus(200);
     })
-    .catch(({ response }) => console.error(response.data));
+    .catch(() => {
+      res.sendStatus(500);
+    });
 });
 
-api.post('/leaderboard', (req, res) => {
-  const leaderboard = {
-    data: {},
-    ratingFieldName: 'Oleg',
-    teamName: 'OlegTeam'
-  } as LeaderboardAddResultParams;
-
-  addLeaderboardResult(leaderboard, true)
-    .then(() => res.sendStatus(200))
-    .catch(({ response }) => console.error(response.data));
+app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req, res) => {
+  getServiceId(req.query.redirect_uri, true)
+    .then(({ service_id }) => {
+      res.send(service_id);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
 });
 
-api.post('/logout', (req, res) => {
-  logoutUser(true)
-    .then(() => res.sendStatus(200))
-    .catch(({ response }) => console.error(response));
+app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
+  const config = {
+    headers: {
+      Cookie: cookies
+    }
+  };
+
+  getUserInfo(config, true)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch(() => {
+      res.sendStatus(401);
+    });
 });
 
-api.post('/user', (req, res) => {
-  getUser(true)
-    .then(({ data }) => res.send(data))
-    .catch(({ response }) => console.error(response));
-});
-
-api.post('/profile', (req, res) => {
-  const profile = {
-    login: 'login',
-    first_name: 'first_name',
-    second_name: 'second_name',
-    email: 'email@gmail.com',
-    phone: '88003555335',
-    display_name: 'display_name',
-    status: null,
-    avatar: null
-  } as ProfileParams;
-
+app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -89,30 +161,25 @@ api.post('/profile', (req, res) => {
     withCredentials: true
   };
 
-  setUserData(profile, config, true)
+  setUserData(req.body, config, true)
     .then(({ data }) => res.send(data))
     .catch(({ response }) => console.error(response));
 });
 
-api.post('/password', (req, res) => {
-  const passwords = {
-    newPassword: '111',
-    oldPassword: '1111'
-  } as PasswordParams;
-
+app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
   const config = {
     headers: {
       Cookie: cookies
     }
   };
 
-  setPassword(passwords, config, true)
+  setPassword(req.body, config, true)
     .then(({ data }) => res.send(data))
     .catch(({ response }) => console.error(response));
 });
 
 // eslint-disable-next-line consistent-return
-api.post('/avatar', (req, res) => {
+app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
   if (!req.busboy) {
     return res.sendStatus(500);
   }
@@ -130,22 +197,16 @@ api.post('/avatar', (req, res) => {
     };
 
     setAvatar(formData, config, true)
-      .then(({ data }: {}) => res.send(data))
+      .then((data) => res.send(data))
       .catch(({ response }) => console.error(response));
   });
 });
 
-api.get('/auth/user', (req, res) => {
-  getUserInfo(true)
-    .then(({ data }) => {
-      res.send(data);
-    })
-    .catch(({ response }) => console.error(response));
-});
-
-app.use(compression())
+app
+  .use(compression())
   .use(express.static(path.resolve(__dirname, '../static')))
   .use('/api', api);
+
 app.get('/*', serverRenderMiddleware);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

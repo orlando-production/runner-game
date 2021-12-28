@@ -115,7 +115,6 @@ const GameScreen = ({
         isPause={isPause}
         setGameState={setGameState}
         onPointsChange={addPoints}
-        points={points}
         setFooterVisible={setFooterVisible}
       />
     </div>
