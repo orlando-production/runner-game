@@ -7,14 +7,11 @@ import styles from './NewTopic.module.css';
 
 type NewTopicProps = {
   onClose: () => void;
-}
+};
 
 const NewTopic = ({ onClose }: NewTopicProps) => {
-  const [topic, setTopic] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-
-  console.log(topic);
-  console.log(description);
+  const [, setTopic] = useState<string>('');
+  const [, setDescription] = useState<string>('');
 
   const resources = {
     buttonSave: 'SAVE',
@@ -47,13 +44,8 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
       onSubmit={handleSubmit}
       className={styles['new-topic']}
     >
-      <Typography
-        component="h1"
-        variant="h5"
-        mb={5}
-      >
+      <Typography component="h1" variant="h5" mb={5}>
         {resources.newTitle}
-
       </Typography>
       <TextField
         onChange={handleTopic}
@@ -95,7 +87,6 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
         {resources.buttonCancel}
       </Button>
     </Box>
-
   );
 };
 

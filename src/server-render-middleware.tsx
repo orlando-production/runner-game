@@ -83,8 +83,5 @@ export default (req: Request, res: Response) => {
   return Promise.all(dataRequirements)
     .then(() => {
       renderApp();
-    })
-    .catch((err) => {
-      throw err;
     });
 };

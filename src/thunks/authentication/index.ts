@@ -33,16 +33,10 @@ export const fetchSignIn = createAsyncThunk(
 );
 
 export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, () => getUserInfo()
-  .then((result) => result)
-  .catch(() => {
-    throw new Error('Error in FetchUserInfo');
-  }));
+  .then((result) => result));
 
 export const authByCodeThunk = createAsyncThunk(
   AUTH_BY_CODE,
   (code, dispatch) => authByCode(code, 'http://localhost:5000')
     .then(() => dispatch(fetchUserInfo()))
-    .catch(() => {
-      throw new Error('Error in authByCodeThunk');
-    })
 );
