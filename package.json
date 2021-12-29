@@ -9,8 +9,8 @@
   "scripts": {
     "start:server": "node ./dist/server.js",
     "start:nodemon": "npm-run-all start:build-server start:server",
-    "start:build-server": "webpack build --config ./webpack/webpack.server.config.ts",
-    "start:build-client": "webpack build --config ./webpack/webpack.dev.config.ts",
+    "start:build-server": "webpack build --mode production --config ./webpack/webpack.server.config.ts",
+    "start:build-client": "webpack build --mode production --config ./webpack/webpack.dev.config.ts",
     "start": "npm-run-all --parallel start:nodemon start:build-client",
     "heroku-postbuild": "",
     "build": "webpack build --config ./webpack/webpack.dev.config.ts --mode production",
