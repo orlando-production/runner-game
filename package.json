@@ -12,7 +12,7 @@
     "start:build-server": "webpack --config ./webpack/webpack.server.config.ts",
     "start:build-client": "webpack build --config ./webpack/webpack.dev.config.ts",
     "start": "npm-run-all --parallel start:nodemon start:build-client",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "",
     "build": "webpack build --config ./webpack/webpack.dev.config.ts --mode production",
     "dev": "webpack build --config ./webpack/webpack.dev.config.ts --mode development",
     "test": "jest",
