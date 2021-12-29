@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 /* eslint-disable no-console */
 import path from 'path';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import compression from 'compression';
 import 'babel-polyfill';
 import {
@@ -42,7 +42,7 @@ const parseCookies = (cookie: string) => cookie
 
 const setCookies = (
   newCookies: string,
-  res: Response<any, Record<string, any>, number>
+  res: Response
 ) => {
   newCookies.split(';').forEach((cookie) => {
     res.cookie(
@@ -56,7 +56,7 @@ const setCookies = (
   });
 };
 
-app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
+app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
   authenticateUser(req.body, true)
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
@@ -68,7 +68,7 @@ app.post(`/${ENDPOINTS.SIGNIN}`, (req, res) => {
     });
 });
 
-app.post(`/${ENDPOINTS.SIGNUP}`, (req, res) => {
+app.post(`/${ENDPOINTS.SIGNUP}`, (req: Request, res: Response) => {
   registerUser(req.body, true)
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; ')).join('; ');
@@ -80,13 +80,13 @@ app.post(`/${ENDPOINTS.SIGNUP}`, (req, res) => {
     });
 });
 
-app.post(`/${ENDPOINTS.LEADERBOARD}`, (req, res) => {
+app.post(`/${ENDPOINTS.LEADERBOARD}`, (req: Request, res: Response) => {
   addLeaderboardResult(req.body, true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
 });
 
-app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req, res) => {
+app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -101,7 +101,7 @@ app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req, res) => {
     });
 });
 
-app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
+app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -115,7 +115,7 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (req, res) => {
     });
 });
 
-app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req, res) => {
+app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req: Request, res: Response) => {
   authByCode(req.body.code, req.body.redirect_uri, true)
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
@@ -127,7 +127,7 @@ app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req, res) => {
     });
 });
 
-app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req, res) => {
+app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req: Request, res: Response) => {
   getServiceId(req.query.redirect_uri, true)
     .then(({ service_id }) => {
       res.send(service_id);
@@ -137,7 +137,7 @@ app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req, res) => {
     });
 });
 
-app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
+app.get(`/${ENDPOINTS.USER}`, async (_req: Request, res: Response) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -153,7 +153,7 @@ app.get(`/${ENDPOINTS.USER}`, async (req, res) => {
     });
 });
 
-app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
+app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -168,7 +168,7 @@ app.put(`/${ENDPOINTS.PROFILE}`, (req, res) => {
     });
 });
 
-app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
+app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
   const config = {
     headers: {
       Cookie: cookies
@@ -183,12 +183,11 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
+app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
   if (!req.busboy) {
     return res.sendStatus(500);
   }
-
-  req.busboy.on('file', (fieldName: string, file: any, filename: string) => {
+  req.busboy.on('file', (_fieldName: string, file: any, filename: string) => {
     const formData = new FormData();
 
     formData.append('avatar', file, { filename });
@@ -210,7 +209,7 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
   });
 });
 
-app.get(`/${ENDPOINTS.AVATARS}`, (req: {[index: string]:any}, res) => {
+app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
   const config = {
     headers: {
       Cookie: cookies
