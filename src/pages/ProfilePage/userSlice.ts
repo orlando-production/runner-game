@@ -78,7 +78,7 @@ export const userSlice = createSlice({
       state.messageProfile = 'Data is incorrect';
     },
     [FETCH_AVATAR_FILFILLED]: (state, action) => {
-      state.user = action?.payload?.data;
+      state.user = action.payload;
     },
     [FETCH_AVATAR_REJECTED]: (state, action) => {
       state.error = action.payload;
@@ -93,9 +93,6 @@ export const userSlice = createSlice({
     },
     [FETCH_PASSWORD_PENDING]: (state) => {
       state.messagePassword = '...';
-    },
-    [FETCH_USER_INFO_FILFILLED]: (state, action) => {
-      state.user = action?.payload;
     }
   }
 });

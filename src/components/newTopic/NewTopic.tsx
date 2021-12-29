@@ -13,9 +13,6 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
   const [, setTopic] = useState<string>('');
   const [, setDescription] = useState<string>('');
 
-  console.log(topic);
-  console.log(description);
-
   const resources = {
     buttonSave: 'SAVE',
     buttonCancel: 'CANCEL',

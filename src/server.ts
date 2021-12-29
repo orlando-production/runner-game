@@ -18,6 +18,7 @@ import { logoutUser } from 'services/Logout';
 import { setUserData, setAvatar, setPassword } from 'services/Profile';
 import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
+import { getAvatars } from 'services/Avatars';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -200,13 +201,24 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req, res) => {
     };
 
     setAvatar(formData, config, true)
-      .then((data) => {
+      .then(({ data }) => {
         res.send(data);
       })
       .catch(({ response }) => {
         res.status(response.status || 500).json(response.data);
       });
   });
+});
+
+app.get(`/${ENDPOINTS.AVATARS}`, (req: {[index: string]:any}, res) => {
+  const config = {
+    headers: {
+      Cookie: cookies
+    },
+    responseType: 'stream'
+  };
+  return getAvatars(`${req.params[0]}`, config, true)
+    .then((result) => result.pipe(res));
 });
 
 app

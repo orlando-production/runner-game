@@ -141,7 +141,7 @@ const ProfilePage = () => {
           <div className={styles['profile-avatar']}>
             <Avatar
               sx={{ width: 156, height: 156 }}
-              src={avatar && `http://ya-praktikum.tech/api/v2/resources${avatar}`}
+              src={avatar && `http://localhost:5000/avatar${avatar}`}
             />
           </div>
           <div className={styles['profile-upload']}>

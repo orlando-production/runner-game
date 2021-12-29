@@ -18,6 +18,8 @@ export const ENDPOINTS = {
   SIGNUP: 'auth/signup',
   LOGOUT: 'auth/logout',
   AVATAR: 'user/profile/avatar',
+  AVATARS: 'avatar/*',
+  RESOURCES: 'resources',
   USER: 'auth/user',
   PROFILE: 'user/profile',
   PASSWORD: 'user/password',
