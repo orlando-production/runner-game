@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start:server": "node ./dist/server.js",
-    "start:nodemon": "run-s start:build-server start:server",
+    "start:nodemon": "npm-run-all start:build-server start:server",
     "start:build-server": "webpack --config ./webpack/webpack.server.config.ts",
     "start:build-client": "webpack build --config ./webpack/webpack.dev.config.ts",
     "start": "npm-run-all --parallel start:nodemon start:build-client",
