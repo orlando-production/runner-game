@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { ENDPOINTS, requestGetData, requestPutData } from '../api';
+import { ENDPOINTS, requestPutData } from '../api';
 
 export type AvatarParams = {
     FormData: FormData
@@ -35,7 +35,6 @@ export type UserResult = {
     status?: null
 };
 
-export const getUser = (config?: {}, isServer?: boolean) => requestGetData<UserResult, UserResult>(ENDPOINTS.USER, config, isServer);
 export const setUserData = (
   profileParams: ProfileParams,
   config?: {}, isServer?:boolean

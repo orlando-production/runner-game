@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCookies } from 'react-cookie';
 import commonStyles from '../../components/common.module.css';
 import Footer from '../../components/footer/Footer';
 import styles from './SignUpPage.module.css';
