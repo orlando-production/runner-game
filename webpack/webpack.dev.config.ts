@@ -49,7 +49,6 @@ const config: Configuration = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin()],
-  devtool: 'inline-source-map',
   performance: {
     hints: false
   }
