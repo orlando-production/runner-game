@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Educational project game for Yandex",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=12.0.0",
+    "npm": "8.3.0"
   },
   "scripts": {
     "start": "node ./dist/server.js",
-    "clear": "rmraf dist static",
+    "clear": "rimraf dist static",
     "heroku-postbuild": "npm run build",
     "build": "npm-run-all clear --parallel build:server build:client",
     "build:server": "webpack build --config ./webpack/webpack.server.config.ts",
@@ -129,6 +130,7 @@
     "react-router": "5.1.2",
     "react-router-dom": "5.1.2",
     "redux": "4.1.2",
+    "rimraf": "3.0.2",
     "rmraf": "1.0.3",
     "serviceworker-webpack-plugin": "1.0.1",
     "webpack": "5.61.0",
