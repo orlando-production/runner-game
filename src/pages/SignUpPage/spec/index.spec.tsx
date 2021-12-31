@@ -9,6 +9,7 @@ import {
 import { RouterState } from 'connected-react-router';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import { createMemoryHistory } from 'history';
+import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
 import type { Logout } from '../../ProfilePage/logoutSlice';
 import type { User } from '../../ProfilePage/userSlice';
 import type { Registration } from '../registrationSlice';
@@ -43,6 +44,7 @@ const preloadedState = {
   statusPassword: {} as User,
   messagePassword: {} as User,
   messageProfile: {} as User,
+  leaderboard: {} as LeaderBoard,
   router: {} as RouterState
 };
 

@@ -20,7 +20,7 @@ export type ReduxAction<T = any, P = any> = {
 };
 
 export type RouterFetchDataArgs = {
-  dispatch: Dispatch<AsyncThunkAction<Promise<unknown>, void, {}>>;
+  dispatch: Dispatch<AsyncThunkAction<any, void | string, {}>>;
   match: match<{ slug: string }>;
   cookies: string;
   query?: { [prop: string]: unknown };
@@ -45,7 +45,7 @@ const routes: RoutesType = [
     fetchData({ dispatch, query }: RouterFetchDataArgs) {
       if (query.code) {
         return [
-          dispatch(authByCodeThunk(query.code, dispatch))
+          dispatch(authByCodeThunk((query.code as string), dispatch))
         ];
       }
       return [dispatch(fetchUserInfo())];

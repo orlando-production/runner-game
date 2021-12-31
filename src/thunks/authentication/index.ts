@@ -5,7 +5,6 @@ import {
   FETCH_SIGNIN,
   FETCH_USER_INFO
 } from '../../actions/authentication';
-
 import { ErrorType } from '../../api';
 import {
   authByCode,
@@ -35,8 +34,10 @@ export const fetchSignIn = createAsyncThunk(
 export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, () => getUserInfo()
   .then((result) => result));
 
-export const authByCodeThunk = createAsyncThunk(
+type AuthByCodeThunk = (code: string, dispatch?: any) => any;
+
+export const authByCodeThunk: AuthByCodeThunk = createAsyncThunk(
   AUTH_BY_CODE,
-  (code, dispatch) => authByCode(code, 'http://localhost:5000')
+  (code: string, dispatch: any) => authByCode(code, 'http://localhost:5000')
     .then(() => dispatch(fetchUserInfo()))
 );

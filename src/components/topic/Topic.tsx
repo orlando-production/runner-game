@@ -10,9 +10,11 @@ export type TopicProps = {
   id: string;
 }
 
-const Topic = () => {
+const Topic = (props?: TopicProps) => {
+  const { title } = props;
   const resources = {
-    button: 'ADD'
+    button: 'ADD',
+    title
   };
 
   // TODO Get real messages

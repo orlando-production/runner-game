@@ -39,8 +39,8 @@ const GameController = ({
   setFooterVisible,
   isPause
 }: GameControllerOptions) => {
-  const playerImage = useRef();
-  const backgroundImage = useRef();
+  const playerImage = useRef<HTMLImageElement>();
+  const backgroundImage = useRef<HTMLImageElement>();
 
   if (
     playerImage
@@ -80,7 +80,7 @@ const GameController = ({
     }
   };
 
-  const keyDownHandler = (e) => {
+  const keyDownHandler = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       toggleFullScreen();
     }

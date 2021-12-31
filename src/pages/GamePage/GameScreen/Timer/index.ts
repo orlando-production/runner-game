@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
-import Timer from './Timer';
+import { forwardRef, Ref } from 'react';
+import Timer, { TimerType } from './Timer';
 
-const withRefTimer = forwardRef((_, ref) => Timer(_, ref));
+const withRefTimer = forwardRef((_, ref) => Timer(_, (ref as Ref<TimerType>)));
 export default withRefTimer;

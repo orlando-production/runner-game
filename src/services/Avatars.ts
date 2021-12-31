@@ -1,4 +1,10 @@
 /* eslint-disable no-console */
-import { ENDPOINTS, requestGetData } from '../api';
+import { Endpoint, ENDPOINTS, requestGetData } from '../api';
 
-export const getAvatars = (url: string, config?: {}, isServer?: boolean) => requestGetData(`${ENDPOINTS.RESOURCES}/${url}`, config, isServer);
+type AvatarsEndpoint = Endpoint & {'AVATAR_FULL_PATH': string};
+
+export const getAvatars = (url: string, config?: {}, isServer?: boolean) => requestGetData(
+    `${ENDPOINTS.RESOURCES}/${url}` as AvatarsEndpoint,
+    config,
+    isServer
+);

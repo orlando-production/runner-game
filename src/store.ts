@@ -81,7 +81,6 @@ export default function configureAppStore(
   return { store, history };
 }
 
-// сейчас isAuthenticated: true всегда, но надо как-то получать эту инфу с сервера наверно
 export const getInitialState = (pathname: string = '/'): RootState => ({
   authentication: authInitialState,
   registration: registrationInitialState,

@@ -19,6 +19,7 @@ import { setUserData, setAvatar, setPassword } from 'services/Profile';
 import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
+import { Stream } from 'form-data';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -128,8 +129,8 @@ app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req: Request, res: Response) => {
 });
 
 app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req: Request, res: Response) => {
-  getServiceId(req.query.redirect_uri, true)
-    .then(({ service_id }) => {
+  getServiceId((req as any).query.redirect_uri, true)
+    .then(({ service_id }: any) => {
       res.send(service_id);
     })
     .catch(() => {
@@ -184,10 +185,10 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line consistent-return
 app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
-  if (!req.busboy) {
+  if (!(req as any).busboy) {
     return res.sendStatus(500);
   }
-  req.busboy.on('file', (_fieldName: string, file: any, filename: string) => {
+  (req as any).busboy.on('file', (_fieldName: string, file: any, filename: string) => {
     const formData = new FormData();
 
     formData.append('avatar', file, { filename });
@@ -216,8 +217,9 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
     },
     responseType: 'stream'
   };
+
   return getAvatars(`${req.params[0]}`, config, true)
-    .then((result) => result.pipe(res));
+    .then((result: Stream) => result.pipe(res));
 });
 
 app

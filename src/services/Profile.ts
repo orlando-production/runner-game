@@ -31,7 +31,7 @@ export type UserResult = {
     email: string,
     phone: string,
     display_name: string,
-    avatar: string,
+    avatar?: string,
     status?: null
 };
 

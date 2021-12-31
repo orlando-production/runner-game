@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCookies } from 'react-cookie';
 import { fetchSignIn } from '../../thunks/authentication';
 import Footer from '../../components/footer/Footer';
 import styles from './LoginPage.module.css';

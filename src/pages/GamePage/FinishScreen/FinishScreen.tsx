@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { UserResult } from 'services/Profile';
 import { getUserData } from '../../../selectors/profile';
 import { GameStates } from '../GamePage';
 import classes from './FinishScreen.module.css';
@@ -20,7 +21,7 @@ const FinishScreen = ({ setGameState, points }: FinishScreenProps) => {
   return (
     <div className={classes['finish-screen']}>
       <div className={classes['finish-screen__results']}>
-        {`Молодец, ${user.display_name}! Ты помог дедушке собрать ${points}
+        {`Молодец, ${(user as UserResult).display_name}! Ты помог дедушке собрать ${points}
         подарков!`}
       </div>
       <Button

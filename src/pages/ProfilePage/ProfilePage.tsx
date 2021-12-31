@@ -45,7 +45,7 @@ const ProfilePage = () => {
   const [statusPasswordPage, setStatusPasswordPage] = useState<Status>('invisible');
   const [messagePasswordPage, setMessagePasswordPage] = useState<string>('');
 
-  const [formData, setFormData] = useState<UserResult>(user);
+  const [formData, setFormData] = useState<UserResult>(user as UserResult);
 
   const history = useHistory();
 
@@ -126,7 +126,7 @@ const ProfilePage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setFormData(user);
+    setFormData(user as UserResult);
     setAvatar(avatarSrc);
     setStatusProfilePage(statusProfile);
     setStatusPasswordPage(statusPassword);

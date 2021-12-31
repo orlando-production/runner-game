@@ -29,7 +29,7 @@ export const ENDPOINTS = {
   AUTH_BY_CODE: 'oauth/yandex'
 } as const;
 
-type Endpoint = typeof ENDPOINTS[keyof typeof ENDPOINTS];
+export type Endpoint = typeof ENDPOINTS[keyof typeof ENDPOINTS];
 
 export type ErrorType = AxiosError;
 
