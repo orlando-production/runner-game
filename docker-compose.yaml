@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./mongo:/data/db
+    command: 
+      - ./wait-for.sh mongo:27017 -- node simpleServer.js
+    ports:
+      - "27017:27017"
+    networks:
+      - awesome
+  server-app:
+    build:
+      context: .
+    ports:
+      - 5000:${PORT}
+    volumes:
+      - ./shared:/var/www/shared
+    depends_on:
+      - mongo
+    networks:
+      - awesome
+networks:
+    awesome:
+        driver: bridge
