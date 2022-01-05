@@ -20,5 +20,7 @@
   },
   "include": ["src"],
   "exclude": ["node_modules"],
-  "files": ["src/index.d.ts"]
+  "files": ["src/index.d.ts"],
+  "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+  "emitDecoratorMetadata": true
 }
