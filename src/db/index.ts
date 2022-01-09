@@ -1,56 +1,10 @@
-import { dbConnect, User } from './init';
-import { IUserDb } from './models/user';
-
-// Создание пользователя
-export async function createUser(firstName: string, lastName: string) {
-  return User.create({ firstName, lastName });
-}
-
-// Обновление пользователя по ID
-export async function updateUserById(id: number, data: IUserDb) {
-  return User.update(data, { where: { id } });
-}
-
-// Удаление пользователя по ID
-export async function deleteUserById(id: number) {
-  return User.destroy({ where: { id } });
-}
-
-// Получение пользователя по ID
-export async function getUserById(id: number) {
-  return User.findOne({ where: { id } });
-}
-
-// Получение пользователей по ID
-export async function getUsersByFirstName(firstName: string) {
-  return User.findAll({ where: { firstName } });
-}
+import { dbConnect } from './init';
 
 export function startApp() {
   dbConnect().then(async () => {
     /*
-         *  Запуск приложения только после старта БД
-         */
-
-    // Создаем нового пользователя
-    await createUser('Alex', 'Ivanov');
-    // Получаем пользователей с именем Alex
-    const users = await getUsersByFirstName('Alex');
-
-    // Проверяем, найдены ли пользователи
-    if (!users.length) {
-      // eslint-disable-next-line no-throw-literal
-      throw 'Not found';
-    }
-
-    // Получаем id первого пользователя
-    const { id } = users[0];
-    // Обновляем пользователя по ID
-    await updateUserById(id, { firstName: 'John', lastName: 'Doe' });
-
-    // Ищем обновленного пользователя по id
-    const findedUser = await getUserById(id);
-    // Выводим в консоль найденного пользователя
-    console.log('Finded user: ', findedUser);
+     *  Запуск приложения только после старта БД
+     */
+    console.log('dbconnect');
   });
 }

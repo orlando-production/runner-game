@@ -21,6 +21,7 @@ import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
 import serverRenderMiddleware from './server-render-middleware';
+import { startApp } from 'db';
 
 const busboy = require('connect-busboy');
 const FormData = require('form-data');
@@ -228,6 +229,8 @@ app
   .use('/api', api);
 
 app.get('/*', serverRenderMiddleware);
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+startApp();
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
 export { app };
