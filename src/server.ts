@@ -20,8 +20,8 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
-import serverRenderMiddleware from './server-render-middleware';
 import { startApp } from 'db';
+import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
 const FormData = require('form-data');
@@ -42,26 +42,21 @@ const parseCookies = (cookie: string) => cookie
     (token) => token.startsWith('authCookie') || token.startsWith('uuid')
   );
 
-const setCookies = (
-  newCookies: string,
-  res: Response
-) => {
+const setCookies = (newCookies: string, res: Response) => {
   newCookies.split(';').forEach((cookie) => {
-    res.cookie(
-      `${cookie.split('=')[0]}`,
-      `${cookie.split('=')[1]}`,
-      {
-        maxAge: 365 * 24 * 60 * 60 * 1000,
-        secure: true
-      }
-    );
+    res.cookie(`${cookie.split('=')[0]}`, `${cookie.split('=')[1]}`, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    });
   });
 };
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
   authenticateUser(req.body, true)
     .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
+      cookies = parseCookies(headers['set-cookie'].join('; '))
+        .slice(1)
+        .join('; ');
       setCookies(cookies, res);
       return res.sendStatus(200);
     })
@@ -120,7 +115,9 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
 app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req: Request, res: Response) => {
   authByCode(req.body.code, req.body.redirect_uri, true)
     .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
+      cookies = parseCookies(headers['set-cookie'].join('; '))
+        .slice(1)
+        .join('; ');
       setCookies(cookies, res);
       return res.sendStatus(200);
     })
@@ -189,26 +186,29 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
   if (!(req as any).busboy) {
     return res.sendStatus(500);
   }
-  (req as any).busboy.on('file', (_fieldName: string, file: any, filename: string) => {
-    const formData = new FormData();
+  (req as any).busboy.on(
+    'file',
+    (_fieldName: string, file: any, filename: string) => {
+      const formData = new FormData();
 
-    formData.append('avatar', file, { filename });
+      formData.append('avatar', file, { filename });
 
-    const config = {
-      headers: {
-        Cookie: cookies,
-        ...formData.getHeaders()
-      }
-    };
+      const config = {
+        headers: {
+          Cookie: cookies,
+          ...formData.getHeaders()
+        }
+      };
 
-    setAvatar(formData, config, true)
-      .then(({ data }) => {
-        res.send(data);
-      })
-      .catch(({ response }) => {
-        res.status(response.status || 500).json(response.data);
-      });
-  });
+      setAvatar(formData, config, true)
+        .then(({ data }) => {
+          res.send(data);
+        })
+        .catch(({ response }) => {
+          res.status(response.status || 500).json(response.data);
+        });
+    }
+  );
 });
 
 app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
@@ -219,8 +219,7 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
     responseType: 'stream'
   };
 
-  return getAvatars(`${req.params[0]}`, config, true)
-    .then((result: Stream) => result.pipe(res));
+  return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) => result.pipe(res));
 });
 
 app
@@ -229,7 +228,9 @@ app
   .use('/api', api);
 
 app.get('/*', serverRenderMiddleware);
-startApp();
+
+// ВРЕМЕННЫЙ КОСТЫЛЬ
+setTimeout(() => startApp(), 10000);
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
