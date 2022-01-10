@@ -23,6 +23,7 @@ import {
 } from '../../selectors/profile';
 
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
+import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 type Status = 'invisible' | 'error' | 'success';
 
@@ -137,6 +138,7 @@ const ProfilePage = () => {
   return (
     <div className={commonStyles.page}>
       <div className={styles['profile-container']}>
+        <ThemeSwitcherComponent />
         <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_avatar'])}>
           <div className={styles['profile-avatar']}>
             <Avatar
@@ -192,6 +194,16 @@ const ProfilePage = () => {
               id="first_name"
               value={formData.first_name}
               label="First name"
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handleChange}
@@ -203,6 +215,16 @@ const ProfilePage = () => {
               value={formData.second_name}
               name="second_name"
               autoComplete="family-name"
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handleChange}
@@ -215,6 +237,16 @@ const ProfilePage = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handleChange}
@@ -227,6 +259,16 @@ const ProfilePage = () => {
               name="phone"
               autoComplete="phone"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handleChange}
@@ -239,6 +281,16 @@ const ProfilePage = () => {
               name="login"
               autoComplete="login"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
 
             <div
@@ -277,6 +329,16 @@ const ProfilePage = () => {
               fullWidth
               id="oldPassword"
               label="Old password"
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handleNewPassword}
@@ -286,6 +348,16 @@ const ProfilePage = () => {
               fullWidth
               id="newPassword"
               label="New password"
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <div
               className={classNames(
@@ -333,7 +405,6 @@ const ProfilePage = () => {
             </Typography>
             <Typography
               variant="caption"
-              color="text.secondary"
               sx={{ lineHeight: 1 }}
             >
               Ваша позиция в рейтинге

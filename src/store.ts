@@ -2,11 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { RouterState, connectRouter } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
+import { Themes, themesInitialState, themesReducer } from './components/themeSwitcher/themesSlice';
 import {
   LeaderBoard,
   leaderBoardInitialState,
   leaderboardReducer
-} from 'pages/LeaderboardPage/leaderboardSlice';
+} from './pages/LeaderboardPage/leaderboardSlice';
 import {
   Registration,
   registrationInitialState,
@@ -38,6 +39,7 @@ export const rootReducer = (history: History) => combineReducers({
   messagePassword: userReducer,
   messageProfile: userReducer,
   leaderboard: leaderboardReducer,
+  theme: themesReducer,
   router: connectRouter(history)
 });
 
@@ -52,6 +54,7 @@ export type RootState = {
   messageProfile: User;
   router: RouterState;
   leaderboard: LeaderBoard;
+  theme: Themes;
 };
 
 export const isServer = !(
@@ -91,6 +94,7 @@ export const getInitialState = (pathname: string = '/'): RootState => ({
   messagePassword: userInitialState,
   messageProfile: userInitialState,
   leaderboard: leaderBoardInitialState,
+  theme: themesInitialState,
   router: {
     location: {
       pathname,

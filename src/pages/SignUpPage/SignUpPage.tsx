@@ -14,6 +14,7 @@ import styles from './SignUpPage.module.css';
 import { isAllFieldsValid } from './checkValidation';
 import { fetchSignUp } from '../../thunks/registration';
 import { getRegistrationError } from '../../selectors/registration';
+import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 type SignUpProps = {
   title?: string;
@@ -108,6 +109,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
   return (
     <div className={commonStyles.page}>
       <div className={commonStyles.container}>
+        <ThemeSwitcherComponent />
         <Box
           className={classNames(commonStyles.box, styles['signup-content'])}
           sx={{
@@ -137,6 +139,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
                 id="firstName"
                 label={resources.firstName}
                 autoFocus
+                InputProps={{
+                  classes: {
+                    root: commonStyles.input
+                  }
+                }}
+                InputLabelProps={{
+                  classes: {
+                    root: commonStyles.input
+                  }
+                }}
               />
               <TextField
                 onChange={handleLastName}
@@ -147,6 +159,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
                 label={resources.lastName}
                 name="lastName"
                 autoComplete="family-name"
+                InputProps={{
+                  classes: {
+                    root: commonStyles.input
+                  }
+                }}
+                InputLabelProps={{
+                  classes: {
+                    root: commonStyles.input
+                  }
+                }}
               />
             </div>
             <TextField
@@ -159,6 +181,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
               name="email"
               autoComplete="email"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handlePhone}
@@ -170,6 +202,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
               name="phone"
               autoComplete="phone"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handleLogin}
@@ -181,6 +223,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
               name="login"
               autoComplete="login"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handlePassword}
@@ -192,6 +244,16 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
               type="password"
               id="password"
               autoComplete="current-password"
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <div
               className={

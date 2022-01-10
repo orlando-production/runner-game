@@ -48,7 +48,7 @@ const routes: RoutesType = [
           dispatch(authByCodeThunk((query.code as string), dispatch))
         ];
       }
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
@@ -57,7 +57,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
@@ -66,7 +66,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
@@ -75,7 +75,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
@@ -84,7 +84,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo()), dispatch(fetchLeaderboardList())];
+      return [dispatch(fetchUserInfo(dispatch)), dispatch(fetchLeaderboardList())];
     }
   },
   {
@@ -93,7 +93,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
@@ -102,7 +102,7 @@ const routes: RoutesType = [
     exact: false,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
@@ -111,7 +111,7 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo())];
+      return [dispatch(fetchUserInfo(dispatch))];
     }
   },
   {
