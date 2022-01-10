@@ -35,7 +35,7 @@ export const fetchSignIn = createAsyncThunk(
 export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, (dispatch?: any) => getUserInfo()
   .then((result) => {
     console.log('tut');
-    dispatch(fetchGetThemes());
+    dispatch(fetchGetThemes(result));
     return result;
   }));
 
