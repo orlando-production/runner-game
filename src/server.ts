@@ -230,7 +230,7 @@ app
 app.get('/*', serverRenderMiddleware);
 
 // ВРЕМЕННЫЙ КОСТЫЛЬ
-setTimeout(() => startApp(), 10000);
+startApp();
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });

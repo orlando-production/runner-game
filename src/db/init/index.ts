@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import { SequelizeOptions } from 'sequelize-typescript';
 
 const sequelizeOptions: SequelizeOptions = {
-  host: 'postgres',
+  host: 'localhost',
   port: 5432,
   username: 'user',
   password: 'password',
