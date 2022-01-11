@@ -26,6 +26,7 @@ export type User = {
     messagePassword: string,
     messageProfile: string,
     error?: ErrorType,
+    theme?: string
 };
 
 export const userInitialState: User = {
@@ -44,7 +45,8 @@ export const userInitialState: User = {
   statusProfile: 'invisible',
   statusPassword: 'invisible',
   messagePassword: '',
-  messageProfile: ''
+  messageProfile: '',
+  theme: 'light'
 };
 
 export const userSlice = createSlice({

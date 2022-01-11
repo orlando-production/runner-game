@@ -1,48 +1,48 @@
 .main-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax( 250px, 500px ));
-    gap: 24px;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    flex-grow: 1;
-    background-color: var(--login-container-bg);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 500px));
+  gap: 24px;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+  background-color: var(--login-container-bg);
 }
 
 .main-icons {
-    grid-area: links;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    padding: 24px;
+  grid-area: links;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
 }
 
 .main-icon-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    background: rgb(var(--icon-wrap-color));
-    cursor: pointer;
-    border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: rgb(var(--icon-wrap-color));
+  cursor: pointer;
+  border-radius: 12px;
 }
 
 .main-img {
-    min-height: 250px;
+  min-height: 250px;
 }
 
 .main-text {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    min-height: 250px;
-    padding: 24px;
-    box-sizing: border-box;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  min-height: 250px;
+  padding: 24px;
+  box-sizing: border-box;
 }

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import Footer from '../../components/footer/Footer';
 import styles from './NotFoundPage.module.css';
 import commonStyles from '../../components/common.module.css';
+import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 const NotFoundPage = () => {
   const resources = {
@@ -16,6 +17,7 @@ const NotFoundPage = () => {
   return (
     <div className={commonStyles.page}>
       <div className={classNames(styles['notfound-container'], commonStyles.content)}>
+        <ThemeSwitcherComponent />
         <Box
           className={styles['notfound-content']}
         >

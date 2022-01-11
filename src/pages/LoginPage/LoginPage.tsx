@@ -15,6 +15,7 @@ import commonStyles from '../../components/common.module.css';
 import { getAuthError } from '../../selectors/authentication';
 import yandexImg from '../../assets/yandex.png';
 import { getServiceId } from '../../services/Auth';
+import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 type LoginProps = {
   title?: string;
@@ -70,6 +71,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   return (
     <div className={commonStyles.page}>
       <div className={commonStyles.container}>
+        <ThemeSwitcherComponent />
         <Box
           className={classNames(commonStyles.box, styles['login-content'])}
           sx={{
@@ -98,6 +100,16 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
               name="login"
               autoComplete="login"
               autoFocus
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <TextField
               onChange={handlePassword}
@@ -109,6 +121,16 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
               type="password"
               id="password"
               autoComplete="current-password"
+              InputProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: commonStyles.input
+                }
+              }}
             />
             <div
               className={

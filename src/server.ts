@@ -222,6 +222,16 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
   return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) => result.pipe(res));
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+app.get(`/${ENDPOINTS.THEMES}`, (req: Request, _res: Response) => {
+  console.log(req.body, 'THEMES get');
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+app.put(`/${ENDPOINTS.THEMES}`, (req: Request, _res: Response) => {
+  console.log(req.body, 'THEMES put');
+});
+
 app
   .use(compression())
   .use(express.static(path.resolve(__dirname, '../static')))

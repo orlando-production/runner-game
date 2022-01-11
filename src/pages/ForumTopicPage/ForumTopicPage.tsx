@@ -9,6 +9,7 @@ import Footer from '../../components/footer/Footer';
 import Topic from '../../components/topic/Topic';
 import styles from './ForumTopicPage.module.css';
 import commonStyles from '../../components/common.module.css';
+import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 type RouteParams = {
   [key: string] : string
@@ -27,6 +28,8 @@ const ForumTopicPage = () => {
   return (
     <div className={commonStyles.page}>
       <div className={classNames(commonStyles.content, styles['forum-container'])}>
+        <ThemeSwitcherComponent />
+
         <Typography
           component="h1"
           variant="h5"
