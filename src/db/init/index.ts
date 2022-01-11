@@ -1,3 +1,4 @@
+import { forumTopicModel, topicMessage } from 'db/models/foumModel';
 import { themeModel } from 'db/models/theme';
 import { themeUserModel } from 'db/models/themeUser';
 import { Sequelize } from 'sequelize';
@@ -23,6 +24,13 @@ Theme.hasOne(ThemeUser, {
   // The possible choices are RESTRICT, CASCADE, NO ACTION, SET DEFAULT and SET NULL
   onDelete: 'RESTRICT', // Default is SET NULL
   onUpdate: 'RESTRICT' // Default is CASCADE
+});
+
+export const ForumTopic = sequelize.define('ForumTopic', forumTopicModel, {});
+export const TopicMessage = sequelize.define('TopicMessage', topicMessage, {});
+
+ForumTopic.hasMany(TopicMessage, {
+  sourceKey: 'id'
 });
 
 export async function dbConnect() {
