@@ -20,7 +20,7 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
-import { startApp } from 'db';
+import { addUserWithTheme, startApp } from 'db';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -228,8 +228,10 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, _res: Response) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-app.put(`/${ENDPOINTS.THEMES}`, (req: Request, _res: Response) => {
-  console.log(req.body, 'THEMES put');
+app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  addUserWithTheme(12121331, 1).then(() => {
+    res.sendStatus(200);
+  });
 });
 
 app
