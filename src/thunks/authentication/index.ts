@@ -34,7 +34,6 @@ export const fetchSignIn = createAsyncThunk(
 
 export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, (dispatch?: any) => getUserInfo()
   .then((result) => {
-    console.log('tut');
     dispatch(fetchGetThemes(result));
     return result;
   }));
@@ -44,5 +43,5 @@ type AuthByCodeThunk = (code: string, dispatch?: any) => any;
 export const authByCodeThunk: AuthByCodeThunk = createAsyncThunk(
   AUTH_BY_CODE,
   (code: string, dispatch: any) => authByCode(code, 'http://localhost:5000')
-    .then(() => dispatch(fetchUserInfo()))
+    .then(() => dispatch(fetchUserInfo(dispatch)))
 );
