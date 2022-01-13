@@ -27,9 +27,7 @@ Theme.hasOne(ThemeUser, {
 
 export async function dbConnect() {
   try {
-    console.log('try auth');
     await sequelize.authenticate(); // Проверка аутентификации в БД
-    console.log('try sync');
     await sequelize.sync(); // Синхронизация базы данных
     console.log('Connection has been established successfully.');
   } catch (error) {

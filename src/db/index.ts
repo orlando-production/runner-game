@@ -2,16 +2,20 @@ import type { Model } from 'sequelize/types';
 import { dbConnect, Theme, ThemeUser } from './init';
 
 // Добавление юзера с темой.
-export async function addUserWithTheme(userId: number, themeId: number) {
-  console.log(userId, themeId);
+export async function setUserTheme(userId: number, themeId: number) {
   return new Promise((resolve, reject) => {
     Theme.findOne({ where: { themeId } }).then((theme) => {
       if (!theme) {
         reject(new Error('Темы с таким themeId не существует.'));
       }
-      ThemeUser.create({ userId, themeId }).then(() => {
-        console.log('SUCCESS');
-        resolve(true);
+      ThemeUser.findOne({ where: { userId } }).then((rec) => {
+        if (!rec) {
+          ThemeUser.create({ userId, themeId }).then(() => {
+            resolve(true);
+          });
+        } else {
+          ThemeUser.update({ themeId }, { where: { userId } });
+        }
       });
     });
   });
@@ -21,12 +25,36 @@ export async function findUser(userId: number): Promise<Model> {
   return ThemeUser.findOne({ where: { userId } });
 }
 
-export async function createTheme(themeName: string): Promise<Model> {
-  return Theme.create({ themeName });
+export function getUserTheme(userId: number) {
+  return new Promise((resolve) => {
+    findUser(userId).then((res) => {
+      if (res) {
+        resolve(res.themeId);
+      } else {
+        setUserTheme(userId, 1);
+        resolve(1);
+      }
+    });
+  });
+}
+
+export async function createThemeIfNotExist(
+  themeId: number,
+  themeName: string
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    Theme.findOne({ where: { themeName, themeId } }).then((res) => {
+      if (!res) {
+        Theme.create({ themeName, themeId }).then(() => resolve(true));
+      } else {
+        resolve(false);
+      }
+    });
+  });
 }
 export function startApp() {
   dbConnect().then(async () => {
-    createTheme('light');
-    createTheme('dark');
+    createThemeIfNotExist(1, 'light');
+    createThemeIfNotExist(2, 'dark');
   });
 }

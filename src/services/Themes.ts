@@ -1,8 +1,8 @@
 import { ENDPOINTS, requestGetData, requestPutData } from '../api';
 
 export type ThemesParams = {
-  id: number,
-  theme?: string
+  id: number;
+  themeId?: number;
 };
 
 export const getThemes = (
