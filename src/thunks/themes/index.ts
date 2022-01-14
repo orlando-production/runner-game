@@ -6,19 +6,16 @@ import { getThemes, setThemes, ThemesParams } from '../../services/Themes';
 
 export const fetchGetThemes = createAsyncThunk(
   FETCH_THEMES,
-  ({
-    id
-  }: ThemesParams, { rejectWithValue }) => getThemes({
-    id
+  ({ id }: ThemesParams, { rejectWithValue }) => getThemes({
+    params: { id }
   })
+    .then(({ themeId }) => {
+      console.log('FETCH', themeId);
+    })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
 
 export const fetchSetThemes = createAsyncThunk(
   FETCH_THEMES,
-  (
-    themesParams: ThemesParams,
-    { rejectWithValue }
-  ) => setThemes(themesParams)
-    .catch((err: ErrorType) => rejectWithValue(err?.response?.data?.reason))
+  (themesParams: ThemesParams, { rejectWithValue }) => setThemes(themesParams).catch((err: ErrorType) => rejectWithValue(err?.response?.data?.reason))
 );
