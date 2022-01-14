@@ -18,6 +18,7 @@ type PrivateRouteProps = {
 export const PrivateRoute = (props: PrivateRouteProps) => {
   const { type } = props;
   const isAuthenticated = useSelector(getUserInfoData);
+  console.log('ISAUTH', isAuthenticated);
 
   if (type === 'public' && isAuthenticated) {
     return <Redirect to="/game" />;

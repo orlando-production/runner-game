@@ -20,13 +20,12 @@ import {
 import { ErrorType } from '../../api';
 
 export type User = {
-    user: UserResult,
-    statusProfile: 'invisible' | 'error' | 'success',
-    statusPassword: 'invisible' | 'error' | 'success',
-    messagePassword: string,
-    messageProfile: string,
-    error?: ErrorType,
-    theme?: string
+  user: UserResult;
+  statusProfile: 'invisible' | 'error' | 'success';
+  statusPassword: 'invisible' | 'error' | 'success';
+  messagePassword: string;
+  messageProfile: string;
+  error?: ErrorType;
 };
 
 export const userInitialState: User = {
@@ -45,20 +44,25 @@ export const userInitialState: User = {
   statusProfile: 'invisible',
   statusPassword: 'invisible',
   messagePassword: '',
-  messageProfile: '',
-  theme: 'light'
+  messageProfile: ''
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: userInitialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      console.log('SETTED USER', action.payload);
+      state.user = action.payload;
+    }
+  },
   extraReducers: {
     [FETCH_USER_INFO_PENDING]: (state) => {
       state.statusProfile = 'invisible';
       state.messageProfile = '...';
     },
     [FETCH_USER_INFO_FILFILLED]: (state, action) => {
+      console.log('FETCH_USER_INFO_FULLFILED', action.payload);
       state.user = action?.payload;
     },
     [FETCH_USER_INFO_REJECTED]: (state, action) => {
@@ -100,3 +104,4 @@ export const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
+export const { setUser } = userSlice.actions;

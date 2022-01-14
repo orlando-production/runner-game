@@ -230,6 +230,7 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => getUserTheme((r
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   setUserTheme(req.body.id, req.body.themeId).then(() => {
+    console.log('RES SEND STATUS');
     res.sendStatus(200);
   });
 });

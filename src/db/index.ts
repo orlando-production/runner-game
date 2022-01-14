@@ -14,7 +14,9 @@ export async function setUserTheme(userId: number, themeId: number) {
             resolve(true);
           });
         } else {
-          ThemeUser.update({ themeId }, { where: { userId } });
+          ThemeUser.update({ themeId }, { where: { userId } }).then(() => {
+            resolve(true);
+          });
         }
       });
     });
@@ -28,6 +30,7 @@ export async function findUser(userId: number): Promise<Model> {
 export function getUserTheme(userId: number) {
   return new Promise((resolve) => {
     findUser(userId).then((res) => {
+      console.log('RESOLVE RES');
       if (res) {
         resolve(res.themeId);
       } else {

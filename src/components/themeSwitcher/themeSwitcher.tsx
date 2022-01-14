@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Switch } from '@mui/material';
 import commonStyles from 'components/common.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTheme, getUserData } from 'selectors/profile';
+import { getUserData } from 'selectors/profile';
 import { UserResult } from 'services/Profile';
 import { fetchSetThemes } from 'thunks/themes';
+import { getThemeId } from 'selectors/themes';
+import { setTheme } from './themesSlice';
 
 const THEMES = {
   1: 'light',
@@ -13,30 +15,27 @@ const THEMES = {
 
 export default function ThemeSwitcherComponent() {
   const user = useSelector(getUserData) as UserResult;
-  const themes = useSelector(getTheme) as string | null;
+  const themeId = useSelector(getThemeId);
+  console.log('THEMEID', themeId);
   const [state, setState] = useState(false);
 
   const dispatch = useDispatch();
 
-  const getThemeId = (b: boolean) => (b ? 2 : 1);
+  const getTheme = (b: boolean) => (b ? 2 : 1);
 
   const handleSwitch = (_e: any, checked: boolean) => {
-    const themeId = getThemeId(checked);
+    const theme = getTheme(checked);
     setState(checked);
+    dispatch(setTheme(themeId));
     if (user.id) {
-      dispatch(fetchSetThemes({ id: user.id, themeId }));
+      dispatch(fetchSetThemes({ id: user.id, themeId: theme }));
     }
-    document.documentElement.setAttribute('theme', THEMES[themeId]);
+    document.documentElement.setAttribute('theme', THEMES[theme]);
   };
 
   useEffect(() => {
-    let currentTheme = localStorage.getItem('theme');
-    if (themes) {
-      currentTheme = themes;
-    }
-    setState(currentTheme === 'dark');
-    document.documentElement.setAttribute('theme', currentTheme || 'light');
-  }, [themes]);
+    document.documentElement.setAttribute('theme', THEMES[themeId] || 'light');
+  }, [state]);
 
   return (
     <Switch
