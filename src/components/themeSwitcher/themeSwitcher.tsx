@@ -26,7 +26,7 @@ export default function ThemeSwitcherComponent() {
   const handleSwitch = (_e: any, checked: boolean) => {
     const theme = getTheme(checked);
     setState(checked);
-    dispatch(setTheme(themeId));
+    dispatch(setTheme(theme));
     if (user.id) {
       dispatch(fetchSetThemes({ id: user.id, themeId: theme }));
     }
