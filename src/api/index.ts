@@ -27,7 +27,11 @@ export const ENDPOINTS = {
   THEMES: 'theme',
   LEADERBOARD_RESULTS: `leaderboard/${TEAM_NAME}`,
   OAUTH_SERVICE: 'oauth/yandex/service-id',
-  AUTH_BY_CODE: 'oauth/yandex'
+  AUTH_BY_CODE: 'oauth/yandex',
+  TOPIC: 'topic',
+  TOPIC_GET: 'topic/list',
+  MESSAGE: 'message',
+  MESSAGE_GET: 'message/list'
 } as const;
 
 export type Endpoint = typeof ENDPOINTS[keyof typeof ENDPOINTS];

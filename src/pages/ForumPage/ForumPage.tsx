@@ -2,9 +2,10 @@
 import {
   Box, Button, Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import { getForums } from 'services/Forum';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
@@ -16,19 +17,13 @@ import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher
 
 const ForumPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [topics, setTopics] = useState([]);
   const history = useHistory();
 
   const resources = {
     forum: 'Forum',
     button: 'ADD'
   };
-
-  const topics = [
-    { title: 'How can I win?', id: '000' },
-    { title: 'Tell me your strategy', id: '111' },
-    { title: 'Worst enemy', id: '222' },
-    { title: 'Where are you from?', id: '333' }
-  ];
 
   const onWidgetClick = (data: TopicProps) => {
     history.push(`/forum/${data.id}`);
@@ -41,6 +36,16 @@ const ForumPage = () => {
   const onModalClose = () => {
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    async function fetchGetTopics() {
+      const { data } = await getForums();
+      setTopics(data);
+    }
+    if (!topics.length) {
+      fetchGetTopics();
+    }
+  }, [setTopics]);
 
   return (
     <div className={commonStyles.page}>

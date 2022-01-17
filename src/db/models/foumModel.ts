@@ -44,7 +44,7 @@ export const topicMessage: ModelAttributes<Model, TTopicMessageDb> = {
   author: {
     type: DataType.STRING,
     allowNull: false,
-    unique: true
+    unique: false
   },
   text: {
     type: DataType.STRING,

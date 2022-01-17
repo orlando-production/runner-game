@@ -20,7 +20,11 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
-import { getUserTheme, setUserTheme, startApp } from 'db';
+import {
+  getMessages,
+  getTopics,
+  getUserTheme, setMessage, setTopic, setUserTheme, startApp
+} from 'db';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -232,6 +236,46 @@ app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   setUserTheme(req.body.id, req.body.themeId).then(() => {
     res.sendStatus(200);
   });
+});
+
+app.post(`/${ENDPOINTS.TOPIC}`, (req: Request, res: Response) => {
+  setTopic(req.body.title, req.body.text)
+    .then((id) => {
+      res.send({ id });
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.TOPIC_GET}`, (req: Request, res: Response) => {
+  getTopics(req.body.id)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.MESSAGE}`, (req: Request, res: Response) => {
+  setMessage(req.body.id, req.body.author, req.body.text)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.MESSAGE_GET}`, (req: Request, res: Response) => {
+  getMessages(req.body.id)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
 });
 
 app

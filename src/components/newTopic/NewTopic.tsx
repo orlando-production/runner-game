@@ -3,6 +3,9 @@ import {
   Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
+import { setForum } from 'services/Forum';
+import { useHistory } from 'react-router-dom';
+import commonStyles from 'components/common.module.css';
 import styles from './NewTopic.module.css';
 
 type NewTopicProps = {
@@ -10,8 +13,10 @@ type NewTopicProps = {
 };
 
 const NewTopic = ({ onClose }: NewTopicProps) => {
-  const [, setTopic] = useState<string>('');
-  const [, setDescription] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [text, setText] = useState<string>('');
+
+  const history = useHistory();
 
   const resources = {
     buttonSave: 'SAVE',
@@ -22,16 +27,25 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
   };
 
   const handleTopic = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTopic(event.target.value);
+    setTitle(event.target.value);
   };
 
   const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
+    setText(event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onClose();
+
+    async function fetchSetTopics() {
+      const { data } = await setForum({ title, text });
+
+      history.push(`/forum/${data.id}`);
+    }
+
+    if (title && text) {
+      fetchSetTopics();
+    }
   };
 
   const onCancelClick = () => {
@@ -57,6 +71,16 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
         autoComplete="topic"
         autoFocus
         sx={{ width: '80%' }}
+        InputProps={{
+          classes: {
+            root: commonStyles.input
+          }
+        }}
+        InputLabelProps={{
+          classes: {
+            root: commonStyles.input
+          }
+        }}
       />
       <TextField
         onChange={handleDescription}
@@ -68,6 +92,16 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
         autoComplete="description"
         autoFocus
         sx={{ width: '80%' }}
+        InputProps={{
+          classes: {
+            root: commonStyles.input
+          }
+        }}
+        InputLabelProps={{
+          classes: {
+            root: commonStyles.input
+          }
+        }}
       />
       <Button
         type="submit"
