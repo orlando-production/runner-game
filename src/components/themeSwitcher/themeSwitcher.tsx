@@ -39,10 +39,11 @@ export default function ThemeSwitcherComponent() {
   }, [themes]);
 
   return (
-    <Switch
-      className={commonStyles.switch}
-      checked={state}
-      onChange={handleSwitch}
-    />
+    <div className={commonStyles.switch}>
+      <Switch
+        checked={state}
+        onChange={handleSwitch}
+      />
+    </div>
   );
 }
