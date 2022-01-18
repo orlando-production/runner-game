@@ -52,7 +52,6 @@ export const userSlice = createSlice({
   initialState: userInitialState,
   reducers: {
     setUser: (state, action) => {
-      console.log('SETTED USER', action.payload);
       state.user = action.payload;
     }
   },
@@ -62,7 +61,6 @@ export const userSlice = createSlice({
       state.messageProfile = '...';
     },
     [FETCH_USER_INFO_FILFILLED]: (state, action) => {
-      console.log('FETCH_USER_INFO_FULLFILED', action.payload);
       state.user = action?.payload;
     },
     [FETCH_USER_INFO_REJECTED]: (state, action) => {

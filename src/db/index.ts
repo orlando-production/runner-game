@@ -30,7 +30,6 @@ export async function findUser(userId: number): Promise<Model> {
 export function getUserTheme(userId: number) {
   return new Promise((resolve) => {
     findUser(userId).then((res) => {
-      console.log('RESOLVE RES');
       if (res) {
         resolve(res.themeId);
       } else {
@@ -55,9 +54,12 @@ export async function createThemeIfNotExist(
     });
   });
 }
-export function startApp() {
-  dbConnect().then(async () => {
-    createThemeIfNotExist(1, 'light');
-    createThemeIfNotExist(2, 'dark');
-  });
+
+export async function getAllThemes(): Promise<Model<any, any>[]> {
+  return Theme.findAll({ raw: true });
+}
+export async function startApp() {
+  await dbConnect();
+  createThemeIfNotExist(1, 'light');
+  createThemeIfNotExist(2, 'dark');
 }

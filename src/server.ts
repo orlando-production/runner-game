@@ -20,7 +20,9 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
-import { getUserTheme, setUserTheme, startApp } from 'db';
+import {
+  getAllThemes, getUserTheme, setUserTheme, startApp
+} from 'db';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -223,14 +225,21 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => getUserTheme((req as any).query.id).then((themeId) => {
-  res.send({ themeId });
-}));
+app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  if ((req as Request).query.id) {
+    getUserTheme((req as any).query.id).then((themeId) => {
+      res.send({ themeId });
+    });
+  } else {
+    getAllThemes().then((list) => {
+      res.send(list);
+    });
+  }
+});
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   setUserTheme(req.body.id, req.body.themeId).then(() => {
-    console.log('RES SEND STATUS');
     res.sendStatus(200);
   });
 });

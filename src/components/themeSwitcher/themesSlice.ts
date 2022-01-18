@@ -4,22 +4,26 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export type Themes = {
   theme: number;
+  allThemes: { themeId: number; themeName: string }[];
 };
 
 export const themesInitialState: Themes = {
-  theme: 1
+  theme: 1,
+  allThemes: []
 };
 
 export const themesSlice = createSlice({
   name: 'theme',
   initialState: themesInitialState,
   reducers: {
-    setTheme: (state, action) => {
-      console.log('WAS SETTED THEME', action.payload);
+    setThemeId: (state, action) => {
       state.theme = action.payload;
+    },
+    setAllThemes: (state, action) => {
+      state.allThemes = action.payload;
     }
   },
   extraReducers: {}
 });
-export const { setTheme } = themesSlice.actions;
+export const { setThemeId, setAllThemes } = themesSlice.actions;
 export const themesReducer = themesSlice.reducer;
