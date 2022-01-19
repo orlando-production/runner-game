@@ -32,21 +32,12 @@ body {
 }
 
 .box {
-<<<<<<< Updated upstream
-  background-color: var(--white-color);
-  box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
-=======
-<<<<<<< Updated upstream
-    background-color: var(--white-color);
-    box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
-    border-radius: 4px;
-=======
+
   background-color: var(--white-color);
   box-shadow:
     0 1px 3px 0 var(--box-shadow-color),
     0 1px 1px 0 var(--box-shadow-color),
     0 2px 1px 0 var(--box-shadow-color);
->>>>>>> Stashed changes
   border-radius: 4px;
 }
 
@@ -59,10 +50,6 @@ body {
 
 .input {
   color: var(--color-text);
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 }
 
 .success-message {
