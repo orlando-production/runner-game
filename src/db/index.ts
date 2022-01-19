@@ -1,3 +1,4 @@
+import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import type { Model } from 'sequelize/types';
 import { dbConnect, Theme, ThemeUser } from './init';
 
@@ -31,7 +32,7 @@ export function getUserTheme(userId: number) {
   return new Promise((resolve) => {
     findUser(userId).then((res) => {
       if (res) {
-        resolve(res.themeId);
+        resolve((res as unknown as ThemeType).themeId);
       } else {
         setUserTheme(userId, 1);
         resolve(1);

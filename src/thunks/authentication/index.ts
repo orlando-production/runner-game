@@ -37,5 +37,5 @@ type AuthByCodeThunk = (code: string, dispatch?: any) => any;
 
 export const authByCodeThunk: AuthByCodeThunk = createAsyncThunk(
   AUTH_BY_CODE,
-  (code: string, dispatch: any) => authByCode(code, 'http://localhost:5000').then(() => dispatch(fetchUserInfo(dispatch)))
+  (code: string, dispatch: any) => authByCode(code, 'http://localhost:5000').then(() => dispatch(fetchUserInfo()))
 );

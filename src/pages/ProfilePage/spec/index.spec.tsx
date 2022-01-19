@@ -11,6 +11,7 @@ import { StaticRouter, StaticRouterContext } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { UserResult } from 'services/Profile';
 import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
+import { Themes } from 'components/themeSwitcher/themesSlice';
 import type { Logout } from '../logoutSlice';
 import type { User } from '../userSlice';
 import type { Registration } from '../../SignUpPage/registrationSlice';
@@ -65,7 +66,8 @@ const preloadedState = {
   messagePassword: {} as User,
   messageProfile: {} as User,
   leaderboard: {} as LeaderBoard,
-  router: {} as RouterState
+  router: {} as RouterState,
+  theme: {} as Themes
 };
 
 describe('ProfilePage', () => {

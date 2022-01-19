@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: Roboto, sans-serif;
   color: var(--color-text);
   font-size: 14px;
 }
@@ -32,8 +32,21 @@ body {
 }
 
 .box {
+<<<<<<< Updated upstream
   background-color: var(--white-color);
   box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
+=======
+<<<<<<< Updated upstream
+    background-color: var(--white-color);
+    box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
+    border-radius: 4px;
+=======
+  background-color: var(--white-color);
+  box-shadow:
+    0 1px 3px 0 var(--box-shadow-color),
+    0 1px 1px 0 var(--box-shadow-color),
+    0 2px 1px 0 var(--box-shadow-color);
+>>>>>>> Stashed changes
   border-radius: 4px;
 }
 
@@ -46,6 +59,10 @@ body {
 
 .input {
   color: var(--color-text);
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 }
 
 .success-message {

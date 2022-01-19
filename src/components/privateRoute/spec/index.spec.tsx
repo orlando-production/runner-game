@@ -8,6 +8,7 @@ import ForumPage from 'pages/ForumPage';
 import { RouterState } from 'connected-react-router';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
+import { Themes } from 'components/themeSwitcher/themesSlice';
 import type { Logout } from '../../../pages/ProfilePage/logoutSlice';
 import type { User } from '../../../pages/ProfilePage/userSlice';
 import type { Registration } from '../../../pages/SignUpPage/registrationSlice';
@@ -32,6 +33,7 @@ describe('PrivateRoute', () => {
         messagePassword: {} as User,
         messageProfile: {} as User,
         leaderboard: {} as LeaderBoard,
+        theme: {} as Themes,
         router: {} as RouterState
       };
 
@@ -68,7 +70,8 @@ describe('PrivateRoute', () => {
         messagePassword: {} as User,
         messageProfile: {} as User,
         leaderboard: {} as LeaderBoard,
-        router: {} as RouterState
+        router: {} as RouterState,
+        theme: {} as Themes
       };
 
       render(

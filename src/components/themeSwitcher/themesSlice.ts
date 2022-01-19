@@ -3,9 +3,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { FETCH_SET_USER_FULFILLED } from 'actions/themes';
 
+export type ThemeType = {
+  themeId: number;
+  themeName: string;
+};
+
 export type Themes = {
   theme: number;
-  allThemes: { themeId: number; themeName: string }[];
+  allThemes: ThemeType[];
 };
 
 export const themesInitialState: Themes = {
