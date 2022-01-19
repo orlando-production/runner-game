@@ -2,10 +2,11 @@
 import {
   Box, Typography
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { getForums } from 'services/Forum';
+import { useSelector } from 'react-redux';
+import { TopicResult } from 'services/Topic';
 import Footer from '../../components/footer/Footer';
 import Topic from '../../components/topic/Topic';
 import commonStyles from '../../components/common.module.css';
@@ -17,17 +18,8 @@ type RouteParams = {
 }
 
 const ForumTopicPage = () => {
-  const [topic, setTopic] = useState([]);
-
   const { topicId }: RouteParams = useParams();
-
-  useEffect(() => {
-    async function fetchGetTopics() {
-      const { data } = await getForums({ id: topicId });
-      setTopic(data);
-    }
-    fetchGetTopics();
-  }, [topicId, setTopic]);
+  const currentTopic = useSelector((state) => state.topics.topics.find((topic: TopicResult) => topic.id === +topicId)) as TopicResult;
 
   return (
     <div className={commonStyles.page}>
@@ -39,7 +31,7 @@ const ForumTopicPage = () => {
           variant="h5"
           className={styles['forum-title']}
         >
-          {topic.title}
+          {currentTopic.title}
 
         </Typography>
         <Typography
@@ -47,13 +39,13 @@ const ForumTopicPage = () => {
           variant="h5"
           className={styles['forum-subtitle']}
         >
-          {topic.text}
+          {currentTopic.text}
 
         </Typography>
         <Box
           className={classNames(commonStyles.box, styles['forum-content'])}
         >
-          <Topic title={topic.title} key={topicId} id={topicId} />
+          <Topic key={topicId} id={topicId} />
         </Box>
       </div>
       <Footer />

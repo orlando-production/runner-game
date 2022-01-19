@@ -29,8 +29,8 @@ export async function setTopic(title: string, text: number) {
       reject(new Error('Данные не валидны'));
     }
     ForumTopic.create({ title, text }).then((data) => {
-      const { id } = data.get({ plain: true });
-      resolve(id);
+      const topic = data.get({ plain: true });
+      resolve(topic);
     });
   });
 }

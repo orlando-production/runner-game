@@ -240,8 +240,8 @@ app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
 
 app.post(`/${ENDPOINTS.TOPIC}`, (req: Request, res: Response) => {
   setTopic(req.body.title, req.body.text)
-    .then((id) => {
-      res.send({ id });
+    .then((payload) => {
+      res.send(payload);
     })
     .catch(({ response }) => {
       res.status(response.status || 500).json(response.data);

@@ -3,9 +3,9 @@ import {
   Box, Button, TextField, Typography
 } from '@mui/material';
 import React, { useState } from 'react';
-import { setForum } from 'services/Forum';
-import { useHistory } from 'react-router-dom';
 import commonStyles from 'components/common.module.css';
+import { useDispatch } from 'react-redux';
+import { fetchSetTopic } from 'thunks/topic';
 import styles from './NewTopic.module.css';
 
 type NewTopicProps = {
@@ -16,7 +16,7 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
   const [title, setTitle] = useState<string>('');
   const [text, setText] = useState<string>('');
 
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const resources = {
     buttonSave: 'SAVE',
@@ -36,16 +36,8 @@ const NewTopic = ({ onClose }: NewTopicProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    async function fetchSetTopics() {
-      const { data } = await setForum({ title, text });
-
-      history.push(`/forum/${data.id}`);
-    }
-
-    if (title && text) {
-      fetchSetTopics();
-    }
+    dispatch(fetchSetTopic({ title, text }));
+    onClose();
   };
 
   const onCancelClick = () => {

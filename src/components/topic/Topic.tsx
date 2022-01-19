@@ -2,12 +2,13 @@
 import {
   Button, TextField
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserData } from 'selectors/profile';
-import { getMessages, setMessage } from 'services/Topic';
 import commonStyles from 'components/common.module.css';
 import { UserResult } from 'services/Profile';
+import { getMessagesData } from 'selectors/message';
+import { fetchGetMessage, fetchSetMessage } from 'thunks/message';
 import styles from './Topic.module.css';
 
 export type TopicProps = {
@@ -16,38 +17,28 @@ export type TopicProps = {
 }
 
 const Topic = (props?: TopicProps) => {
-  const { title, id } = props;
+  const { id } = props;
   const user = useSelector(getUserData) as UserResult;
-  const [login, setLogin] = useState('');
+  const messages = useSelector(getMessagesData);
   const [text, setText] = useState('');
-  const [messages, setMessages] = useState([]);
+
+  const dispatch = useDispatch();
 
   const resources = {
-    button: 'ADD',
-    title
+    button: 'ADD'
   };
 
   const handleText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
 
-  const onAddButtonClick = async () => {
-    const { data } = await setMessage({ id, author: login, text });
-    setMessages([
-      ...messages,
-      data
-    ]);
+  const onAddButtonClick = () => {
+    dispatch(fetchSetMessage({ id, author: user.login, text }));
   };
 
   useEffect(() => {
-    setLogin(user.login);
-
-    async function fetchGetMessages() {
-      const { data } = await getMessages({ id });
-      setMessages(data);
-    }
-    fetchGetMessages();
-  }, [id, user, setLogin, setMessages]);
+    dispatch(fetchGetMessage({ id }));
+  }, [id, dispatch]);
 
   return (
     <>

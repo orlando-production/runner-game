@@ -4,6 +4,12 @@ import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
 import { Themes, themesInitialState, themesReducer } from './components/themeSwitcher/themesSlice';
 import {
+  topicReducer, Topic, topicInitialState
+} from './pages/ForumPage/topicSlice';
+import {
+  messageReducer, Message, messageInitialState
+} from './pages/ForumPage/messageSlice';
+import {
   LeaderBoard,
   leaderBoardInitialState,
   leaderboardReducer
@@ -40,6 +46,8 @@ export const rootReducer = (history: History) => combineReducers({
   messageProfile: userReducer,
   leaderboard: leaderboardReducer,
   theme: themesReducer,
+  topics: topicReducer,
+  messages: messageReducer,
   router: connectRouter(history)
 });
 
@@ -55,6 +63,8 @@ export type RootState = {
   router: RouterState;
   leaderboard: LeaderBoard;
   theme: Themes;
+  topics: Topic,
+  messages: Message
 };
 
 export const isServer = !(
@@ -95,6 +105,8 @@ export const getInitialState = (pathname: string = '/'): RootState => ({
   messageProfile: userInitialState,
   leaderboard: leaderBoardInitialState,
   theme: themesInitialState,
+  topics: topicInitialState,
+  messages: messageInitialState,
   router: {
     location: {
       pathname,

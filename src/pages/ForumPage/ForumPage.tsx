@@ -5,7 +5,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { getForums } from 'services/Forum';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTopicsData } from 'selectors/topic';
+import { fetchGetTopic } from 'thunks/topic';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
@@ -16,9 +18,10 @@ import commonStyles from '../../components/common.module.css';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 const ForumPage = () => {
+  const topics = useSelector(getTopicsData);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [topics, setTopics] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const resources = {
     forum: 'Forum',
@@ -38,14 +41,9 @@ const ForumPage = () => {
   };
 
   useEffect(() => {
-    async function fetchGetTopics() {
-      const { data } = await getForums();
-      setTopics(data);
-    }
-    if (!topics.length) {
-      fetchGetTopics();
-    }
-  }, [setTopics]);
+    // @ts-ignore
+    dispatch(fetchGetTopic());
+  }, [dispatch]);
 
   return (
     <div className={commonStyles.page}>
