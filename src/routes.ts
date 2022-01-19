@@ -13,7 +13,7 @@ import { Dispatch } from 'react';
 import { match } from 'react-router';
 import { authByCodeThunk } from 'thunks/authentication';
 import { fetchLeaderboardList } from 'thunks/leaderboard';
-import { fetchUserAndTheme } from 'thunks/themes';
+import { fetchAllThemes, fetchUserAndTheme } from 'thunks/themes';
 
 export type ReduxAction<T = any, P = any> = {
   type: T;
@@ -48,7 +48,8 @@ const routes: RoutesType = [
         return [dispatch(authByCodeThunk(query.code as string, dispatch))];
       }
       return [
-        dispatch(fetchUserAndTheme(dispatch))
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
       ];
     }
   },
@@ -58,7 +59,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserAndTheme(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -67,7 +71,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserAndTheme(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -76,7 +83,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserAndTheme(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -87,7 +97,8 @@ const routes: RoutesType = [
     fetchData({ dispatch }: RouterFetchDataArgs) {
       return [
         dispatch(fetchUserAndTheme(dispatch)),
-        dispatch(fetchLeaderboardList())
+        dispatch(fetchLeaderboardList()),
+        dispatch(fetchAllThemes())
       ];
     }
   },
@@ -97,7 +108,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserAndTheme(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -106,7 +120,10 @@ const routes: RoutesType = [
     exact: false,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserAndTheme(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -115,7 +132,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserAndTheme(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {

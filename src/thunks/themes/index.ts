@@ -1,25 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setAllThemes, setThemeId } from 'components/themeSwitcher/themesSlice';
+import { setThemeId } from 'components/themeSwitcher/themesSlice';
 import { setAuthentication } from 'pages/LoginPage/loginSlice';
 import { setUser } from 'pages/ProfilePage/userSlice';
-import { Dispatch, Reducer } from 'react';
 import { getUserInfo } from 'services/Auth';
-import { FETCH_THEMES, FETCH_USER_THEMES } from '../../actions/themes';
+import { UserResult } from 'services/Profile';
+import {
+  FETCH_ALL_THEMES,
+  FETCH_THEMES,
+  FETCH_USER_THEMES
+} from '../../actions/themes';
 
 import { ErrorType } from '../../api';
 import { getTheme, setTheme, ThemesParams } from '../../services/Themes';
 
 export const fetchGetTheme = createAsyncThunk(
   FETCH_THEMES,
-  (
-    {
-      id,
-      dispatch
-    }: ThemesParams & {
-      dispatch: Dispatch<Reducer>;
-    },
-    { rejectWithValue }
-  ) => getTheme({
+  ({ id }: UserResult, { rejectWithValue, dispatch }) => getTheme({
     params: { id }
   })
     .then(({ themeId }) => {
@@ -28,31 +24,21 @@ export const fetchGetTheme = createAsyncThunk(
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
 
+export const fetchAllThemes = createAsyncThunk(FETCH_ALL_THEMES, () => getTheme());
+
 export const fetchUserAndTheme = createAsyncThunk(
   FETCH_USER_THEMES,
   (dispatch?: any): Promise<boolean> => new Promise((resolve) => {
     getUserInfo()
-      .then((result) => {
+      .then(async (result: UserResult) => {
         dispatch(setAuthentication());
         dispatch(setUser(result));
-        // Временный костыль, через два thunk не получается
-        getTheme().then((themeList) => {
-          dispatch(setAllThemes(themeList));
-          getTheme({
-            params: { id: result.id }
-          }).then(({ themeId }) => {
-            dispatch(setThemeId(themeId));
-            resolve(true);
-          });
-        });
-        // dispatch(fetchGetTheme({ ...result, dispatch }));
-      })
-      .catch(() => {
-        getTheme().then((themeList) => {
-          dispatch(setAllThemes(themeList));
+        if (result) {
+          await dispatch(fetchGetTheme(result));
           resolve(true);
-        });
-      });
+        }
+      })
+      .catch(() => resolve(false));
   })
 );
 

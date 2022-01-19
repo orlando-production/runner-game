@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
+import { FETCH_SET_USER_FULFILLED } from 'actions/themes';
 
 export type Themes = {
   theme: number;
@@ -23,7 +24,11 @@ export const themesSlice = createSlice({
       state.allThemes = action.payload;
     }
   },
-  extraReducers: {}
+  extraReducers: {
+    [FETCH_SET_USER_FULFILLED]: (state, action) => {
+      state.allThemes = action.payload;
+    }
+  }
 });
 export const { setThemeId, setAllThemes } = themesSlice.actions;
 export const themesReducer = themesSlice.reducer;
