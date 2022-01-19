@@ -36,7 +36,7 @@ const history = createMemoryHistory({ initialEntries: ['/profile'] });
 const context: StaticRouterContext = {};
 
 const user: UserResult = {
-  avatar: '',
+  avatar: '11',
   display_name: 'admin',
   email: 'jd@yandex.ru',
   first_name: 'john',
@@ -109,17 +109,16 @@ describe('ProfilePage', () => {
       });
     });
 
-    // avatar of undefined
-    // it('если данные введены верно', async () => {
-    //   mockSetUserData.mockReturnValue(Promise.resolve(user));
+    it('если данные введены верно', async () => {
+      mockSetUserData.mockReturnValue(Promise.resolve(user));
 
-    //   fireEvent.click(submitSetUserButton);
+      fireEvent.click(submitSetUserButton);
 
-    //   await waitFor(() => expect(mockSetUserData).toHaveBeenCalledWith(user));
+      await waitFor(() => expect(mockSetUserData).toHaveBeenCalledWith(user));
 
-    //   return waitFor(() => expect(screen.getByText(/профиль сохранен/i))
-    //     .toBeInTheDocument());
-    // });
+      return waitFor(() => expect(screen.getByText(/профиль сохранен/i))
+        .toBeInTheDocument());
+    });
 
     it('если формат введенных данных неверный', async () => {
       mockSetUserData.mockReturnValue(Promise.reject());
