@@ -27,6 +27,10 @@ const MainPage = () => {
     history.push('/game');
   };
 
+  const onLinkClickForum = () => {
+    history.push('/forum');
+  };
+
   return (
     <Box className={classNames(commonStyles.page, styles['main-page'])}>
       <Box className={styles['main-container']}>
@@ -44,6 +48,14 @@ const MainPage = () => {
             <Icon
               onClick={onLinkClickLeaderBoard}
               icon="mdi:clipboard-list-outline"
+              height={24}
+              color="rgb(var(--icon-color))"
+            />
+          </div>
+          <div className={styles['main-icon-wrap']}>
+            <Icon
+              onClick={onLinkClickForum}
+              icon="mdi:forum-outline"
               height={24}
               color="rgb(var(--icon-color))"
             />

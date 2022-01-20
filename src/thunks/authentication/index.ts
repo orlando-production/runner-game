@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchGetThemes } from 'thunks/themes';
 import {
   AUTH_BY_CODE,
   FETCH_SIGNIN,
@@ -32,19 +31,11 @@ export const fetchSignIn = createAsyncThunk(
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
 
-export const fetchUserInfo = createAsyncThunk(
-  FETCH_USER_INFO,
-  (dispatch?: any) => getUserInfo().then((result) => {
-    if (result) {
-      dispatch(fetchGetThemes(result));
-    }
-    return result;
-  })
-);
+export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, () => getUserInfo());
 
 type AuthByCodeThunk = (code: string, dispatch?: any) => any;
 
 export const authByCodeThunk: AuthByCodeThunk = createAsyncThunk(
   AUTH_BY_CODE,
-  (code: string, dispatch: any) => authByCode(code, 'http://localhost:5000').then(() => dispatch(fetchUserInfo(dispatch)))
+  (code: string, dispatch: any) => authByCode(code, 'http://localhost:5000').then(() => dispatch(fetchUserInfo()))
 );

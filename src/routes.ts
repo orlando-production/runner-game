@@ -11,8 +11,9 @@ import ProfilePage from 'pages/ProfilePage';
 import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
-import { authByCodeThunk, fetchUserInfo } from 'thunks/authentication';
+import { authByCodeThunk } from 'thunks/authentication';
 import { fetchLeaderboardList } from 'thunks/leaderboard';
+import { fetchAllThemes, fetchUserAndTheme } from 'thunks/themes';
 
 export type ReduxAction<T = any, P = any> = {
   type: T;
@@ -44,11 +45,12 @@ const routes: RoutesType = [
     type: 'private',
     fetchData({ dispatch, query }: RouterFetchDataArgs) {
       if (query.code) {
-        return [
-          dispatch(authByCodeThunk((query.code as string), dispatch))
-        ];
+        return [dispatch(authByCodeThunk(query.code as string, dispatch))];
       }
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -57,7 +59,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -66,7 +71,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'public',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -75,7 +83,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -84,7 +95,11 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch)), dispatch(fetchLeaderboardList())];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchLeaderboardList()),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -93,7 +108,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -102,7 +120,10 @@ const routes: RoutesType = [
     exact: false,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {
@@ -111,7 +132,10 @@ const routes: RoutesType = [
     exact: true,
     type: 'private',
     fetchData({ dispatch }: RouterFetchDataArgs) {
-      return [dispatch(fetchUserInfo(dispatch))];
+      return [
+        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchAllThemes())
+      ];
     }
   },
   {

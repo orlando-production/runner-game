@@ -5,12 +5,9 @@ export type ThemesParams = {
   themeId?: number;
 };
 
-export const getThemes = (
-  config?: {},
-  isServer?: boolean
-) => requestGetData(ENDPOINTS.THEMES, config, isServer);
+export const getTheme = (config?: {}, isServer?: boolean) => requestGetData(ENDPOINTS.THEMES, config, isServer);
 
-export const setThemes = (
+export const setTheme = (
   themesParams: ThemesParams,
   config?: {},
   isServer?: boolean

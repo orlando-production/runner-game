@@ -1,3 +1,4 @@
+import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import type { Model } from 'sequelize/types';
 import {
   dbConnect, ForumTopic, Theme, ThemeUser, TopicMessage
@@ -16,7 +17,9 @@ export async function setUserTheme(userId: number, themeId: number) {
             resolve(true);
           });
         } else {
-          ThemeUser.update({ themeId }, { where: { userId } });
+          ThemeUser.update({ themeId }, { where: { userId } }).then(() => {
+            resolve(true);
+          });
         }
       });
     });
@@ -90,7 +93,7 @@ export function getUserTheme(userId: number) {
   return new Promise((resolve) => {
     findUser(userId).then((res) => {
       if (res) {
-        resolve(res.themeId);
+        resolve((res as unknown as ThemeType).themeId);
       } else {
         setUserTheme(userId, 1);
         resolve(1);
@@ -113,9 +116,12 @@ export async function createThemeIfNotExist(
     });
   });
 }
-export function startApp() {
-  dbConnect().then(async () => {
-    createThemeIfNotExist(1, 'light');
-    createThemeIfNotExist(2, 'dark');
-  });
+
+export async function getAllThemes(): Promise<Model<any, any>[]> {
+  return Theme.findAll({ raw: true });
+}
+export async function startApp() {
+  await dbConnect();
+  createThemeIfNotExist(1, 'light');
+  createThemeIfNotExist(2, 'dark');
 }

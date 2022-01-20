@@ -138,9 +138,9 @@ const GameController = ({
           addLeaderboardResult({
             data: {
               presents: 10,
-              name: user.first_name,
-              avatar: user.avatar,
-              id: user.id
+              name: user?.first_name,
+              avatar: user?.avatar,
+              id: user?.id
             },
             teamName: 'orlando_production',
             ratingFieldName: 'presents'

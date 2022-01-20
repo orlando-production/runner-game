@@ -23,6 +23,7 @@ import { Stream } from 'form-data';
 import {
   getMessages,
   getTopics,
+  getAllThemes,
   getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
 import serverRenderMiddleware from './server-render-middleware';
@@ -227,9 +228,17 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
-app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => getUserTheme((req as any).query.id).then((themeId) => {
-  res.send({ themeId });
-}));
+app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  if ((req as Request).query.id) {
+    getUserTheme((req as any).query.id).then((themeId) => {
+      res.send({ themeId });
+    });
+  } else {
+    getAllThemes().then((list) => {
+      res.send(list);
+    });
+  }
+});
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {

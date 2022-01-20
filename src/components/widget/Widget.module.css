@@ -1,11 +1,14 @@
 .widget {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    width: 200px;
-    height: 200px;
-    background-color: var(--white-color);
-    box-shadow: 0 1px 3px 0 var(--box-shadow-color), 0 1px 1px 0 var(--box-shadow-color), 0 2px 1px 0 var(--box-shadow-color);
-    border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 200px;
+  height: 200px;
+  background-color: var(--white-color);
+  box-shadow:
+    0 1px 3px 0 var(--box-shadow-color),
+    0 1px 1px 0 var(--box-shadow-color),
+    0 2px 1px 0 var(--box-shadow-color);
+  border-radius: 4px;
 }

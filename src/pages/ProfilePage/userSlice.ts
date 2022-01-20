@@ -20,13 +20,12 @@ import {
 import { ErrorType } from '../../api';
 
 export type User = {
-    user: UserResult,
-    statusProfile: 'invisible' | 'error' | 'success',
-    statusPassword: 'invisible' | 'error' | 'success',
-    messagePassword: string,
-    messageProfile: string,
-    error?: ErrorType,
-    theme?: string
+  user: UserResult;
+  statusProfile: 'invisible' | 'error' | 'success';
+  statusPassword: 'invisible' | 'error' | 'success';
+  messagePassword: string;
+  messageProfile: string;
+  error?: ErrorType;
 };
 
 export const userInitialState: User = {
@@ -45,14 +44,17 @@ export const userInitialState: User = {
   statusProfile: 'invisible',
   statusPassword: 'invisible',
   messagePassword: '',
-  messageProfile: '',
-  theme: 'light'
+  messageProfile: ''
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: userInitialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    }
+  },
   extraReducers: {
     [FETCH_USER_INFO_PENDING]: (state) => {
       state.statusProfile = 'invisible';
@@ -100,3 +102,4 @@ export const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
+export const { setUser } = userSlice.actions;

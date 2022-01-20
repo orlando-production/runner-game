@@ -1,33 +1,30 @@
 .signup-content {
-    width: 520px;
-    height: 600px;
+  width: 520px;
+  height: 600px;
 }
 
 .names-ribbon {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .name-block {
-    max-width: 48%;
+  max-width: 48%;
 }
 
 .signup-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
 }
 
 .login-link {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
 .login-link:hover {
-    color: var(--link-hover-color);
+  color: var(--link-hover-color);
 }
-
-
-

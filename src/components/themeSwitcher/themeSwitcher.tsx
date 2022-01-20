@@ -1,49 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Switch } from '@mui/material';
 import commonStyles from 'components/common.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTheme, getUserData } from 'selectors/profile';
+import { getUserData } from 'selectors/profile';
 import { UserResult } from 'services/Profile';
-import { fetchSetThemes } from 'thunks/themes';
-
-const THEMES = {
-  1: 'light',
-  2: 'dark'
-};
+import { fetchSetTheme } from 'thunks/themes';
+import { getAllThemes, getThemeId } from 'selectors/themes';
+import { setThemeId } from './themesSlice';
 
 export default function ThemeSwitcherComponent() {
   const user = useSelector(getUserData) as UserResult;
-  const themes = useSelector(getTheme) as string | null;
-  const [state, setState] = useState(false);
+  const themeId = useSelector(getThemeId);
+  const allThemes = useSelector(getAllThemes);
 
   const dispatch = useDispatch();
 
-  const getThemeId = (b: boolean) => (b ? 2 : 1);
-
   const handleSwitch = (_e: any, checked: boolean) => {
-    const themeId = getThemeId(checked);
-    setState(checked);
+    const theme = checked ? allThemes[1].themeId : allThemes[0].themeId;
+    localStorage.setItem('theme', String(theme));
+    dispatch(setThemeId(theme));
     if (user.id) {
-      dispatch(fetchSetThemes({ id: user.id, themeId }));
+      dispatch(fetchSetTheme({ id: user.id, themeId: theme }));
     }
-    document.documentElement.setAttribute('theme', THEMES[themeId]);
+    document.documentElement.setAttribute(
+      'theme',
+      allThemes.find((item) => item.themeId === theme).themeName
+    );
   };
 
   useEffect(() => {
-    let currentTheme = localStorage.getItem('theme');
-    if (themes) {
-      currentTheme = themes;
+    if (allThemes.length) {
+      localStorage.setItem('theme', String(themeId));
+      document.documentElement.setAttribute(
+        'theme',
+        allThemes.find((item) => item.themeId === themeId).themeName
+      );
     }
-    setState(currentTheme === 'dark');
-    document.documentElement.setAttribute('theme', currentTheme || 'light');
-  }, [themes]);
+  }, [themeId, allThemes]);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (!user.id && theme) {
+      dispatch(setThemeId(parseInt(theme, 10)));
+    }
+  }, [user]);
 
   return (
-    <div className={commonStyles.switch}>
-      <Switch
-        checked={state}
-        onChange={handleSwitch}
-      />
-    </div>
+    allThemes.length > 1 && (
+      <div className={commonStyles.switch}>
+        <Switch
+          checked={themeId !== allThemes[0].themeId}
+          onChange={handleSwitch}
+        />
+      </div>
+    )
   );
 }

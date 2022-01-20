@@ -15,7 +15,7 @@ export const getUserData = createSelector(
 
 export const getAvatarSrc = createSelector(
   getUser,
-  ({ user }) => user.avatar
+  ({ user }) => user?.avatar
 );
 
 export const getMessageProfile = createSelector(

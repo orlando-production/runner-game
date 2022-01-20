@@ -11,6 +11,7 @@ import { StaticRouter, StaticRouterContext } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { UserResult } from 'services/Profile';
 import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
+import { Themes } from 'components/themeSwitcher/themesSlice';
 import type { Logout } from '../logoutSlice';
 import type { User } from '../userSlice';
 import type { Registration } from '../../SignUpPage/registrationSlice';
@@ -36,7 +37,7 @@ const history = createMemoryHistory({ initialEntries: ['/profile'] });
 const context: StaticRouterContext = {};
 
 const user: UserResult = {
-  avatar: '',
+  avatar: '11',
   display_name: 'admin',
   email: 'jd@yandex.ru',
   first_name: 'john',
@@ -65,7 +66,8 @@ const preloadedState = {
   messagePassword: {} as User,
   messageProfile: {} as User,
   leaderboard: {} as LeaderBoard,
-  router: {} as RouterState
+  router: {} as RouterState,
+  theme: {} as Themes
 };
 
 describe('ProfilePage', () => {
@@ -109,17 +111,16 @@ describe('ProfilePage', () => {
       });
     });
 
-    // avatar of undefined
-    // it('если данные введены верно', async () => {
-    //   mockSetUserData.mockReturnValue(Promise.resolve(user));
+    it('если данные введены верно', async () => {
+      mockSetUserData.mockReturnValue(Promise.resolve(user));
 
-    //   fireEvent.click(submitSetUserButton);
+      fireEvent.click(submitSetUserButton);
 
-    //   await waitFor(() => expect(mockSetUserData).toHaveBeenCalledWith(user));
+      await waitFor(() => expect(mockSetUserData).toHaveBeenCalledWith(user));
 
-    //   return waitFor(() => expect(screen.getByText(/профиль сохранен/i))
-    //     .toBeInTheDocument());
-    // });
+      return waitFor(() => expect(screen.getByText(/профиль сохранен/i))
+        .toBeInTheDocument());
+    });
 
     it('если формат введенных данных неверный', async () => {
       mockSetUserData.mockReturnValue(Promise.reject());
