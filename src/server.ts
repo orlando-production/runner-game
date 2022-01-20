@@ -20,10 +20,11 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
-import { getAllThemes, getUserTheme, setUserTheme, startApp } from 'db';
-import serverRenderMiddleware from './server-render-middleware';
-import { findUser } from 'db';
+import {
+  getAllThemes, getUserTheme, setUserTheme, startApp
+} from 'db';
 import { ThemeType } from 'components/themeSwitcher/themesSlice';
+import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
 const FormData = require('form-data');
@@ -38,12 +39,11 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(busboy({ immediate: true }));
 
-const parseCookies = (cookie: string) =>
-  cookie
-    .split(/;\s+/)
-    .filter(
-      (token) => token.startsWith('authCookie') || token.startsWith('uuid')
-    );
+const parseCookies = (cookie: string) => cookie
+  .split(/;\s+/)
+  .filter(
+    (token) => token.startsWith('authCookie') || token.startsWith('uuid')
+  );
 
 const setCookies = (newCookies: string, res: Response) => {
   newCookies.split(';').forEach((cookie) => {
@@ -54,9 +54,7 @@ const setCookies = (newCookies: string, res: Response) => {
   });
 };
 
-const checkAccess = () => {
-  return !!cookies;
-};
+const checkAccess = () => !!cookies;
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
   authenticateUser(req.body, true)
@@ -219,8 +217,7 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
 app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
   const access = checkAccess();
   if (!access) {
-    res.sendStatus(401);
-    return;
+    return res.sendStatus(401);
   }
   if (!(req as any).busboy) {
     return res.sendStatus(500);
@@ -253,8 +250,7 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
 app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
   const access = checkAccess();
   if (!access) {
-    res.sendStatus(401);
-    return;
+    return res.sendStatus(401);
   }
   const config = {
     headers: {
@@ -263,9 +259,7 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
     responseType: 'stream'
   };
 
-  return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) =>
-    result.pipe(res)
-  );
+  return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) => result.pipe(res));
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
