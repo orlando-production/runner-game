@@ -29,7 +29,7 @@ export default function ThemeSwitcherComponent() {
   };
 
   useEffect(() => {
-    if (allThemes.length) {
+    if (allThemes?.length) {
       localStorage.setItem('theme', String(themeId));
       document.documentElement.setAttribute(
         'theme',
@@ -46,7 +46,7 @@ export default function ThemeSwitcherComponent() {
   }, [user]);
 
   return (
-    allThemes.length > 1 && (
+    allThemes?.length > 1 && (
       <Switch
         className={commonStyles.switch}
         checked={themeId !== allThemes[0].themeId}
