@@ -30,6 +30,11 @@
 * Node
 * Postgres, sequelize
 * Testing Library
+## MEMORYLEAKS
+В проекте были обнаружены и успешно исправлены утечки памяти, связанные с таймером в игре:
+таймер не останавливался после завершения игры.
+Была создана переменная currentInterval, в которой теперь хранится setInterval, в дальнейшем он передается в clearInterval для очистки.
+Также сам clearInterval был добавлен в useEffect.
 ## Качество кода
 * eslint: ``npm run linter``  
 * tsconfig: ``tsc --noEmit``  
