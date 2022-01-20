@@ -20,10 +20,10 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
-import {
-  getAllThemes, getUserTheme, setUserTheme, startApp
-} from 'db';
+import { getAllThemes, getUserTheme, setUserTheme, startApp } from 'db';
 import serverRenderMiddleware from './server-render-middleware';
+import { findUser } from 'db';
+import { ThemeType } from 'components/themeSwitcher/themesSlice';
 
 const busboy = require('connect-busboy');
 const FormData = require('form-data');
@@ -31,18 +31,19 @@ const FormData = require('form-data');
 const app = express();
 const api = express.Router();
 
-let cookies = '';
+let cookies: string = null;
 
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(busboy({ immediate: true }));
 
-const parseCookies = (cookie: string) => cookie
-  .split(/;\s+/)
-  .filter(
-    (token) => token.startsWith('authCookie') || token.startsWith('uuid')
-  );
+const parseCookies = (cookie: string) =>
+  cookie
+    .split(/;\s+/)
+    .filter(
+      (token) => token.startsWith('authCookie') || token.startsWith('uuid')
+    );
 
 const setCookies = (newCookies: string, res: Response) => {
   newCookies.split(';').forEach((cookie) => {
@@ -51,6 +52,10 @@ const setCookies = (newCookies: string, res: Response) => {
       secure: true
     });
   });
+};
+
+const checkAccess = () => {
+  return !!cookies;
 };
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
@@ -80,12 +85,22 @@ app.post(`/${ENDPOINTS.SIGNUP}`, (req: Request, res: Response) => {
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   addLeaderboardResult(req.body, true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -101,14 +116,21 @@ app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
 });
 
 app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
     }
   };
-
   logoutUser(config, true)
-    .then(() => res.sendStatus(200))
+    .then(() => {
+      cookies = null;
+      res.sendStatus(200);
+    })
     .catch(() => {
       res.sendStatus(500);
     });
@@ -155,6 +177,11 @@ app.get(`/${ENDPOINTS.USER}`, async (_req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -170,6 +197,11 @@ app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -185,6 +217,11 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line consistent-return
 app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   if (!(req as any).busboy) {
     return res.sendStatus(500);
   }
@@ -214,6 +251,11 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
 });
 
 app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -221,17 +263,24 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
     responseType: 'stream'
   };
 
-  return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) => result.pipe(res));
+  return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) =>
+    result.pipe(res)
+  );
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   if ((req as Request).query.id) {
-    getUserTheme((req as any).query.id).then((themeId) => {
+    const access = checkAccess();
+    if (!access) {
+      res.sendStatus(401);
+      return;
+    }
+    getUserTheme((req as any).query.id).then((themeId: number) => {
       res.send({ themeId });
     });
   } else {
-    getAllThemes().then((list) => {
+    getAllThemes().then((list: ThemeType[]) => {
       res.send(list);
     });
   }
@@ -239,6 +288,11 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   setUserTheme(req.body.id, req.body.themeId).then(() => {
     res.sendStatus(200);
   });
