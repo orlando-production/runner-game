@@ -2,7 +2,7 @@
 import {
   Box, Button, Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
@@ -13,9 +13,12 @@ import Widget from '../../components/widget';
 import styles from './ForumPage.module.css';
 import commonStyles from '../../components/common.module.css';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
+import Loader from '../../components/loader/Loader';
 
 const ForumPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+
   const history = useHistory();
 
   const resources = {
@@ -42,43 +45,51 @@ const ForumPage = () => {
     setModalOpen(false);
   };
 
-  return (
-    <div className={commonStyles.page}>
-      <ThemeSwitcherComponent />
-      <PageMeta title="Forum page" description="New topics everyday" />
-      <div className={classNames(commonStyles.content, styles['forum-container'])}>
-        <Typography
-          component="h1"
-          variant="h5"
-          className={styles['forum-title']}
-          mb={5}
-        >
-          {resources.forum}
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
-        </Typography>
-        {isModalOpen && <NewTopic onClose={onModalClose} />}
-        <Box
-          className={classNames(commonStyles.box, styles['forum-content'])}
-        >
-          <div className={styles.topics}>
-            {topics.map((el: TopicProps) => <Widget title={el.title} key={el.title} onClick={() => onWidgetClick(el)} />)}
+  return (
+    isLoading
+      ? <Loader />
+      : (
+        <div className={commonStyles.page}>
+          <ThemeSwitcherComponent />
+          <PageMeta title="Forum page" description="New topics everyday" />
+          <div className={classNames(commonStyles.content, styles['forum-container'])}>
+            <Typography
+              component="h1"
+              variant="h5"
+              className={styles['forum-title']}
+              mb={5}
+            >
+              {resources.forum}
+
+            </Typography>
+            {isModalOpen && <NewTopic onClose={onModalClose} />}
+            <Box
+              className={classNames(commonStyles.box, styles['forum-content'])}
+            >
+              <div className={styles.topics}>
+                {topics.map((el: TopicProps) => <Widget title={el.title} key={el.title} onClick={() => onWidgetClick(el)} />)}
+              </div>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                color="info"
+                onClick={onAddButtonClick}
+                sx={{
+                  mt: 2, mb: 2, ml: 2, width: '100px', alignSelf: 'flex-end'
+                }}
+              >
+                {resources.button}
+              </Button>
+            </Box>
           </div>
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="info"
-            onClick={onAddButtonClick}
-            sx={{
-              mt: 2, mb: 2, ml: 2, width: '100px', alignSelf: 'flex-end'
-            }}
-          >
-            {resources.button}
-          </Button>
-        </Box>
-      </div>
-      <Footer />
-    </div>
+          <Footer />
+        </div>
+      )
   );
 };
 
