@@ -11,12 +11,16 @@
 **SPACE** - прыжок   
 **K** - поток огня(разрушает не только препятствие, но и подарки!)
 ## Команды для запуска
-Установка  
+**Установка**   
 ``npm run install``  
-Запуск базы данных   
+**Build**   
+``npm run build``  
+**Запуск базы данных**   
 ``docker-compose up``   
-Запуск сервера  
-``npm run start``
+**Запуск сервера**  
+``npm run start``  
+**Dev-режим(watcher)**  
+``npm run dev``
 ## Полезные ссылки
 * Репозиторий: https://github.com/orlando-production/runner-game
 * Макет:  https://www.figma.com/files/project/41798105/Team-project?fuid=1009449935119434695
