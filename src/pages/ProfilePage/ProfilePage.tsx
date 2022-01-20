@@ -10,7 +10,6 @@ import { Icon } from '@iconify/react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
-import { getThemeId } from 'selectors/themes';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
