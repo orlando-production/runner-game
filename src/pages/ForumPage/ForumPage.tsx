@@ -12,6 +12,7 @@ import type { TopicProps } from '../../components/Topic/Topic';
 import Widget from '../../components/widget';
 import styles from './ForumPage.module.css';
 import commonStyles from '../../components/common.module.css';
+import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 const ForumPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -43,6 +44,7 @@ const ForumPage = () => {
 
   return (
     <div className={commonStyles.page}>
+      <ThemeSwitcherComponent />
       <PageMeta title="Forum page" description="New topics everyday" />
       <div className={classNames(commonStyles.content, styles['forum-container'])}>
         <Typography

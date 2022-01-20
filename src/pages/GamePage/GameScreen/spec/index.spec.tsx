@@ -5,6 +5,7 @@ import { RouterState } from 'connected-react-router';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import { createMemoryHistory } from 'history';
 import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
+import { Themes } from 'components/themeSwitcher/themesSlice';
 import GameScreen from '../GameScreen';
 import type { Logout } from '../../../ProfilePage/logoutSlice';
 import type { User } from '../../../ProfilePage/userSlice';
@@ -34,7 +35,8 @@ const preloadedState = {
   messagePassword: {} as User,
   messageProfile: {} as User,
   leaderboard: {} as LeaderBoard,
-  router: {} as RouterState
+  router: {} as RouterState,
+  theme: {} as Themes
 };
 
 describe('Процесс игры', () => {

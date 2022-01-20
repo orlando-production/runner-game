@@ -1,9 +1,8 @@
 import { Configuration, HotModuleReplacementPlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import 'webpack-dev-server';
-import path from 'path';
 import nodeExternals from 'webpack-node-externals';
-import { DIST_DIR, IS_DEV, SRC_DIR } from './env';
+import { DIST_DIR, IS_DEV } from './env';
 
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
@@ -16,7 +15,7 @@ const config: Configuration = {
     filename: 'server.js',
     libraryTarget: 'commonjs2',
     path: DIST_DIR,
-    publicPath: '/static/',
+    publicPath: './static/',
     clean: true
   },
   entry: './src/server.ts',
@@ -66,11 +65,11 @@ const config: Configuration = {
   plugins: [
     new Dotenv(),
     new WorkboxPlugin.InjectManifest({
-      swSrc: path.join(SRC_DIR, 'src-sw.js'),
+      swSrc: './src/src-sw.js',
       swDest: 'sw.js'
     }),
     new HtmlWebpackPlugin({
-      template: path.join(SRC_DIR, 'index.html')
+      template: './src/index.html'
     }),
     new HotModuleReplacementPlugin()
   ],

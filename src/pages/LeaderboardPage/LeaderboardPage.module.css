@@ -1,40 +1,40 @@
 .leaderboard-page {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .leaderboard-container {
-    padding: 2.5vw 5vw;
+  padding: 2.5vw 5vw;
 }
 
 .leaderboard-content {
-    width: 100%;
-    height: 400px;
-    padding: 16px;
+  height: 400px;
+  padding: 16px;
 }
 
 .leaderboard-title {
-    margin-bottom: 45px;
-    text-shadow: 0 4px 4px rgba(var(--black-color), 0.25);
+  margin-bottom: 45px;
+  text-shadow: 0 4px 4px rgb(var(--black-color) 0.25);
 }
 
 .leaderboard-field {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 100px 1fr 100px;
-    gap: 15px;
-    min-height: 54px;
-    border-bottom: 1px solid rgba(var(--black-color), 0.08);
+  display: grid;
+  align-items: center;
+  grid-template-columns: 100px 1fr 100px;
+  gap: 15px;
+  min-height: 54px;
+  border-bottom: 1px solid rgb(var(--black-color) 0.08);
+  color: var(--color-text);
 }
 
 .leaderboard-field:last-of-type {
-    border: 0;
+  border: 0;
 }
 
 .leaderboard-name {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
 }

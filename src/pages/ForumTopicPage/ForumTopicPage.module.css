@@ -1,15 +1,15 @@
 .forum-container {
-    padding: 2.5vw 5vw;
+  padding: 2.5vw 5vw;
 }
 
 .forum-content {
-    width: 100%;
-    height: 400px;
-    overflow-y: auto;
-    padding: 16px;
+  width: 100%;
+  height: 400px;
+  overflow-y: auto;
+  padding: 16px;
 }
 
 .forum-title {
-    margin-bottom: 45px;
-    text-shadow: 0 4px 4px rgba(var(--black-color), 0.25);
+  margin-bottom: 45px;
+  text-shadow: 0 4px 4px rgb(var(--black-color) 0.25);
 }

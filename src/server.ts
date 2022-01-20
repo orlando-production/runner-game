@@ -20,6 +20,9 @@ import { ENDPOINTS } from 'api';
 import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
+import {
+  getAllThemes, getUserTheme, setUserTheme, startApp
+} from 'db';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -30,7 +33,7 @@ const api = express.Router();
 
 let cookies = '';
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(busboy({ immediate: true }));
@@ -41,26 +44,21 @@ const parseCookies = (cookie: string) => cookie
     (token) => token.startsWith('authCookie') || token.startsWith('uuid')
   );
 
-const setCookies = (
-  newCookies: string,
-  res: Response
-) => {
+const setCookies = (newCookies: string, res: Response) => {
   newCookies.split(';').forEach((cookie) => {
-    res.cookie(
-      `${cookie.split('=')[0]}`,
-      `${cookie.split('=')[1]}`,
-      {
-        maxAge: 365 * 24 * 60 * 60 * 1000,
-        secure: true
-      }
-    );
+    res.cookie(`${cookie.split('=')[0]}`, `${cookie.split('=')[1]}`, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      secure: true
+    });
   });
 };
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
   authenticateUser(req.body, true)
     .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
+      cookies = parseCookies(headers['set-cookie'].join('; '))
+        .slice(1)
+        .join('; ');
       setCookies(cookies, res);
       return res.sendStatus(200);
     })
@@ -119,7 +117,9 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
 app.post(`/${ENDPOINTS.AUTH_BY_CODE}`, (req: Request, res: Response) => {
   authByCode(req.body.code, req.body.redirect_uri, true)
     .then(({ headers }) => {
-      cookies = parseCookies(headers['set-cookie'].join('; ')).slice(1).join('; ');
+      cookies = parseCookies(headers['set-cookie'].join('; '))
+        .slice(1)
+        .join('; ');
       setCookies(cookies, res);
       return res.sendStatus(200);
     })
@@ -188,26 +188,29 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
   if (!(req as any).busboy) {
     return res.sendStatus(500);
   }
-  (req as any).busboy.on('file', (_fieldName: string, file: any, filename: string) => {
-    const formData = new FormData();
+  (req as any).busboy.on(
+    'file',
+    (_fieldName: string, file: any, filename: string) => {
+      const formData = new FormData();
 
-    formData.append('avatar', file, { filename });
+      formData.append('avatar', file, { filename });
 
-    const config = {
-      headers: {
-        Cookie: cookies,
-        ...formData.getHeaders()
-      }
-    };
+      const config = {
+        headers: {
+          Cookie: cookies,
+          ...formData.getHeaders()
+        }
+      };
 
-    setAvatar(formData, config, true)
-      .then(({ data }) => {
-        res.send(data);
-      })
-      .catch(({ response }) => {
-        res.status(response.status || 500).json(response.data);
-      });
-  });
+      setAvatar(formData, config, true)
+        .then(({ data }) => {
+          res.send(data);
+        })
+        .catch(({ response }) => {
+          res.status(response.status || 500).json(response.data);
+        });
+    }
+  );
 });
 
 app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
@@ -218,8 +221,27 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
     responseType: 'stream'
   };
 
-  return getAvatars(`${req.params[0]}`, config, true)
-    .then((result: Stream) => result.pipe(res));
+  return getAvatars(`${req.params[0]}`, config, true).then((result: Stream) => result.pipe(res));
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  if ((req as Request).query.id) {
+    getUserTheme((req as any).query.id).then((themeId) => {
+      res.send({ themeId });
+    });
+  } else {
+    getAllThemes().then((list) => {
+      res.send(list);
+    });
+  }
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
+app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  setUserTheme(req.body.id, req.body.themeId).then(() => {
+    res.sendStatus(200);
+  });
 });
 
 app
@@ -229,5 +251,9 @@ app
 
 app.get('/*', serverRenderMiddleware);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+// ВРЕМЕННЫЙ КОСТЫЛЬ
+startApp();
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
 export { app };

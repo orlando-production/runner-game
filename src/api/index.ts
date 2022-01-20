@@ -24,6 +24,7 @@ export const ENDPOINTS = {
   PROFILE: 'user/profile',
   PASSWORD: 'user/password',
   LEADERBOARD: 'leaderboard',
+  THEMES: 'theme',
   LEADERBOARD_RESULTS: `leaderboard/${TEAM_NAME}`,
   OAUTH_SERVICE: 'oauth/yandex/service-id',
   AUTH_BY_CODE: 'oauth/yandex'

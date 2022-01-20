@@ -5,7 +5,9 @@
     "declaration": false,
     "module": "commonjs",
     "strictNullChecks": false,
+    "skipLibCheck": true,
     "sourceMap": true,
+    "allowJs": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -20,5 +22,7 @@
   },
   "include": ["src"],
   "exclude": ["node_modules"],
-  "files": ["src/index.d.ts"]
+  "files": ["src/index.d.ts"],
+  "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+  "emitDecoratorMetadata": true
 }
