@@ -29,7 +29,8 @@ export const ENDPOINTS = {
   OAUTH_SERVICE: 'oauth/yandex/service-id',
   AUTH_BY_CODE: 'oauth/yandex',
   TOPIC: 'topic',
-  TOPIC_GET: 'topic/list',
+  TOPIC_ALL: 'topic/all',
+  TOPIC_BY_ID: 'topic/id',
   MESSAGE: 'message',
   MESSAGE_GET: 'message/list'
 } as const;

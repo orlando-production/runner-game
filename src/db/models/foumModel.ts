@@ -27,7 +27,7 @@ export const forumTopicModel: ModelAttributes<Model, TForumTopicDb> = {
     unique: true
   },
   text: {
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
     unique: false
   }
@@ -47,7 +47,7 @@ export const topicMessage: ModelAttributes<Model, TTopicMessageDb> = {
     unique: false
   },
   text: {
-    type: DataType.STRING,
+    type: DataType.TEXT,
     allowNull: false,
     unique: false
   }

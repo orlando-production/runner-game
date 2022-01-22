@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTopicsData } from 'selectors/topic';
-import { fetchGetTopic } from 'thunks/topic';
+import { fetchGetTopicAll } from 'thunks/topic';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
@@ -41,8 +41,7 @@ const ForumPage = () => {
   };
 
   useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchGetTopic());
+    dispatch(fetchGetTopicAll());
   }, [dispatch]);
 
   return (

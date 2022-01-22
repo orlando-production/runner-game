@@ -14,6 +14,7 @@ import { match } from 'react-router';
 import { authByCodeThunk } from 'thunks/authentication';
 import { fetchLeaderboardList } from 'thunks/leaderboard';
 import { fetchAllThemes, fetchUserAndTheme } from 'thunks/themes';
+import { fetchGetTopicAll } from 'thunks/topic';
 
 export type ReduxAction<T = any, P = any> = {
   type: T;
@@ -122,7 +123,8 @@ const routes: RoutesType = [
     fetchData({ dispatch }: RouterFetchDataArgs) {
       return [
         dispatch(fetchUserAndTheme(dispatch)),
-        dispatch(fetchAllThemes())
+        dispatch(fetchAllThemes()),
+        dispatch(fetchGetTopicAll())
       ];
     }
   },

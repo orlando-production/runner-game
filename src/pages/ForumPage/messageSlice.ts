@@ -3,8 +3,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ErrorType } from 'api';
 import {
-  FETCH_MESSAGE_FILFILLED,
-  FETCH_MESSAGE_LIST_FILFILLED
+  FETCH_MESSAGE_FULFILLED,
+  FETCH_MESSAGE_LIST_FULFILLED
 } from '../../actions/message';
 
 export type Message = {
@@ -21,10 +21,10 @@ export const messageSlice = createSlice({
   initialState: messageInitialState,
   reducers: {},
   extraReducers: {
-    [FETCH_MESSAGE_FILFILLED]: (state, { payload }) => {
+    [FETCH_MESSAGE_FULFILLED]: (state, { payload }) => {
       state.messages.push(payload);
     },
-    [FETCH_MESSAGE_LIST_FILFILLED]: (state, { payload }) => {
+    [FETCH_MESSAGE_LIST_FULFILLED]: (state, { payload }) => {
       state.messages = payload;
     }
   }

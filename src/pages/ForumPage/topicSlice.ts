@@ -3,8 +3,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ErrorType } from 'api';
 import {
-  FETCH_TOPIC_FILFILLED,
-  FETCH_TOPIC_LIST_FILFILLED
+  FETCH_TOPIC_FULFILLED,
+  FETCH_TOPIC_ALL_FULFILLED,
+  FETCH_TOPIC_BY_ID_FULFILLED
 } from '../../actions/topic';
 
 export type Topic = {
@@ -21,10 +22,13 @@ export const topicSlice = createSlice({
   initialState: topicInitialState,
   reducers: {},
   extraReducers: {
-    [FETCH_TOPIC_FILFILLED]: (state, { payload }) => {
+    [FETCH_TOPIC_FULFILLED]: (state, { payload }) => {
       state.topics.push(payload);
     },
-    [FETCH_TOPIC_LIST_FILFILLED]: (state, { payload }) => {
+    [FETCH_TOPIC_ALL_FULFILLED]: (state, { payload }) => {
+      state.topics = payload;
+    },
+    [FETCH_TOPIC_BY_ID_FULFILLED]: (state, { payload }) => {
       state.topics = payload;
     }
   }

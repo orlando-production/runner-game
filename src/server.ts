@@ -22,7 +22,8 @@ import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
 import {
   getMessages,
-  getTopics,
+  getTopicsAll,
+  getTopicById,
   getAllThemes,
   getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
@@ -257,8 +258,18 @@ app.post(`/${ENDPOINTS.TOPIC}`, (req: Request, res: Response) => {
     });
 });
 
-app.post(`/${ENDPOINTS.TOPIC_GET}`, (req: Request, res: Response) => {
-  getTopics(req.body.id)
+app.post(`/${ENDPOINTS.TOPIC_ALL}`, (_req: Request, res: Response) => {
+  getTopicsAll()
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.TOPIC_BY_ID}`, (req: Request, res: Response) => {
+  getTopicById(req.body.id)
     .then((payload) => {
       res.send(payload);
     })

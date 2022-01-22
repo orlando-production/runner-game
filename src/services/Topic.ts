@@ -22,7 +22,11 @@ export const setTopic = (
   config?: {}, isServer?:boolean
 ) => requestPostData<TopicParams, TopicResult>(ENDPOINTS.TOPIC, topicSetParams, config, isServer);
 
-export const getTopic = (
+export const getTopicById = (
   topicGetParams?: TopicGetParams,
   config?: {}, isServer?:boolean
-) => requestPostData<TopicGetParams, TopicResult>(ENDPOINTS.TOPIC_GET, topicGetParams, config, isServer);
+) => requestPostData<TopicGetParams, TopicResult>(ENDPOINTS.TOPIC_BY_ID, topicGetParams, config, isServer);
+
+export const getTopicAll = (
+  config?: {}, isServer?:boolean
+) => requestPostData(ENDPOINTS.TOPIC_ALL, config, isServer);
