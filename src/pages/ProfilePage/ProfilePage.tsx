@@ -10,7 +10,6 @@ import { Icon } from '@iconify/react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
-import { getThemeId } from 'selectors/themes';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
@@ -25,6 +24,7 @@ import {
 
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
+import Loader from '../../components/loader/Loader';
 
 type Status = 'invisible' | 'error' | 'success';
 
@@ -48,6 +48,7 @@ const ProfilePage = () => {
   const [messagePasswordPage, setMessagePasswordPage] = useState<string>('');
 
   const [formData, setFormData] = useState<UserResult>(user as UserResult);
+  const [isLoading, setLoading] = useState(true);
 
   const history = useHistory();
 
@@ -125,6 +126,7 @@ const ProfilePage = () => {
     if (!user) {
       dispatch(fetchUserInfo(dispatch));
     }
+    setLoading(false);
   }, [dispatch]);
 
   useEffect(() => {
@@ -137,284 +139,288 @@ const ProfilePage = () => {
   }, [user, avatarSrc, statusProfile, statusPassword, messagePassword, messageProfile]);
 
   return (
-    <div className={commonStyles.page}>
-      <div className={styles['profile-container']}>
-        <ThemeSwitcherComponent />
-        <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_avatar'])}>
-          <div className={styles['profile-avatar']}>
-            <Avatar
-              sx={{ width: 156, height: 156 }}
-              src={avatar && `http://localhost:5000/avatar${avatar}`}
-            />
-          </div>
-          <div className={styles['profile-upload']}>
-            <label htmlFor="raised-button-file">
-              <input
-                accept="image/*"
-                style={{ display: 'none' }}
-                id="raised-button-file"
-                multiple
-                type="file"
-                onChange={handleChangeUpload}
-              />
-              <Button
-                fullWidth
-                component="span"
-                variant="contained"
-                color="primary"
+    isLoading
+      ? <Loader />
+      : (
+        <div className={commonStyles.page}>
+          <div className={styles['profile-container']}>
+            <ThemeSwitcherComponent />
+            <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_avatar'])}>
+              <div className={styles['profile-avatar']}>
+                <Avatar
+                  sx={{ width: 156, height: 156 }}
+                  src={avatar && `http://localhost:5000/avatar${avatar}`}
+                />
+              </div>
+              <div className={styles['profile-upload']}>
+                <label htmlFor="raised-button-file">
+                  <input
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="raised-button-file"
+                    multiple
+                    type="file"
+                    onChange={handleChangeUpload}
+                  />
+                  <Button
+                    fullWidth
+                    component="span"
+                    variant="contained"
+                    color="primary"
+                  >
+                    + Upload new photo
+                  </Button>
+                </label>
+              </div>
+            </Box>
+            <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_settings'])}>
+              <Typography
+                component="h1"
+                variant="h5"
+                className={styles['leaderboard-title']}
+                mb={5}
               >
-                + Upload new photo
+                Персональные данные
+              </Typography>
+
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                sx={{ mt: 1 }}
+                className={styles['signup-form']}
+              >
+                <TextField
+                  onChange={handleChange}
+                  margin="normal"
+                  autoComplete="given-name"
+                  name="first_name"
+                  required
+                  fullWidth
+                  id="first_name"
+                  value={formData.first_name}
+                  label="First name"
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+                <TextField
+                  onChange={handleChange}
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="second_name"
+                  label="Last name"
+                  value={formData.second_name}
+                  name="second_name"
+                  autoComplete="family-name"
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+                <TextField
+                  onChange={handleChange}
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  value={formData.email}
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+                <TextField
+                  onChange={handleChange}
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone"
+                  value={formData.phone}
+                  name="phone"
+                  autoComplete="phone"
+                  autoFocus
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+                <TextField
+                  onChange={handleChange}
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="login"
+                  label="Login"
+                  value={formData.login}
+                  name="login"
+                  autoComplete="login"
+                  autoFocus
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+
+                <div
+                  className={classNames(
+                    {
+                      [commonStyles['invisible-message']]: statusProfilePage === 'invisible',
+                      [commonStyles['warning-message']]: statusProfilePage === 'error',
+                      [commonStyles['success-message']]: statusProfilePage === 'success'
+                    }
+                  )}
+                >
+                  {messageProfilePage}
+                </div>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  sx={{ mt: 1, mb: 2 }}
+                >
+                  Save Profile
+                </Button>
+              </Box>
+              <Box
+                component="form"
+                onSubmit={handleSubmitPasswords}
+                noValidate
+                sx={{ mt: 1 }}
+                className={styles['password-form']}
+              >
+                <TextField
+                  onChange={handleOldPassword}
+                  margin="normal"
+                  name="oldPassword"
+                  type="password"
+                  fullWidth
+                  id="oldPassword"
+                  label="Old password"
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+                <TextField
+                  onChange={handleNewPassword}
+                  margin="normal"
+                  name="newPassword"
+                  type="password"
+                  fullWidth
+                  id="newPassword"
+                  label="New password"
+                  InputProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: commonStyles.input
+                    }
+                  }}
+                />
+                <div
+                  className={classNames(
+                    {
+                      [commonStyles['invisible-message']]: statusPasswordPage === 'invisible',
+                      [commonStyles['warning-message']]: statusPasswordPage === 'error',
+                      [commonStyles['success-message']]: statusPasswordPage === 'success'
+                    }
+                  )}
+                >
+                  {messagePasswordPage}
+                </div>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  sx={{ mt: 1, mb: 2 }}
+                >
+                  Save Password
+                </Button>
+              </Box>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                color="secondary"
+                onClick={onLogoutClick}
+                sx={{ mt: 1, mb: 2 }}
+              >
+                Logout
               </Button>
-            </label>
+            </Box>
+            <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
+              <div className={styles['profile-scores_left']}>
+                <Icon icon="mdi:account-cowboy-hat" height={24} color="#A86CE4" />
+              </div>
+              <div className={styles['profile-scores_right']}>
+                <Typography
+                  className={styles['profile-scores_count']}
+                  variant="h6"
+                  sx={{ lineHeight: 1 }}
+                >
+                  123
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ lineHeight: 1 }}
+                >
+                  Ваша позиция в рейтинге
+                </Typography>
+              </div>
+            </Box>
           </div>
-        </Box>
-        <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_settings'])}>
-          <Typography
-            component="h1"
-            variant="h5"
-            className={styles['leaderboard-title']}
-            mb={5}
-          >
-            Персональные данные
-          </Typography>
-
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-            className={styles['signup-form']}
-          >
-            <TextField
-              onChange={handleChange}
-              margin="normal"
-              autoComplete="given-name"
-              name="first_name"
-              required
-              fullWidth
-              id="first_name"
-              value={formData.first_name}
-              label="First name"
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-            <TextField
-              onChange={handleChange}
-              margin="normal"
-              required
-              fullWidth
-              id="second_name"
-              label="Last name"
-              value={formData.second_name}
-              name="second_name"
-              autoComplete="family-name"
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-            <TextField
-              onChange={handleChange}
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              value={formData.email}
-              name="email"
-              autoComplete="email"
-              autoFocus
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-            <TextField
-              onChange={handleChange}
-              margin="normal"
-              required
-              fullWidth
-              id="phone"
-              label="Phone"
-              value={formData.phone}
-              name="phone"
-              autoComplete="phone"
-              autoFocus
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-            <TextField
-              onChange={handleChange}
-              margin="normal"
-              required
-              fullWidth
-              id="login"
-              label="Login"
-              value={formData.login}
-              name="login"
-              autoComplete="login"
-              autoFocus
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-
-            <div
-              className={classNames(
-                {
-                  [commonStyles['invisible-message']]: statusProfilePage === 'invisible',
-                  [commonStyles['warning-message']]: statusProfilePage === 'error',
-                  [commonStyles['success-message']]: statusProfilePage === 'success'
-                }
-              )}
-            >
-              {messageProfilePage}
-            </div>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 1, mb: 2 }}
-            >
-              Save Profile
-            </Button>
-          </Box>
-          <Box
-            component="form"
-            onSubmit={handleSubmitPasswords}
-            noValidate
-            sx={{ mt: 1 }}
-            className={styles['password-form']}
-          >
-            <TextField
-              onChange={handleOldPassword}
-              margin="normal"
-              name="oldPassword"
-              type="password"
-              fullWidth
-              id="oldPassword"
-              label="Old password"
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-            <TextField
-              onChange={handleNewPassword}
-              margin="normal"
-              name="newPassword"
-              type="password"
-              fullWidth
-              id="newPassword"
-              label="New password"
-              InputProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: commonStyles.input
-                }
-              }}
-            />
-            <div
-              className={classNames(
-                {
-                  [commonStyles['invisible-message']]: statusPasswordPage === 'invisible',
-                  [commonStyles['warning-message']]: statusPasswordPage === 'error',
-                  [commonStyles['success-message']]: statusPasswordPage === 'success'
-                }
-              )}
-            >
-              {messagePasswordPage}
-            </div>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 1, mb: 2 }}
-            >
-              Save Password
-            </Button>
-          </Box>
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            onClick={onLogoutClick}
-            sx={{ mt: 1, mb: 2 }}
-          >
-            Logout
-          </Button>
-        </Box>
-        <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
-          <div className={styles['profile-scores_left']}>
-            <Icon icon="mdi:account-cowboy-hat" height={24} color="#A86CE4" />
-          </div>
-          <div className={styles['profile-scores_right']}>
-            <Typography
-              className={styles['profile-scores_count']}
-              variant="h6"
-              sx={{ lineHeight: 1 }}
-            >
-              123
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{ lineHeight: 1 }}
-            >
-              Ваша позиция в рейтинге
-            </Typography>
-          </div>
-        </Box>
-      </div>
-      <Footer />
-    </div>
+          <Footer />
+        </div>
+      )
   );
 };
 
