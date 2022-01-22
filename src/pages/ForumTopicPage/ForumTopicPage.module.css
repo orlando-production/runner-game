@@ -10,6 +10,12 @@
 }
 
 .forum-title {
-  margin-bottom: 45px;
+  margin-bottom: 12px;
   text-shadow: 0 4px 4px rgb(var(--black-color) 0.25);
+}
+
+.forum-subtitle {
+  margin-bottom: 44px;
+  text-shadow: 0 4px 4px rgb(var(--black-color) 0.25);
+  font-size: 14px;
 }

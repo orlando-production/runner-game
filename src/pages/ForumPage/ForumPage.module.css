@@ -9,13 +9,16 @@
   width: 100%;
   height: 400px;
   overflow-y: auto;
-  padding: 16px;
+  padding: 32px 24px;
 }
 
 .topics {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  justify-content: space-between;
   align-items: center;
+  row-gap: 24px;
+  margin-bottom: 64px;
 }
 
 .forum-title {

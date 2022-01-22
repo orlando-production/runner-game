@@ -5,10 +5,12 @@ import {
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { TopicResult } from 'services/Topic';
 import Footer from '../../components/footer/Footer';
 import Topic from '../../components/topic/Topic';
-import styles from './ForumTopicPage.module.css';
 import commonStyles from '../../components/common.module.css';
+import styles from './ForumTopicPage.module.css';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 
 type RouteParams = {
@@ -16,14 +18,8 @@ type RouteParams = {
 }
 
 const ForumTopicPage = () => {
-  const resources = {
-    forum: 'Forum'
-  };
-
-  // TODO Get title and other data from api by topicId
-  const title = 'Awesome title';
-
   const { topicId }: RouteParams = useParams();
+  const currentTopic = useSelector((state) => state.topics.topics.find((topic: TopicResult) => topic.id === +topicId)) as TopicResult;
 
   return (
     <div className={commonStyles.page}>
@@ -34,29 +30,22 @@ const ForumTopicPage = () => {
           component="h1"
           variant="h5"
           className={styles['forum-title']}
-          mb={5}
         >
-          {resources.forum}
+          {currentTopic.title}
+
+        </Typography>
+        <Typography
+          component="h4"
+          variant="h5"
+          className={styles['forum-subtitle']}
+        >
+          {currentTopic.text}
 
         </Typography>
         <Box
           className={classNames(commonStyles.box, styles['forum-content'])}
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-            alignItems: 'flex-start'
-          }}
         >
-          <Typography
-            component="h1"
-            variant="h5"
-            mb={5}
-          >
-            {title}
-
-          </Typography>
-          <Topic title={title} key={topicId} id={topicId} />
+          <Topic key={topicId} id={topicId} />
         </Box>
       </div>
       <Footer />

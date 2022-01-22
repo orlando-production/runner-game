@@ -5,6 +5,9 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTopicsData } from 'selectors/topic';
+import { fetchGetTopicAll } from 'thunks/topic';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
@@ -16,22 +19,17 @@ import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher
 import Loader from '../../components/loader/Loader';
 
 const ForumPage = () => {
+  const topics = useSelector(getTopicsData);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const resources = {
     forum: 'Forum',
     button: 'ADD'
   };
-
-  const topics = [
-    { title: 'How can I win?', id: '000' },
-    { title: 'Tell me your strategy', id: '111' },
-    { title: 'Worst enemy', id: '222' },
-    { title: 'Where are you from?', id: '333' }
-  ];
 
   const onWidgetClick = (data: TopicProps) => {
     history.push(`/forum/${data.id}`);
@@ -46,8 +44,9 @@ const ForumPage = () => {
   };
 
   useEffect(() => {
+    dispatch(fetchGetTopicAll());
     setLoading(false);
-  }, []);
+  }, [dispatch]);
 
   return (
     isLoading

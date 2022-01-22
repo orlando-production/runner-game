@@ -1,3 +1,4 @@
+import { forumTopicModel, topicMessage } from 'db/models/foumModel';
 import { themeModel } from 'db/models/theme';
 import { themeUserModel } from 'db/models/themeUser';
 import { Sequelize } from 'sequelize';
@@ -25,10 +26,18 @@ Theme.hasOne(ThemeUser, {
   onUpdate: 'RESTRICT' // Default is CASCADE
 });
 
+export const ForumTopic = sequelize.define('ForumTopic', forumTopicModel, {});
+export const TopicMessage = sequelize.define('TopicMessage', topicMessage, {});
+
+ForumTopic.hasMany(TopicMessage, {
+  sourceKey: 'id'
+});
+
 export async function dbConnect() {
   try {
     await sequelize.authenticate(); // Проверка аутентификации в БД
     await sequelize.sync(); // Синхронизация базы данных
+    console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }

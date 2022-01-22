@@ -47,11 +47,12 @@ export default function ThemeSwitcherComponent() {
 
   return (
     allThemes?.length > 1 && (
-      <Switch
-        className={commonStyles.switch}
-        checked={themeId !== allThemes[0].themeId}
-        onChange={handleSwitch}
-      />
+      <div className={commonStyles.switch}>
+        <Switch
+          checked={themeId !== allThemes[0].themeId}
+          onChange={handleSwitch}
+        />
+      </div>
     )
   );
 }

@@ -6,6 +6,7 @@ const getStatusProf = (state: RootState) => state.statusProfile;
 const getStatusPass = (state: RootState) => state.statusPassword;
 const getMessagePass = (state: RootState) => state.messagePassword;
 const getMessageProf = (state: RootState) => state.messageProfile;
+const getThemes = (state: RootState) => state.theme;
 
 export const getUserData = createSelector(
   getUser,
@@ -25,6 +26,11 @@ export const getMessageProfile = createSelector(
 export const getMessagePassword = createSelector(
   getMessagePass,
   ({ messagePassword }) => messagePassword
+);
+
+export const getTheme = createSelector(
+  getThemes,
+  ({ theme }) => theme
 );
 
 export const getStatusProfile = createSelector(

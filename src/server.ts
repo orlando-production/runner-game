@@ -21,7 +21,11 @@ import { registerUser } from 'services/Registration';
 import { getAvatars } from 'services/Avatars';
 import { Stream } from 'form-data';
 import {
-  getAllThemes, getUserTheme, setUserTheme, startApp
+  getMessages,
+  getTopicsAll,
+  getTopicById,
+  getAllThemes,
+  getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
 import serverRenderMiddleware from './server-render-middleware';
 
@@ -242,6 +246,56 @@ app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   setUserTheme(req.body.id, req.body.themeId).then(() => {
     res.sendStatus(200);
   });
+});
+
+app.post(`/${ENDPOINTS.TOPIC}`, (req: Request, res: Response) => {
+  setTopic(req.body.title, req.body.text)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.TOPIC_ALL}`, (_req: Request, res: Response) => {
+  getTopicsAll()
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.TOPIC_BY_ID}`, (req: Request, res: Response) => {
+  getTopicById(req.body.id)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.MESSAGE}`, (req: Request, res: Response) => {
+  setMessage(req.body.id, req.body.author, req.body.text)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
+});
+
+app.post(`/${ENDPOINTS.MESSAGE_GET}`, (req: Request, res: Response) => {
+  getMessages(req.body.id)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch(({ response }) => {
+      res.status(response.status || 500).json(response.data);
+    });
 });
 
 app

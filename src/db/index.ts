@@ -1,6 +1,8 @@
 import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import type { Model } from 'sequelize/types';
-import { dbConnect, Theme, ThemeUser } from './init';
+import {
+  dbConnect, ForumTopic, Theme, ThemeUser, TopicMessage
+} from './init';
 
 // Добавление юзера с темой.
 export async function setUserTheme(userId: number, themeId: number) {
@@ -20,6 +22,66 @@ export async function setUserTheme(userId: number, themeId: number) {
           });
         }
       });
+    });
+  });
+}
+
+export function setTopic(title: string, text: string) {
+  return new Promise((resolve) => {
+    ForumTopic.create({ title, text }).then((data) => {
+      const topic = data.get({ plain: true });
+      resolve(topic);
+    });
+  });
+}
+export function getTopicsAll() {
+  return new Promise((resolve, reject) => {
+    ForumTopic.findAll({ raw: true })
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject(new Error('Что то пошло не так'));
+      });
+  });
+}
+export function getTopicById(id: number) {
+  return new Promise((resolve, reject) => {
+    ForumTopic.findOne({ where: { id }, raw: true })
+      .then((topic) => {
+        resolve(topic);
+      })
+      .catch(() => {
+        reject(new Error('Что то пошло не так'));
+      });
+  });
+}
+
+export function setMessage(id: number, author: string, text: string) {
+  return new Promise((resolve, reject) => {
+    if (!id && !author && !text) {
+      reject(new Error('Данные не валидны'));
+    }
+    TopicMessage.create({ ForumTopicId: id, author, text })
+      .then((data) => {
+        // eslint-disable-next-line no-shadow
+        const { id } = data.get({ plain: true });
+
+        TopicMessage.findOne({ where: { id }, raw: true }).then((message) => {
+          resolve(message);
+        });
+      });
+  });
+}
+
+export async function getMessages(id: number) {
+  return new Promise((resolve, reject) => {
+    TopicMessage.findAll({ where: { ForumTopicId: id }, raw: true }).then((messages) => {
+      if (!messages) {
+        reject(new Error('Нет сообщений!'));
+      } else {
+        resolve(messages);
+      }
     });
   });
 }
