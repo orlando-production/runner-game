@@ -306,7 +306,7 @@ app
 app.get('/*', serverRenderMiddleware);
 
 // ВРЕМЕННЫЙ КОСТЫЛЬ
-startApp();
+setTimeout(() => startApp(), 15000);
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });

@@ -31,18 +31,18 @@ services:
     networks:
       - awesome
 
-#  server-app:
-#    build:
-#      context: .
-#    ports:
-#      - 5000:${PORT}
-#    volumes:
-#      - ./shared:/var/www/shared
-#      - ./src:/var/www/src
-#    depends_on:
-#      - postgres
-#    networks:
-#      - awesome
+  server-app:
+    build:
+      context: .
+    ports:
+      - 5000:${PORT}
+    volumes:
+      - ./shared:/var/www/shared
+      - ./src:/var/www/src
+    depends_on:
+      - postgres
+    networks:
+      - awesome
 
 volumes:
     pgadmin-data:
