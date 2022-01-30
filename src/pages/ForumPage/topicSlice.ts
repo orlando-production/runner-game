@@ -23,7 +23,7 @@ export const topicSlice = createSlice({
   reducers: {},
   extraReducers: {
     [FETCH_TOPIC_FULFILLED]: (state, { payload }) => {
-      state.topics.push(payload as never);
+      state.topics.push(payload);
     },
     [FETCH_TOPIC_ALL_FULFILLED]: (state, { payload }) => {
       state.topics = payload;
