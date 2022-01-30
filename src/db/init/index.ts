@@ -37,8 +37,10 @@ export async function dbConnect() {
   try {
     await sequelize.authenticate(); // Проверка аутентификации в БД
     await sequelize.sync(); // Синхронизация базы данных
+    /* eslint no-console: 1 */
     console.log('Connection has been established successfully.');
   } catch (error) {
+    /* eslint no-console: 1 */
     console.error('Unable to connect to the database:', error);
   }
 }
