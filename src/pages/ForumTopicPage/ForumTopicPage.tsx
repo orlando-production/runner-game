@@ -5,7 +5,7 @@ import {
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, RootStateOrAny } from 'react-redux';
 import { TopicResult } from 'services/Topic';
 import Footer from '../../components/footer/Footer';
 import Topic from '../../components/topic/Topic';
@@ -19,7 +19,7 @@ type RouteParams = {
 
 const ForumTopicPage = () => {
   const { topicId }: RouteParams = useParams();
-  const currentTopic = useSelector((state) => state.topics.topics.find((topic: TopicResult) => topic.id === +topicId)) as TopicResult;
+  const currentTopic = useSelector((state: RootStateOrAny) => state.topics.topics.find((topic: TopicResult) => topic.id === +topicId)) as TopicResult;
 
   return (
     <div className={commonStyles.page}>

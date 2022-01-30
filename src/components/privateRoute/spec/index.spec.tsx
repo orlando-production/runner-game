@@ -14,6 +14,8 @@ import type { User } from '../../../pages/ProfilePage/userSlice';
 import type { Registration } from '../../../pages/SignUpPage/registrationSlice';
 import type { Authentication } from '../../../pages/LoginPage/loginSlice';
 import { PrivateRoute } from '../PrivateRoute';
+import { Topic } from '../../../pages/ForumPage/topicSlice';
+import { Message } from '../../../pages/ForumPage/messageSlice';
 
 describe('PrivateRoute', () => {
   describe('со страницы логина производим редирект на страницу игры', () => {
@@ -33,7 +35,9 @@ describe('PrivateRoute', () => {
         messageProfile: {} as User,
         leaderboard: {} as LeaderBoard,
         theme: {} as Themes,
-        router: {} as RouterState
+        router: {} as RouterState,
+        topics: {} as Topic,
+        messages: {} as Message
       };
 
       render(
@@ -64,7 +68,9 @@ describe('PrivateRoute', () => {
         messageProfile: {} as User,
         leaderboard: {} as LeaderBoard,
         router: {} as RouterState,
-        theme: {} as Themes
+        theme: {} as Themes,
+        topics: {} as Topic,
+        messages: {} as Message
       };
 
       render(
