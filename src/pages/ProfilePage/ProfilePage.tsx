@@ -124,7 +124,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!user) {
-      dispatch(fetchUserInfo(dispatch));
+      dispatch(fetchUserInfo());
     }
     setLoading(false);
   }, [dispatch]);

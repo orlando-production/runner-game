@@ -17,6 +17,8 @@ import type { User } from '../userSlice';
 import type { Registration } from '../../SignUpPage/registrationSlice';
 import type { Authentication } from '../../LoginPage/loginSlice';
 import ProfilePage from '../ProfilePage';
+import { Topic } from '../../ForumPage/topicSlice';
+import { Message } from '../../ForumPage/messageSlice';
 
 const mockHistoryPush = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -67,7 +69,9 @@ const preloadedState = {
   messageProfile: {} as User,
   leaderboard: {} as LeaderBoard,
   router: {} as RouterState,
-  theme: {} as Themes
+  theme: {} as Themes,
+  topics: {} as Topic,
+  messages: {} as Message
 };
 
 describe('ProfilePage', () => {
