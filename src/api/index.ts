@@ -1,10 +1,13 @@
 import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
+import { IS_DEV } from '../../webpack/env';
 /* eslint-disable no-console */
 const YANDEX_END_POINT = 'https://ya-praktikum.tech/api/v2/';
 const OWN_SERVER_END_POINT = 'http://localhost:5000/';
+const PROD_SERVER = 'https://runner-game.ya-praktikum.tech/api/';
+const SERVER_ENDPOINT = IS_DEV ? OWN_SERVER_END_POINT : PROD_SERVER;
 const API = (isServer: boolean = false) => axios.create({
-  baseURL: isServer ? YANDEX_END_POINT : OWN_SERVER_END_POINT,
+  baseURL: isServer ? YANDEX_END_POINT : SERVER_ENDPOINT,
   headers: {
     'Content-Type': 'application/json'
   },
