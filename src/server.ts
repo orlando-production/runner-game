@@ -27,8 +27,6 @@ import {
   getAllThemes,
   getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
-import fs from 'fs';
-import https from 'https';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -309,23 +307,7 @@ app.get('/*', serverRenderMiddleware);
 
 // ВРЕМЕННЫЙ КОСТЫЛЬ
 startApp();
-
-const IS_DEV = process.env.NODE_ENV !== 'production';
-const isSSLCertificates = fs.existsSync('ssl/key.pem') && fs.existsSync('ssl/cert.pem');
-
-if (IS_DEV && isSSLCertificates) {
-  const key = fs.readFileSync('ssl/key.pem');
-  const cert = fs.readFileSync('ssl/cert.pem');
-
-  const server = https.createServer({ key, cert }, app);
-
-  server.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-  });
-} else {
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-  });
-}
-
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
 export { app };

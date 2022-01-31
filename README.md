@@ -17,13 +17,6 @@
 ``docker-compose up``   
 Запуск сервера  
 ``npm run start``
-Сертификаты SSL
-Создание (linux terminal) -
-``openssl req -x509 -newkey rsa:2048 -keyout keytmp.pem -out cert.pem -days 365``
-Получение
-``openssl rsa -in keytmp.pem -out key.pem``
-Перенос в ssl папку
-``root of repo -> ssl``
 ## Полезные ссылки
 * Репозиторий: https://github.com/orlando-production/runner-game
 * Макет:  https://www.figma.com/files/project/41798105/Team-project?fuid=1009449935119434695
