@@ -3,3 +3,5 @@ node_modules
 .idea
 static
 postgresdata
+ssl/cert.pem
+ssl/key.pem
