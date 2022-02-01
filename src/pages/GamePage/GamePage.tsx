@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Footer from '../../components/footer';
@@ -12,6 +13,21 @@ import snowMan from '../../assets/SnowMan.png';
 import sign from '../../assets/Sign.png';
 import HelpPopup from './HelpPopup/HelpPopup';
 
+type GeolocationPositionError = {
+  code: number;
+  message: string;
+}
+
+type Coordinates = {
+  latitude: number;
+  longitude: number;
+}
+
+type GeolocationPosition = {
+  timestamp: number;
+  coords: Coordinates;
+}
+
 // eslint-disable-next-line no-shadow
 export enum GameStates {
   NotStarted = 0,
@@ -24,6 +40,8 @@ const GamePage = () => {
   const [isFooterVisible, setFooterVisible] = useState<boolean>(true);
   const [points, setPoints] = useState(0);
   const [openenedHelpPopup, setOpenedHelpPopup] = useState<boolean>(false);
+  const [isLocationOpen, openLocationPopup] = useState<boolean>(false);
+  const [coordinates, setCoordinates] = useState<Coordinates>({ latitude: 0, longitude: 0 });
 
   const handleClickOpen = () => {
     setOpenedHelpPopup(true);
@@ -33,11 +51,36 @@ const GamePage = () => {
     setOpenedHelpPopup(false);
   };
 
+  const showGeolocationSuccess = (position: GeolocationPosition) => {
+    const coords = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    };
+
+    setCoordinates(coords);
+
+    return coords;
+  };
+
+  const showGeolocationError = (err: GeolocationPositionError) => {
+    console.warn(`${err.code}): ${err.message}`);
+  };
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showGeolocationSuccess, showGeolocationError);
+    } else {
+      console.warn('Геолокация не поддерживается этим браузером.');
+    }
+  };
+
   useEffect(() => {
     if (gameState === 1) {
       setPoints(0);
     }
+    getLocation();
   }, [gameState]);
+
   const renderMainContent = (state: GameStates): React.ReactElement => {
     switch (state) {
       case 0:
@@ -61,6 +104,10 @@ const GamePage = () => {
     }
   };
 
+  const handleSnowManClick = () => {
+    isLocationOpen ? openLocationPopup(false) : openLocationPopup(true);
+  };
+
   return (
     <div className={classNames(commonStyles.page, classes['game-page'])}>
       <div
@@ -80,11 +127,19 @@ const GamePage = () => {
               alt="snowDrift"
               className={classes['game-page__snow-drift-image']}
             />
-            <img
-              src={snowMan}
-              alt="snowMan"
-              className={classes['game-page__snow-man-image']}
-            />
+            <button onClick={handleSnowManClick} type="button">
+              <img
+                src={snowMan}
+                alt="snowMan"
+                className={classes['game-page__snow-man-image']}
+              />
+            </button>
+            <div className={isLocationOpen
+              ? classes['game-page__location-info-active']
+              : classes['game-page__location-info']}
+            >
+              {`Твоя локация ровно ${coordinates.latitude} широты и ${coordinates.longitude} долготы!`}
+            </div>
             <button onClick={handleClickOpen} type="button">
               <img
                 alt="sign"

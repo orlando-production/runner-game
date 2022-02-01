@@ -22,6 +22,7 @@
   left: 20px;
   bottom: 80px;
   height: 200px;
+  cursor: pointer;
 }
 
 .game-page__background {
@@ -34,4 +35,23 @@
   bottom: 80px;
   right: 20px;
   cursor: pointer;
+}
+
+.game-page__location-info-active {
+  display: block;
+  position: absolute;
+  left: 200px;
+  bottom: 150px;
+  background: var(--white-color);
+  padding: 10px;
+  width: 150px;
+  border-radius: 8px;
+  box-shadow:
+  0 1px 3px 0 var(--box-shadow-color),
+  0 1px 1px 0 var(--box-shadow-color),
+  0 2px 1px 0 var(--box-shadow-color);
+}
+
+.game-page__location-info {
+  display: none;
 }
