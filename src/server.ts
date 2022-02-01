@@ -176,6 +176,7 @@ app.get(`/${ENDPOINTS.USER}`, async (_req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
+  console.log(req.cookies, req.headers.cookie);
   const access = checkAccess();
   if (!access) {
     res.sendStatus(401);
