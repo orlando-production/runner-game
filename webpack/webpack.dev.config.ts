@@ -3,6 +3,8 @@ import 'webpack-dev-server';
 import { IS_DEV, STATIC_DIR } from './env';
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const config: Configuration = {
   mode: IS_DEV ? 'development' : 'production',
@@ -48,7 +50,15 @@ const config: Configuration = {
     modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
-  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin()],
+  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin(),
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: path.resolve(__dirname, 'src/src-sw.js'),
+        to: path.resolve(__dirname, 'dist/src-sw.js')
+      }
+    ]
+  })],
   devtool: 'inline-source-map',
   performance: {
     hints: false
