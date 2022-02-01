@@ -50,10 +50,10 @@ const config: Configuration = {
     extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin(),
-    new WorkboxPlugin.InjectManifest({
-      swSrc: './src/src-sw.js',
-      swDest: 'src-sw.js'
-    })],
+  new WorkboxPlugin.InjectManifest({
+    swSrc: './src/src-sw.js',
+    swDest: 'src-sw.js'
+  })],
   devtool: 'inline-source-map',
   performance: {
     hints: false
