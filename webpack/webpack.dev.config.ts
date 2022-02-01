@@ -54,8 +54,8 @@ const config: Configuration = {
   new CopyWebpackPlugin({
     patterns: [
       {
-        from: path.resolve(__dirname, 'src/src-sw.js'),
-        to: path.resolve(__dirname, 'dist/src-sw.js')
+        from: path.resolve(__dirname, '../src/src-sw.js'),
+        to: path.resolve(__dirname, '../dist/src-sw.js')
       }
     ]
   })],
