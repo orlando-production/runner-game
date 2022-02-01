@@ -66,7 +66,7 @@ const config: Configuration = {
     new Dotenv(),
     new WorkboxPlugin.InjectManifest({
       swSrc: './src/src-sw.js',
-      swDest: 'sw.js'
+      swDest: 'src-sw.js'
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html'

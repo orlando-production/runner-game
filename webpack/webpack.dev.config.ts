@@ -50,15 +50,7 @@ const config: Configuration = {
     modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
-  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin(),
-  new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: path.resolve(__dirname, '../src/src-sw.js'),
-        to: path.resolve(__dirname, '../dist/src-sw.js')
-      }
-    ]
-  })],
+  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin()],
   devtool: 'inline-source-map',
   performance: {
     hints: false
