@@ -11,7 +11,7 @@ import { fetchGetTopicAll } from 'thunks/topic';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
-import type { TopicProps } from '../../components/Topic/Topic';
+import type { TopicProps } from '../../components/topic/Topic';
 import Widget from '../../components/widget';
 import styles from './ForumPage.module.css';
 import commonStyles from '../../components/common.module.css';
