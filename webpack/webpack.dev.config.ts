@@ -3,8 +3,6 @@ import 'webpack-dev-server';
 import { IS_DEV, STATIC_DIR } from './env';
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const config: Configuration = {
   mode: IS_DEV ? 'development' : 'production',
