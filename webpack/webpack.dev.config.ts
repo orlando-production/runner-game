@@ -3,6 +3,7 @@ import 'webpack-dev-server';
 import { IS_DEV, STATIC_DIR } from './env';
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const config: Configuration = {
   mode: IS_DEV ? 'development' : 'production',
@@ -48,7 +49,11 @@ const config: Configuration = {
     modules: ['src', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js']
   },
-  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin()],
+  plugins: [new MiniCssExtractPlugin(), new HotModuleReplacementPlugin(),
+    new WorkboxPlugin.InjectManifest({
+      swSrc: './src/src-sw.js',
+      swDest: 'src-sw.js'
+    })],
   devtool: 'inline-source-map',
   performance: {
     hints: false

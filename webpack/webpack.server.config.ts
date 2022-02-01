@@ -4,7 +4,6 @@ import 'webpack-dev-server';
 import nodeExternals from 'webpack-node-externals';
 import { DIST_DIR, IS_DEV } from './env';
 
-const WorkboxPlugin = require('workbox-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 const config: Configuration = {
@@ -64,10 +63,6 @@ const config: Configuration = {
   },
   plugins: [
     new Dotenv(),
-    new WorkboxPlugin.InjectManifest({
-      swSrc: './src/src-sw.js',
-      swDest: 'src-sw.js'
-    }),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
