@@ -26,7 +26,6 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState(true);
-
   const history = useHistory();
   const dispatch = useDispatch();
   const error = useSelector(getAuthError);
