@@ -7,22 +7,24 @@ export default function registerServiceWorker() {
 
   // Check if the serviceWorker Object exists in the navigator object ( means if browser supports SW )
   if ('serviceWorker' in navigator) {
-    const wb = new Workbox('./src-sw.js');
+    window.addEventListener('load', function () {
+      const wb = new Workbox('./src-sw.js');
 
-    wb.addEventListener('fetch', (event) => {
-      event.respondWith(
-        // ищем запрашиваемый ресурс в хранилище кэша
-        caches.match(event.request).then((cachedResponse) => {
-          // выдаём кэш, если он есть
-          if (cachedResponse) {
-            return cachedResponse;
-          }
+      wb.addEventListener('fetch', (event) => {
+        event.respondWith(
+          // ищем запрашиваемый ресурс в хранилище кэша
+          caches.match(event.request).then((cachedResponse) => {
+            // выдаём кэш, если он есть
+            if (cachedResponse) {
+              return cachedResponse;
+            }
 
-          // иначе запрашиваем из сети как обычно
-          return fetch(event.request);
-        })
-      );
+            // иначе запрашиваем из сети как обычно
+            return fetch(event.request);
+          })
+        );
+      });
+      wb.register();
     });
-    wb.register();
   }
 }
