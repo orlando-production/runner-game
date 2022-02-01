@@ -27,7 +27,6 @@ import {
   getAllThemes,
   getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
-import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -275,7 +274,7 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
       res.send({ themeId });
     });
   } else {
-    getAllThemes().then((list: ThemeType[]) => {
+    getAllThemes().then((list) => {
       res.send(list);
     });
   }

@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable no-console */
+
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Footer from '../../components/footer';

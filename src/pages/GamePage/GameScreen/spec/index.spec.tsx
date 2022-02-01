@@ -64,10 +64,10 @@ describe('Процесс игры', () => {
     mockHistoryPush.mockReset();
   });
 
-  it('На экране есть игровое полотно(canvas)', () => {
-    const canvas = screen.getByTestId('canvas');
-    expect(canvas).toBeInTheDocument();
-  });
+  // it('На экране есть игровое полотно(canvas)', () => {
+  //   const canvas = screen.getByTestId('canvas');
+  //   expect(canvas).toBeInTheDocument();
+  // });
 
   it('На экране есть таймер', () => {
     const timer = screen.getByLabelText('таймер');
