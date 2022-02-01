@@ -129,10 +129,7 @@ app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
     }
   };
   logoutUser(config, true)
-    .then(() => {
-      cookies = null;
-      res.sendStatus(200);
-    })
+    .then(() => { cookies = ''; return res.sendStatus(200); })
     .catch(() => {
       res.sendStatus(500);
     });
