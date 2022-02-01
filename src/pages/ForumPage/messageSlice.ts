@@ -22,7 +22,7 @@ export const messageSlice = createSlice({
   reducers: {},
   extraReducers: {
     [FETCH_MESSAGE_FULFILLED]: (state, { payload }) => {
-      state.messages.push(payload);
+      state.messages.push(payload as never);
     },
     [FETCH_MESSAGE_LIST_FULFILLED]: (state, { payload }) => {
       state.messages = payload;

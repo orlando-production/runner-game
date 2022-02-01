@@ -16,6 +16,8 @@ import type { User } from '../../ProfilePage/userSlice';
 import type { Registration } from '../../SignUpPage/registrationSlice';
 import type { Authentication } from '../loginSlice';
 import LoginPage from '../LoginPage';
+import { Topic } from '../../ForumPage/topicSlice';
+import { Message } from '../../ForumPage/messageSlice';
 
 const mockHistoryPush = jest.fn();
 
@@ -47,7 +49,9 @@ const preloadedState = {
   messageProfile: {} as User,
   leaderboard: {} as LeaderBoard,
   router: {} as RouterState,
-  theme: {} as Themes
+  theme: {} as Themes,
+  topics: {} as Topic,
+  messages: {} as Message
 };
 
 describe('LoginPage', () => {

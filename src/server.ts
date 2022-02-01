@@ -27,6 +27,7 @@ import {
   getAllThemes,
   getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
+import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -35,7 +36,7 @@ const FormData = require('form-data');
 const app = express();
 const api = express.Router();
 
-let cookies = '';
+let cookies: string = '';
 
 const port = process.env.PORT || 5000;
 
@@ -56,6 +57,8 @@ const setCookies = (newCookies: string, res: Response) => {
     });
   });
 };
+
+const checkAccess = () => !!cookies;
 
 app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
   authenticateUser(req.body, true)
@@ -84,12 +87,22 @@ app.post(`/${ENDPOINTS.SIGNUP}`, (req: Request, res: Response) => {
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   addLeaderboardResult(req.body, true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -105,12 +118,16 @@ app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
 });
 
 app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
     }
   };
-
   logoutUser(config, true)
     .then(() => { cookies = ''; return res.sendStatus(200); })
     .catch(() => {
@@ -159,6 +176,11 @@ app.get(`/${ENDPOINTS.USER}`, async (_req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -174,6 +196,11 @@ app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -189,6 +216,10 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line consistent-return
 app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    return res.sendStatus(401);
+  }
   if (!(req as any).busboy) {
     return res.sendStatus(500);
   }
@@ -218,6 +249,10 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
 });
 
 app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    return res.sendStatus(401);
+  }
   const config = {
     headers: {
       Cookie: cookies
@@ -231,11 +266,16 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   if ((req as Request).query.id) {
-    getUserTheme((req as any).query.id).then((themeId) => {
+    const access = checkAccess();
+    if (!access) {
+      res.sendStatus(401);
+      return;
+    }
+    getUserTheme((req as any).query.id).then((themeId: number) => {
       res.send({ themeId });
     });
   } else {
-    getAllThemes().then((list) => {
+    getAllThemes().then((list: ThemeType[]) => {
       res.send(list);
     });
   }
@@ -243,6 +283,11 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   setUserTheme(req.body.id, req.body.themeId).then(() => {
     res.sendStatus(200);
   });
