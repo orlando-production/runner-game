@@ -32,7 +32,7 @@ const FormData = require('form-data');
 const app = express();
 const api = express.Router();
 
-let cookies: string = null;
+let cookies: string = '';
 
 const port = process.env.PORT || 5000;
 
