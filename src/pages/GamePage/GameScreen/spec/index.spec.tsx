@@ -3,6 +3,7 @@ import { render, screen } from 'utils/testing-library';
 import userEvent from '@testing-library/user-event';
 import { RouterState } from 'connected-react-router';
 import { StaticRouter, StaticRouterContext } from 'react-router';
+// @ts-ignore
 import { createMemoryHistory } from 'history';
 import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
 import { Themes } from 'components/themeSwitcher/themesSlice';
