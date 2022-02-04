@@ -103,11 +103,11 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Stop the docker
-        run: ssh staging 'cd runner-game && pm2 stop server'
+        run: ssh production 'cd runner-game && pm2 stop server'
 
       - name: Pull new changes
-        run: ssh staging 'cd runner-game && git checkout main && git pull origin'
+        run: ssh production 'cd runner-game && git checkout main && git pull origin'
 
       - name: Start the docker-container
         if: ${{ always() }}
-        run: ssh staging 'cd runner-game && npm run build && npm run start:prod-server'
+        run: ssh production 'cd runner-game && npm run build && npm run start:prod-server'
