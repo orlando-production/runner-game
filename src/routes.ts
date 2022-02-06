@@ -136,6 +136,7 @@ const routes: RoutesType = [
     fetchData({ dispatch }: RouterFetchDataArgs) {
       return [
         dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchLeaderboardList()),
         dispatch(fetchAllThemes())
       ];
     }

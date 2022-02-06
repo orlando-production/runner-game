@@ -10,6 +10,8 @@ import { Icon } from '@iconify/react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
+import { LeaderboardGetResult } from 'services/Leaderboard';
+import { getList } from 'selectors/leaderboard';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
@@ -35,6 +37,8 @@ const ProfilePage = () => {
   const messagePassword = useSelector(getMessagePassword);
   const messageProfile = useSelector(getMessageProfile);
   const statusPassword = useSelector(getStatusPassword);
+  const leaderboardList: LeaderboardGetResult[] = useSelector(getList);
+  const rating = leaderboardList?.find(({ data }) => data?.id === (user as UserResult)?.id) || '123';
 
   const [avatar, setAvatar] = useState<string>();
 
@@ -407,7 +411,7 @@ const ProfilePage = () => {
                   variant="h6"
                   sx={{ lineHeight: 1 }}
                 >
-                  123
+                  {rating}
                 </Typography>
                 <Typography
                   variant="caption"
