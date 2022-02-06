@@ -92,8 +92,8 @@ jobs:
           chmod 600 ~/.ssh/staging.key
           cat >>~/.ssh/config <<END
           Host staging
-            HostName 51.250.31.82
-            User orlando
+            HostName orlando@51.250.31.82
+            User ivanofsa
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
           END
