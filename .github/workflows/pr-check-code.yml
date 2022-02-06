@@ -101,4 +101,4 @@ jobs:
           SSH_KEY: ${{ secrets.CD_KEY }}
 
       - name: Stop the docker
-        run: ssh production 'cd runner-game'
+        run: ssh staging 'cd runner-game'
