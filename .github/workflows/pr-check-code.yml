@@ -92,13 +92,13 @@ jobs:
           chmod 600 ~/.ssh/staging.key
           cat >>~/.ssh/config <<END
           Host staging
-            HostName orlando@51.250.31.82
-            User ivanofsa
+            HostName 51.250.31.82
+            User orlando
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
           END
         env:
-          SSH_KEY: ${{ secrets.CD_KEY }}
+          SSH_KEY: ${{ secrets.SSH_SECRET_KEY }}
 
       - name: Stop the docker
         run: ssh staging 'cd runner-game'
