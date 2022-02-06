@@ -93,7 +93,7 @@ jobs:
           cat >>~/.ssh/config <<END
           Host staging
             HostName 51.250.31.82
-            User orlando
+            User ivanofsa
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
           END
