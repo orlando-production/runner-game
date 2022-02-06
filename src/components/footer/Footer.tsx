@@ -8,7 +8,7 @@ type FooterProps = {
 
 const Footer = ({ shouldRender = true }: FooterProps) => {
   const resources = {
-    rights: '© 2021 - All Rights Lecensed',
+    rights: '© 2022 - All Rights Lecensed, Orlando',
     commercial: 'For commercial inquiries'
   };
 

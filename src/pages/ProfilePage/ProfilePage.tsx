@@ -37,8 +37,6 @@ const ProfilePage = () => {
   const messagePassword = useSelector(getMessagePassword);
   const messageProfile = useSelector(getMessageProfile);
   const statusPassword = useSelector(getStatusPassword);
-  const leaderboardList: LeaderboardGetResult[] = useSelector(getList);
-  const rating = leaderboardList?.find(({ data }) => data?.id === (user as UserResult)?.id) || '123';
 
   const [avatar, setAvatar] = useState<string>();
 
@@ -400,26 +398,6 @@ const ProfilePage = () => {
               >
                 Logout
               </Button>
-            </Box>
-            <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
-              <div className={styles['profile-scores_left']}>
-                <Icon icon="mdi:account-cowboy-hat" height={24} color="#A86CE4" />
-              </div>
-              <div className={styles['profile-scores_right']}>
-                <Typography
-                  className={styles['profile-scores_count']}
-                  variant="h6"
-                  sx={{ lineHeight: 1 }}
-                >
-                  {rating}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{ lineHeight: 1 }}
-                >
-                  Ваша позиция в рейтинге
-                </Typography>
-              </div>
             </Box>
           </div>
           <Footer />
