@@ -103,10 +103,10 @@ jobs:
       - name: Connect to the server
         run: ssh staging 'cd runner-game'
       - name: Setup depencies
-        run: npm install
+        run: sudo npm install
       - name: Build
-        run: npm run build
+        run: sudo npm run build
       - name: Stop server
-        run: pm2 stop server
+        run: sudo pm2 stop server
       - name: Start server
-        run: npm run start:prod-server
+        run: sudo npm run start:prod-server
