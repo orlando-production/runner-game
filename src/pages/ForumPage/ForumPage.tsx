@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTopicsData } from 'selectors/topic';
 import { fetchGetTopicAll } from 'thunks/topic';
+import Toolbar from '../../components/toolbar';
 import { PageMeta } from '../../components/PageMeta/PageMeta';
 import Footer from '../../components/footer/Footer';
 import NewTopic from '../../components/newTopic';
@@ -55,6 +56,7 @@ const ForumPage = () => {
         <div className={commonStyles.page}>
           <ThemeSwitcherComponent />
           <PageMeta title="Forum page" description="New topics everyday" />
+          <Toolbar />
           <div className={classNames(commonStyles.content, styles['forum-container'])}>
             <Typography
               component="h1"

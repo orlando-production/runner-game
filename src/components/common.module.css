@@ -43,7 +43,7 @@ body {
 .switch {
   position: absolute;
   right: 5vw;
-  top: 2.5vw;
+  top: 4vw;
   z-index: 5;
 }
 

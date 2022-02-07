@@ -24,6 +24,7 @@ import {
 import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 import Loader from '../../components/loader/Loader';
+import Toolbar from '../../components/toolbar';
 
 type Status = 'invisible' | 'error' | 'success';
 
@@ -142,6 +143,7 @@ const ProfilePage = () => {
       ? <Loader />
       : (
         <div className={commonStyles.page}>
+          <Toolbar />
           <div className={styles['profile-container']}>
             <ThemeSwitcherComponent />
             <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_avatar'])}>
