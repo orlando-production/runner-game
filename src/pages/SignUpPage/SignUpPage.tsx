@@ -70,8 +70,8 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
     setPassword(event.target.value);
   };
 
-  const goToGame = () => {
-    history.push('/game');
+  const goToMain = () => {
+    history.push('/');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -94,7 +94,7 @@ const SignUpPage = ({ title = 'Sign Up' }: SignUpProps) => {
         phone,
         login,
         password,
-        navigate: goToGame
+        navigate: goToMain
       }));
     } else {
       setWarning(true);
