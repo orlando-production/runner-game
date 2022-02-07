@@ -87,18 +87,14 @@ jobs:
 
       - name: Configure SSH
         run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/staging.key
-          chmod 600 ~/.ssh/staging.key
-          cat >>~/.ssh/config <<END
-          Host staging
-            HostName 51.250.31.82
-            User orlando
-            IdentityFile ~/.ssh/staging.key
-            StrictHostKeyChecking no
-          END
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_orlando
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/id_orlando
+          echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
         env:
-          SSH_KEY: ${{ secrets.SSH_SECRET_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Stop the docker
         run: ssh staging 'cd runner-game'
