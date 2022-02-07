@@ -48,7 +48,7 @@ describe('PrivateRoute', () => {
         { preloadedState, history }
       );
 
-      expect(history.location.pathname).toBe('/game');
+      expect(history.location.pathname).toBe('/');
     });
   });
 
