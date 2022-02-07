@@ -102,6 +102,8 @@ jobs:
 
       - name: Connect to the server
         run: ssh staging 'cd runner-game'
+      - name: Setup depencies
+        run: npm install
       - name: Build
         run: npm run build
       - name: Stop server
