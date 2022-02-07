@@ -54,8 +54,8 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
     });
   };
 
-  const goToGame = () => {
-    history.push('/game');
+  const goToMain = () => {
+    history.push('/');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,7 +64,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
       fetchSignIn({
         login,
         password,
-        navigate: goToGame
+        navigate: goToMain
       })
     );
   };

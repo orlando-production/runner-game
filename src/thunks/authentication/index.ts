@@ -22,16 +22,17 @@ export type SignInByCodeParams = CodeAuthParams & {
   navigate: void;
 };
 
+export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, () => getUserInfo());
+
 export const fetchSignIn = createAsyncThunk(
   FETCH_SIGNIN,
-  ({ login, password, navigate }: FetchSignInParams, { rejectWithValue }) => authenticateUser({ login, password })
+  ({ login, password, navigate }: FetchSignInParams, { rejectWithValue, dispatch }) => authenticateUser({ login, password })
     .then(() => {
+      dispatch(fetchUserInfo());
       navigate();
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))
 );
-
-export const fetchUserInfo = createAsyncThunk(FETCH_USER_INFO, () => getUserInfo());
 
 type AuthByCodeThunk = (code: string, dispatch?: any) => any;
 

@@ -99,7 +99,7 @@ describe('SignUpPage', () => {
     });
   });
 
-  describe('редирект на страницу с игрой', () => {
+  describe('редирект на главную страницу', () => {
     it('если данные введены верно', async () => {
       mockRegisterUser.mockReturnValue(Promise.resolve());
 
@@ -114,7 +114,7 @@ describe('SignUpPage', () => {
         phone: '89007006050'
       }));
 
-      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/game'));
+      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/'));
     });
   });
 

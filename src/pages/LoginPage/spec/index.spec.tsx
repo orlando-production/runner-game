@@ -83,7 +83,7 @@ describe('LoginPage', () => {
     });
   });
 
-  describe('редиректит на страницу с игрой', () => {
+  describe('редиректит на главную страницу', () => {
     it('если логин и пароль введены верно', async () => {
       mockAuthenticateUser.mockReturnValue(Promise.resolve());
 
@@ -94,7 +94,7 @@ describe('LoginPage', () => {
         password: '123456'
       }));
 
-      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/game'));
+      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/'));
     });
   });
 

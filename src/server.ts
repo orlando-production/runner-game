@@ -3,6 +3,7 @@
 import path from 'path';
 import express, { Request, Response } from 'express';
 import compression from 'compression';
+import { Model } from 'sequelize-typescript';
 import 'babel-polyfill';
 import {
   authByCode,
@@ -27,6 +28,7 @@ import {
   getAllThemes,
   getUserTheme, setMessage, setTopic, setUserTheme, startApp
 } from 'db';
+import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import serverRenderMiddleware from './server-render-middleware';
 
 const busboy = require('connect-busboy');
@@ -274,7 +276,7 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
       res.send({ themeId });
     });
   } else {
-    getAllThemes().then((list) => {
+    getAllThemes().then((list: Model<ThemeType, any>[]) => {
       res.send(list);
     });
   }
