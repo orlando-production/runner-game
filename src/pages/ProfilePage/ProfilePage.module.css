@@ -45,13 +45,6 @@
   text-align: center;
 }
 
-.profile-box_scores {
-  display: flex;
-  align-items: center;
-  grid-area: scores;
-  max-height: 90px;
-}
-
 .profile-avatar {
   display: flex;
   justify-content: center;
@@ -60,22 +53,4 @@
 
 .profile-upload {
   width: 100%;
-}
-
-.profile-scores_right {
-  margin-left: 16px;
-}
-
-.profile-scores_count {
-  line-height: 1;
-}
-
-.profile-scores_left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background: rgb(var(--icon-wrap-color));
-  border-radius: 12px;
 }

@@ -49,6 +49,8 @@ const LeaderboardPage = () => {
   useEffect(() => {
     if (data?.length === 0) {
       fetchRating();
+    } else {
+      cursor.current = data.length;
     }
     setLoading(false);
   }, []);
