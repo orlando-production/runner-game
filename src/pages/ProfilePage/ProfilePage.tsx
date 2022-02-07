@@ -6,12 +6,9 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from '@iconify/react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
-import { LeaderboardGetResult } from 'services/Leaderboard';
-import { getList } from 'selectors/leaderboard';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
@@ -37,8 +34,6 @@ const ProfilePage = () => {
   const messagePassword = useSelector(getMessagePassword);
   const messageProfile = useSelector(getMessageProfile);
   const statusPassword = useSelector(getStatusPassword);
-  const leaderboardList: LeaderboardGetResult[] = useSelector(getList);
-  const rating = leaderboardList?.find(({ data }) => data?.id === (user as UserResult)?.id) || '123';
 
   const [avatar, setAvatar] = useState<string>();
 
@@ -400,26 +395,6 @@ const ProfilePage = () => {
               >
                 Logout
               </Button>
-            </Box>
-            <Box className={classNames(commonStyles.box, styles['profile-box'], styles['profile-box_scores'])}>
-              <div className={styles['profile-scores_left']}>
-                <Icon icon="mdi:account-cowboy-hat" height={24} color="#A86CE4" />
-              </div>
-              <div className={styles['profile-scores_right']}>
-                <Typography
-                  className={styles['profile-scores_count']}
-                  variant="h6"
-                  sx={{ lineHeight: 1 }}
-                >
-                  {rating}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{ lineHeight: 1 }}
-                >
-                  Ваша позиция в рейтинге
-                </Typography>
-              </div>
             </Box>
           </div>
           <Footer />

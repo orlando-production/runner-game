@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchUserInfo } from 'thunks/authentication';
 import { FETCH_SIGNUP } from '../../actions/registration';
 
 import { ErrorType } from '../../api';
 import { registerUser, SignUpParams } from '../../services/Registration';
 
-export type FetchSignUpParams = SignUpParams & {navigate: () => void};
+export type FetchSignUpParams = SignUpParams & { navigate: () => void };
 
 export const fetchSignUp = createAsyncThunk(
   FETCH_SIGNUP,
@@ -16,7 +17,7 @@ export const fetchSignUp = createAsyncThunk(
     login,
     password,
     navigate
-  }: FetchSignUpParams, { rejectWithValue }) => registerUser({
+  }: FetchSignUpParams, { rejectWithValue, dispatch }) => registerUser({
     first_name,
     second_name,
     email,
@@ -25,6 +26,7 @@ export const fetchSignUp = createAsyncThunk(
     password
   })
     .then(() => {
+      dispatch(fetchUserInfo());
       navigate();
     })
     .catch((err: ErrorType) => rejectWithValue(err?.response?.status))

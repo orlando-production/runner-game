@@ -3,6 +3,7 @@
 import path from 'path';
 import express, { Request, Response } from 'express';
 import compression from 'compression';
+import { Model } from 'sequelize-typescript';
 import 'babel-polyfill';
 import {
   authByCode,
@@ -274,7 +275,8 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
       res.send({ themeId });
     });
   } else {
-    getAllThemes().then((list) => {
+    getAllThemes().then((list: Model<ThemeType, any>[]) => {
+
       res.send(list);
     });
   }

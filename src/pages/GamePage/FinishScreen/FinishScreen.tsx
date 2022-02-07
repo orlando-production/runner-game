@@ -21,7 +21,7 @@ const FinishScreen = ({ setGameState, points }: FinishScreenProps) => {
   return (
     <div className={classes['finish-screen']}>
       <div className={classes['finish-screen__results']}>
-        {`Молодец, ${(user as UserResult).display_name}! Ты помог дедушке собрать ${points}
+        {`Молодец, ${(user as UserResult).first_name}! Ты помог дедушке собрать ${points}
         подарков!`}
       </div>
       <Button

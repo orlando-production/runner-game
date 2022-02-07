@@ -118,7 +118,7 @@ export async function createThemeIfNotExist(
   });
 }
 
-export async function getAllThemes(): Promise<Model<any, any>[]> {
+export async function getAllThemes(): Promise<Model<ThemeType, any>[]> {
   return Theme.findAll({ raw: true });
 }
 export async function startApp() {
