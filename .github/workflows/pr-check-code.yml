@@ -106,6 +106,8 @@ jobs:
         run: sudo npm install
       - name: Build
         run: sudo npm run build
+      - name: Install pm2
+        run: sudo npm install pm2 -g
       - name: Stop server
         run: sudo pm2 stop server
       - name: Start server
