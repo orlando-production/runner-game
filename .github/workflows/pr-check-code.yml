@@ -98,7 +98,7 @@ jobs:
             StrictHostKeyChecking no
           END
         env:
-          SSH_KEY: ${{ secrets.SSH_SECRET_KEY }}
+          SSH_KEY: ${{ secrets.DANY_SSH }}
 
       - name: Stop the docker
         run: ssh staging 'cd runner-game'
