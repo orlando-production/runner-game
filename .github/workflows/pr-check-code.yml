@@ -100,5 +100,11 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.DANY_SSH }}
 
-      - name: Stop the docker
+      - name: Connect to the server
         run: ssh staging 'cd runner-game'
+      - name: Build
+        run: npm run build
+      - name: Stop server
+        run: pm2 stop server
+      - name: Start server
+        run: npm run start:prod-server
