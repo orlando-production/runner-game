@@ -114,7 +114,7 @@ describe('SignUpPage', () => {
         phone: '89007006050'
       }));
 
-      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/game'));
+      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/'));
     });
   });
 

@@ -94,7 +94,7 @@ describe('LoginPage', () => {
         password: '123456'
       }));
 
-      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/game'));
+      return waitFor(() => expect(mockHistoryPush).toHaveBeenCalledWith('/'));
     });
   });
 

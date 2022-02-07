@@ -5,6 +5,7 @@ import express, { Request, Response } from 'express';
 import compression from 'compression';
 import { Model } from 'sequelize-typescript';
 import 'babel-polyfill';
+import { ThemeType } from 'components/themeSwitcher/themesSlice';
 import {
   authByCode,
   authenticateUser,
@@ -276,7 +277,6 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
     });
   } else {
     getAllThemes().then((list: Model<ThemeType, any>[]) => {
-
       res.send(list);
     });
   }
