@@ -101,9 +101,7 @@ jobs:
           SSH_KEY: ${{ secrets.DANY_SSH }}
 
       - name: Connect to the server
-        run: ssh staging
-      - name: Change directory
-        run: cd runner-game
+        run: ssh staging 'cd runner-game'
       - name: Setup depencies
         run: sudo npm install
       - name: Build
