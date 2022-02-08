@@ -1,0 +1,25 @@
+.toolbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 50px;
+  width: 100%;
+  background-color: var(--white-color);
+  box-shadow: 0 4px 4px 0 var(--box-shadow-color);
+}
+
+.icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: var(--white-color);
+  transition: background-color 0.2s;
+}
+
+.icon-wrap:hover {
+  background-color: var(--login-container-bg);
+  cursor: pointer;
+}

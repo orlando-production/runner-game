@@ -14,6 +14,7 @@ import commonStyles from '../../components/common.module.css';
 import snowMan from '../../assets/SnowMan.png';
 import sign from '../../assets/Sign.png';
 import HelpPopup from './HelpPopup/HelpPopup';
+import Toolbar from '../../components/toolbar';
 
 type GeolocationPositionError = {
   code: number;
@@ -112,6 +113,7 @@ const GamePage = () => {
 
   return (
     <div className={classNames(commonStyles.page, classes['game-page'])}>
+      <Toolbar />
       <div
         className={classNames(
           commonStyles.container,

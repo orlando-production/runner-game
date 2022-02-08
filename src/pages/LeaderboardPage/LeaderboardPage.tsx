@@ -15,6 +15,7 @@ import styles from './LeaderboardPage.module.css';
 import { setLeaderboardList } from './leaderboardSlice';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 import Loader from '../../components/loader/Loader';
+import Toolbar from '../../components/toolbar';
 
 export const LOAD_LIMIT = 20;
 
@@ -60,6 +61,7 @@ const LeaderboardPage = () => {
       ? <Loader />
       : (
         <div className={commonStyles.page}>
+          <Toolbar />
           <div
             className={classNames(
               commonStyles.content,

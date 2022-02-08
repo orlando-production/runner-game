@@ -19,7 +19,7 @@ import { Topic } from '../../../pages/ForumPage/topicSlice';
 import { Message } from '../../../pages/ForumPage/messageSlice';
 
 describe('PrivateRoute', () => {
-  describe('со страницы логина производим редирект на страницу игры', () => {
+  describe('со страницы логина производим редирект на главную страницу', () => {
     it('если пользователь авторизован', async () => {
       const history = createMemoryHistory({ initialEntries: ['/sign-in'] });
 

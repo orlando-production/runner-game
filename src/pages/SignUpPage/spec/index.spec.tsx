@@ -99,7 +99,7 @@ describe('SignUpPage', () => {
     });
   });
 
-  describe('редирект на страницу с игрой', () => {
+  describe('редирект на главную страницу', () => {
     it('если данные введены верно', async () => {
       mockRegisterUser.mockReturnValue(Promise.resolve());
 
