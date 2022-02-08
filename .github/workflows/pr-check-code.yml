@@ -101,10 +101,15 @@ jobs:
           SSH_KEY: ${{ secrets.DANY_SSH }}
 
       - name: Connect to the server
-        run: ssh staging 'cd runner-game'
+        run: ssh staging
+      - name: Change directory
+        run: cd runner-game
       - name: Setup depencies
         run: sudo npm install
       - name: Build
         run: sudo npm run build
       - name: Reload server
-        run: pm2 restart ecosystem.config.js
+        with:
+          script: /
+            export PATH=$PATH:/usr/local/bin
+            pm2 restart ecosystem.config.js
