@@ -59,8 +59,6 @@ const setCookies = (newCookies: string, res: Response) => {
   });
 };
 
-const checkAccess = () => !!cookies;
-
 app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
   authenticateUser(req.body, true)
     .then(({ headers }) => {
@@ -88,25 +86,15 @@ app.post(`/${ENDPOINTS.SIGNUP}`, (req: Request, res: Response) => {
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD}`, (req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    res.sendStatus(401);
-    return;
-  }
   addLeaderboardResult(req.body, true)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    res.sendStatus(401);
-    return;
-  }
   const config = {
     headers: {
-      Cookie: cookies
+      Cookie: decodeURI(req.headers.cookie)
     }
   };
   getLeaderboardResults(req.body, config, true)
@@ -118,19 +106,14 @@ app.post(`/${ENDPOINTS.LEADERBOARD_RESULTS}`, (req: Request, res: Response) => {
     });
 });
 
-app.post(`/${ENDPOINTS.LOGOUT}`, (_req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    res.sendStatus(401);
-    return;
-  }
+app.post(`/${ENDPOINTS.LOGOUT}`, (req: Request, res: Response) => {
   const config = {
     headers: {
-      Cookie: cookies
+      Cookie: decodeURI(req.headers.cookie)
     }
   };
   logoutUser(config, true)
-    .then(() => { cookies = ''; return res.sendStatus(200); })
+    .then(() => { res.clearCookie('uuid'); res.clearCookie('authCookie'); return res.sendStatus(200); })
     .catch(() => {
       res.sendStatus(500);
     });
@@ -194,14 +177,9 @@ app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    res.sendStatus(401);
-    return;
-  }
   const config = {
     headers: {
-      Cookie: cookies
+      Cookie: decodeURI(req.headers.cookie)
     }
   };
 
@@ -214,10 +192,6 @@ app.put(`/${ENDPOINTS.PASSWORD}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line consistent-return
 app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    return res.sendStatus(401);
-  }
   if (!(req as any).busboy) {
     return res.sendStatus(500);
   }
@@ -230,7 +204,7 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
 
       const config = {
         headers: {
-          Cookie: cookies,
+          Cookie: decodeURI(req.headers.cookie),
           ...formData.getHeaders()
         }
       };
@@ -247,13 +221,9 @@ app.put(`/${ENDPOINTS.AVATAR}`, (req: Request, res: Response) => {
 });
 
 app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    return res.sendStatus(401);
-  }
   const config = {
     headers: {
-      Cookie: cookies
+      Cookie: decodeURI(req.headers.cookie)
     },
     responseType: 'stream'
   };
@@ -264,11 +234,6 @@ app.get(`/${ENDPOINTS.AVATARS}`, (req: Request, res: Response) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
   if ((req as Request).query.id) {
-    const access = checkAccess();
-    if (!access) {
-      res.sendStatus(401);
-      return;
-    }
     getUserTheme((req as any).query.id).then((themeId: number) => {
       res.send({ themeId });
     });
@@ -281,11 +246,6 @@ app.get(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars
 app.put(`/${ENDPOINTS.THEMES}`, (req: Request, res: Response) => {
-  const access = checkAccess();
-  if (!access) {
-    res.sendStatus(401);
-    return;
-  }
   setUserTheme(req.body.id, req.body.themeId).then(() => {
     res.sendStatus(200);
   });
