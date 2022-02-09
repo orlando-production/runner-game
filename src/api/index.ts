@@ -1,10 +1,10 @@
 import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 
-const YANDEX_END_POINT = 'https://ya-praktikum.tech/api/v2/';
-const OWN_SERVER_END_POINT = 'https://runner-game.ya-praktikum.tech/api/';
-const OWN_SERVER_LOCAL_END_POINT = 'http://localhost:5000/';
-const IS_DEV = process.env.NODE_ENV !== 'production';
+export const YANDEX_END_POINT = 'https://ya-praktikum.tech/api/v2/';
+export const OWN_SERVER_END_POINT = 'https://runner-game.ya-praktikum.tech/api/';
+export const OWN_SERVER_LOCAL_END_POINT = 'http://localhost:5000/';
+export const IS_DEV = process.env.NODE_ENV !== 'production';
 const API = (isServer: boolean = false) => axios.create({
   baseURL: isServer ? YANDEX_END_POINT : (IS_DEV ? OWN_SERVER_LOCAL_END_POINT : OWN_SERVER_END_POINT),
   headers: {

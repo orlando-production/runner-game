@@ -24,6 +24,7 @@ import { isAllFieldsValid } from '../SignUpPage/checkValidation';
 import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 import Loader from '../../components/loader/Loader';
 import Toolbar from '../../components/toolbar';
+import { OWN_SERVER_END_POINT, OWN_SERVER_LOCAL_END_POINT, IS_DEV } from 'api';
 
 type Status = 'invisible' | 'error' | 'success';
 
@@ -149,7 +150,7 @@ const ProfilePage = () => {
               <div className={styles['profile-avatar']}>
                 <Avatar
                   sx={{ width: 156, height: 156 }}
-                  src={avatar && `http://localhost:5000/avatar${avatar}`}
+                  src={avatar && `${IS_DEV ? OWN_SERVER_LOCAL_END_POINT : OWN_SERVER_END_POINT}avatar${avatar}`}
                 />
               </div>
               <div className={styles['profile-upload']}>
