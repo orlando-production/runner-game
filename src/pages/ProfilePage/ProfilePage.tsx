@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { UserResult } from 'services/Profile';
-import { OWN_SERVER_END_POINT, OWN_SERVER_LOCAL_END_POINT, IS_DEV } from 'api';
+import { OWN_SERVER, OWN_SERVER_LOCAL_END_POINT, IS_DEV } from 'api';
 import Footer from '../../components/footer/Footer';
 import styles from './ProfilePage.module.css';
 import commonStyles from '../../components/common.module.css';
@@ -150,7 +150,7 @@ const ProfilePage = () => {
               <div className={styles['profile-avatar']}>
                 <Avatar
                   sx={{ width: 156, height: 156 }}
-                  src={avatar && `https://runner-game.ya-praktikum.tech/avatar${avatar}`}
+                  src={avatar && `${IS_DEV ? OWN_SERVER_LOCAL_END_POINT : OWN_SERVER}avatar${avatar}`}
                 />
               </div>
               <div className={styles['profile-upload']}>

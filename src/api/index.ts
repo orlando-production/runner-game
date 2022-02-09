@@ -2,7 +2,8 @@ import type { AxiosResponse, AxiosError } from 'axios';
 import axios from 'axios';
 
 export const YANDEX_END_POINT = 'https://ya-praktikum.tech/api/v2/';
-export const OWN_SERVER_END_POINT = 'https://runner-game.ya-praktikum.tech/api/';
+export const OWN_SERVER = 'https://runner-game.ya-praktikum.tech/';
+export const OWN_SERVER_END_POINT = `${OWN_SERVER}api/`;
 export const OWN_SERVER_LOCAL_END_POINT = 'http://localhost:5000/';
 export const IS_DEV = process.env.NODE_ENV !== 'production';
 const API = (isServer: boolean = false) => axios.create({
@@ -47,16 +48,16 @@ export const requestPostData = <P, R>(
   config?: {},
   isServer?: boolean
 ) => API(isServer)
-    .post<R, AxiosResponse<R>, P>(url, params, config)
-    .then(({ data, headers }) => ({ data, headers }));
+  .post<R, AxiosResponse<R>, P>(url, params, config)
+  .then(({ data, headers }) => ({ data, headers }));
 
 export const requestGetData = <R, P>(
   url: Endpoint,
   config?: {},
   isServer?: boolean
 ) => API(isServer)
-    .get<R, AxiosResponse<R>, P>(url, config)
-    .then(({ data }) => data);
+  .get<R, AxiosResponse<R>, P>(url, config)
+  .then(({ data }) => data);
 
 export const requestPutData = <P, R>(
   url: Endpoint,
@@ -64,5 +65,5 @@ export const requestPutData = <P, R>(
   config?: {},
   isServer?: boolean
 ) => API(isServer)
-    .put<R, AxiosResponse<R>, P>(url, params, config)
-    .then(({ data, headers }) => ({ data, headers }));
+  .put<R, AxiosResponse<R>, P>(url, params, config)
+  .then(({ data, headers }) => ({ data, headers }));
