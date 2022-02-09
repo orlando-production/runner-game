@@ -11,7 +11,7 @@ import ProfilePage from 'pages/ProfilePage';
 import SignUpPage from 'pages/SignUpPage';
 import { Dispatch } from 'react';
 import { match } from 'react-router';
-import { authByCodeThunk } from 'thunks/authentication';
+import { authByCodeThunk, fetchUserInfo } from 'thunks/authentication';
 import { fetchLeaderboardList } from 'thunks/leaderboard';
 import { fetchAllThemes, fetchUserAndTheme } from 'thunks/themes';
 import { fetchGetTopicAll } from 'thunks/topic';
@@ -49,7 +49,7 @@ const routes: RoutesType = [
         return [dispatch(authByCodeThunk(query.code as string, dispatch))];
       }
       return [
-        dispatch(fetchUserAndTheme(dispatch)),
+        dispatch(fetchUserInfo()),
         dispatch(fetchAllThemes())
       ];
     }
