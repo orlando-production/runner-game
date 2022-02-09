@@ -67,7 +67,7 @@ app.post(`/${ENDPOINTS.SIGNIN}`, (req: Request, res: Response) => {
       cookies = parseCookies(headers['set-cookie'].join('; '))
         .slice(1)
         .join('; ');
-      setCookies(cookies, res);
+      res.setHeader('set-cookie', headers['set-cookie']);
       return res.sendStatus(200);
     })
     .catch(({ response }) => {
@@ -79,7 +79,7 @@ app.post(`/${ENDPOINTS.SIGNUP}`, (req: Request, res: Response) => {
   registerUser(req.body, true)
     .then(({ headers }) => {
       cookies = parseCookies(headers['set-cookie'].join('; ')).join('; ');
-      setCookies(cookies, res);
+      res.setHeader('set-cookie', headers['set-cookie']);
       return res.sendStatus(200);
     })
     .catch(({ response }) => {
