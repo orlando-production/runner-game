@@ -164,7 +164,7 @@ app.get(`/${ENDPOINTS.USER}`, async (req: Request, res: Response) => {
   console.log(req.headers.cookie);
   const config = {
     headers: {
-      Cookie: cookies
+      Cookie: decodeURI(req.headers.cookie)
     }
   };
 
