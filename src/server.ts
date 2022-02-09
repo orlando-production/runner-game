@@ -181,7 +181,7 @@ app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
   console.log(req.headers.cookie);
   const config = {
     headers: {
-      Cookie: req?.headers?.cookie === undefined ? 'lala' : req.headers.cookie
+      Cookie: decodeURI(req.headers.cookie)
     },
     withCredentials: true
   };
