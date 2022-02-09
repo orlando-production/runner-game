@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import {
   Box, Button, Avatar, TextField, Typography
 } from '@mui/material';

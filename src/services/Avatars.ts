@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Endpoint, ENDPOINTS, requestGetData } from '../api';
 
 type AvatarsEndpoint = Endpoint & {'AVATAR_FULL_PATH': string};

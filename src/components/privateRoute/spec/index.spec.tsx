@@ -2,6 +2,7 @@ import React from 'react';
 import {
   render
 } from 'utils/testing-library';
+// @ts-ignore
 import { createMemoryHistory } from 'history';
 import LoginPage from 'pages/LoginPage';
 import ForumPage from 'pages/ForumPage';

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { RouterState, connectRouter } from 'connected-react-router';
+// @ts-ignore
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 import { combineReducers } from 'redux';
 import { Themes, themesInitialState, themesReducer } from './components/themeSwitcher/themesSlice';
@@ -113,7 +114,7 @@ export const getInitialState = (pathname: string = '/'): RootState => ({
       search: '',
       hash: '',
       key: ''
-    },
+    } as {},
     action: 'POP'
   } as RouterState
 });

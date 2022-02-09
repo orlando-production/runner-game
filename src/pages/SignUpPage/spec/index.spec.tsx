@@ -8,6 +8,7 @@ import {
 } from 'utils/testing-library';
 import { RouterState } from 'connected-react-router';
 import { StaticRouter, StaticRouterContext } from 'react-router';
+// @ts-ignore
 import { createMemoryHistory } from 'history';
 import { LeaderBoard } from 'pages/LeaderboardPage/leaderboardSlice';
 import { Themes } from 'components/themeSwitcher/themesSlice';

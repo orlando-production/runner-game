@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   AUTH_BY_CODE,

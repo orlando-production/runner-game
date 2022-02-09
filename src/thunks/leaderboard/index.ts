@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FETCH_LEADERBOARD } from 'actions/leaderboard';
 import { LOAD_LIMIT } from 'pages/LeaderboardPage/LeaderboardPage';
