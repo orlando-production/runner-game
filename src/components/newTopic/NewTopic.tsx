@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   Box, Button, TextField, Typography
 } from '@mui/material';

@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
 import { FETCH_LOGOUT_FILFILLED } from 'actions/logout';
 import { FETCH_SIGNUP_FILFILLED } from 'actions/registration';
