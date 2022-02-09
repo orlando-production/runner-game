@@ -29,7 +29,7 @@ export const fetchAllThemes = createAsyncThunk(FETCH_ALL_THEMES, () => getTheme(
 export const fetchUserAndTheme = createAsyncThunk(
   FETCH_USER_THEMES,
   (dispatch?: any): Promise<boolean> => new Promise((resolve) => {
-    getUserInfo()
+    getUserInfo(null, true)
       .then(async (result: UserResult) => {
         dispatch(setAuthentication());
         dispatch(setUser(result));
