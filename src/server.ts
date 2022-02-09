@@ -160,10 +160,10 @@ app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req: Request, res: Response) => {
     });
 });
 
-app.get(`/${ENDPOINTS.USER}`, async (req: Request, res: Response) => {
+app.get(`/${ENDPOINTS.USER}`, async (_req: Request, res: Response) => {
   const config = {
     headers: {
-      Cookie: req.headers.cookie
+      Cookie: cookies
     }
   };
 
@@ -177,10 +177,14 @@ app.get(`/${ENDPOINTS.USER}`, async (req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
-
+  const access = checkAccess();
+  if (!access) {
+    res.sendStatus(401);
+    return;
+  }
   const config = {
     headers: {
-      Cookie: req.headers.cookie
+      Cookie: cookies
     },
     withCredentials: true
   };
