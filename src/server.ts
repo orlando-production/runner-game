@@ -178,6 +178,7 @@ app.get(`/${ENDPOINTS.USER}`, async (req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
+  console.log(req.headers.cookie);
   const config = {
     headers: {
       Cookie: req?.headers?.cookie === undefined ? 'lala' : req.headers.cookie
