@@ -161,9 +161,10 @@ app.get(`/${ENDPOINTS.OAUTH_SERVICE}`, (req: Request, res: Response) => {
 });
 
 app.get(`/${ENDPOINTS.USER}`, async (req: Request, res: Response) => {
+  console.log(req.headers.cookie);
   const config = {
     headers: {
-      Cookie: req?.headers?.cookie ===undefined  ? 'lala' : req.headers.cookie
+      Cookie: req?.headers?.cookie === undefined ? 'lala' : req.headers.cookie
     }
   };
 
@@ -177,10 +178,9 @@ app.get(`/${ENDPOINTS.USER}`, async (req: Request, res: Response) => {
 });
 
 app.put(`/${ENDPOINTS.PROFILE}`, (req: Request, res: Response) => {
-
   const config = {
     headers: {
-      Cookie: req?.headers?.cookie ===undefined  ? 'lala' : req.headers.cookie
+      Cookie: req?.headers?.cookie === undefined ? 'lala' : req.headers.cookie
     },
     withCredentials: true
   };
