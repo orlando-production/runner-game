@@ -4,3 +4,4 @@ module.exports = {
         script: "./dist/server.js"
     }]
 }
+

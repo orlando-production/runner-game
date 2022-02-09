@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { forumTopicModel, topicMessage } from 'db/models/foumModel';
 import { themeModel } from 'db/models/theme';
 import { themeUserModel } from 'db/models/themeUser';
