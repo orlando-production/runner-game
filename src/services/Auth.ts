@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ENDPOINTS, requestGetData, requestPostData } from '../api';
 
 export type SignInParams = {
