@@ -54,7 +54,7 @@ const config: Configuration = {
     swSrc: './src/src-sw.js',
     swDest: 'src-sw.js'
   })],
-  devtool: 'inline-source-map',
+  devtool: process.env.NODE_ENV==='development' && 'inline-source-map',
   performance: {
     hints: false
   }
