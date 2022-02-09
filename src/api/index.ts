@@ -56,7 +56,7 @@ export const requestGetData = <R, P>(
   config?: {},
   isServer?: boolean
 ) => API(isServer)
-  .get<R, AxiosResponse<R>, P>(url, config)
+  .get<R, AxiosResponse<R>, P>(url, {...config})
   .then(({ data }) => data);
 
 export const requestPutData = <P, R>(
