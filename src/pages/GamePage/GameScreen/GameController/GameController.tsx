@@ -24,9 +24,9 @@ const PLAYER_SPRITE_HEIGHT = 60;
 const NUMBER_OF_FRAMES = 11;
 const TICKS_PER_FRAME = 10;
 const START_SPEED = 1;
-const SPEED_UP_COEF = 1;
-const TICK_PER_FRAME_COEF = 1;
-const MAX_SPEED = 5;
+const SPEED_UP_COEF = 1.5;
+const TICK_PER_FRAME_COEF = 1.2;
+const MAX_SPEED = 10;
 const SPEED_CHANGE_TIME = 2000;
 
 /**
