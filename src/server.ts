@@ -86,7 +86,12 @@ app.post(`/${ENDPOINTS.SIGNUP}`, (req: Request, res: Response) => {
 });
 
 app.post(`/${ENDPOINTS.LEADERBOARD}`, (req: Request, res: Response) => {
-  addLeaderboardResult(req.body, true)
+  const config = {
+    headers: {
+      Cookie: decodeURI(req.headers.cookie)
+    }
+  };
+  addLeaderboardResult(req.body, true, config)
     .then(() => res.sendStatus(200))
     .catch(({ response }) => console.error(response.data));
 });

@@ -25,11 +25,12 @@ export type LeaderboardAddResult = null;
 
 export const addLeaderboardResult = (
   leaderboardParams: LeaderboardAddResultParams,
-  isServer?: boolean
+  isServer?: boolean,
+  config?: object
 ) => requestPostData<LeaderboardAddResultParams, LeaderboardAddResult>(
   ENDPOINTS.LEADERBOARD,
   leaderboardParams,
-  {},
+  config,
   isServer
 );
 
