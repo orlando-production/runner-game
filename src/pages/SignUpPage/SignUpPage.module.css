@@ -3,6 +3,13 @@
   height: 600px;
 }
 
+.signup-content .switch {
+  position: absolute;
+  right: 5vw;
+  top: 4vw;
+  z-index: 5;
+}
+
 .names-ribbon {
   display: flex;
   width: 100%;

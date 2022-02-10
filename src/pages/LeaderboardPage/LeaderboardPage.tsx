@@ -13,7 +13,6 @@ import commonStyles from '../../components/common.module.css';
 
 import styles from './LeaderboardPage.module.css';
 import { setLeaderboardList } from './leaderboardSlice';
-import ThemeSwitcherComponent from '../../components/themeSwitcher/themeSwitcher';
 import Loader from '../../components/loader/Loader';
 import Toolbar from '../../components/toolbar';
 
@@ -68,8 +67,6 @@ const LeaderboardPage = () => {
               styles['leaderboard-container']
             )}
           >
-            <ThemeSwitcherComponent />
-
             <Typography
               component="h1"
               variant="h5"
