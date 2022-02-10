@@ -12,6 +12,7 @@
 .leaderboard-content {
   height: 400px;
   padding: 16px;
+  overflow-y: scroll;
 }
 
 .leaderboard-title {
