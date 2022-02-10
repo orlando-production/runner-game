@@ -40,13 +40,6 @@ body {
   border-radius: 4px;
 }
 
-.switch {
-  position: absolute;
-  right: 5vw;
-  top: 4vw;
-  z-index: 5;
-}
-
 .input {
   color: var(--color-text) !important;
 }

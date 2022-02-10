@@ -3,6 +3,9 @@
 }
 
 .forum-content {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
   width: 100%;
   height: 400px;
   overflow-y: auto;

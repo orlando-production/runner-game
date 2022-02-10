@@ -41,13 +41,15 @@ const Topic = (props?: TopicProps) => {
 
   return (
     <>
-      {/* eslint-disable-next-line no-shadow */}
-      {messages.map(({ id, author, text }) => (
-        <div className={styles['message-box']} key={id}>
-          <div className={styles['message-author']}>{author}</div>
-          <div className={styles['message-text']}>{text}</div>
-        </div>
-      ))}
+      <div>
+        {/* eslint-disable-next-line no-shadow */}
+        {messages.map(({ id, author, text }) => (
+          <div className={styles['message-box']} key={id}>
+            <div className={styles['message-author']}>{author}</div>
+            <div className={styles['message-text']}>{text}</div>
+          </div>
+        ))}
+      </div>
       <div className={styles['new-message-panel']}>
         <TextField
           onChange={handleText}

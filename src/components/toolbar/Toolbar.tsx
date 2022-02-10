@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './Toolbar.module.css';
+import ThemeSwitcherComponent from '../themeSwitcher/themeSwitcher';
 
 type ToolbarProps = {
   shouldRender?: boolean;
@@ -36,6 +37,7 @@ const Toolbar = ({ shouldRender = true }: ToolbarProps) => {
           />
         </div>
       ))}
+    <ThemeSwitcherComponent />
   </div>
   );
 };

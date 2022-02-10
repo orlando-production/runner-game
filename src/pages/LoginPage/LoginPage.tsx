@@ -77,7 +77,7 @@ const LoginPage = ({ title = 'Sign In' }: LoginProps) => {
       ? <Loader />
       : (
         <div className={commonStyles.page}>
-          <div className={commonStyles.container}>
+          <div className={classNames(commonStyles.container, styles['login-container'])}>
             <ThemeSwitcherComponent />
             <Box
               className={classNames(commonStyles.box, styles['login-content'])}
